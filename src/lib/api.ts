@@ -59,18 +59,32 @@ export function getConfig(): Promise<AppConfig> {
   return configPromise
 }
 
-/** Headers for an AI request: JSON plus a fresh bot-check token when the site uses one. */
-async function requestHeaders(): Promise<Record<string, string>> {
+function botCheckMessage(err: unknown): string {
+  const detail = err instanceof Error ? err.message : ''
+  if (detail.includes('could not load')) {
+    return 'Your browser or an extension is blocking the bot check. Turn off content blockers for this site, then reload and try again.'
+  }
+  if (detail.includes('timed out')) {
+    return 'The bot check timed out. If a box appears at the bottom of the page, tick it, then send your message again.'
+  }
+  return 'The bot check failed. Reload the page and try again.'
+}
+
+/**
+ * Headers for an AI request: JSON plus a fresh bot-check token when the site uses one.
+ * onCheck lets the page say "checking" while it waits, so it is never silent.
+ */
+async function requestHeaders(onCheck?: (checking: boolean) => void): Promise<Record<string, string>> {
   const headers: Record<string, string> = { 'content-type': 'application/json' }
   const { turnstileSiteKey } = await getConfig()
   if (turnstileSiteKey) {
+    onCheck?.(true)
     try {
       headers['x-turnstile-token'] = await getTurnstileToken(turnstileSiteKey)
-    } catch {
-      throw new ApiError(
-        'The bot check could not run. Turn off any content blockers for this site, then reload and try again.',
-        0,
-      )
+    } catch (err) {
+      throw new ApiError(botCheckMessage(err), 0)
+    } finally {
+      onCheck?.(false)
     }
   }
   return headers
@@ -112,8 +126,9 @@ export async function streamCoach(
   personName: string | undefined,
   onText: (replySoFar: string) => void,
   signal?: AbortSignal,
+  onCheck?: (checking: boolean) => void,
 ): Promise<string> {
-  const headers = await requestHeaders()
+  const headers = await requestHeaders(onCheck)
   let res: Response
   try {
     res = await fetch('/api/coach', {

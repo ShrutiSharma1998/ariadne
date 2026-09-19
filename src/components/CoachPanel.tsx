@@ -17,6 +17,7 @@ export function CoachPanel({ entries, personName }: Props) {
   const [messages, setMessages] = useState<ChatMessage[]>([])
   const [draft, setDraft] = useState('')
   const [busy, setBusy] = useState(false)
+  const [checking, setChecking] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const abortRef = useRef<AbortController | null>(null)
   const endRef = useRef<HTMLDivElement>(null)
@@ -45,6 +46,7 @@ export function CoachPanel({ entries, personName }: Props) {
         personName,
         (reply) => setMessages([...history, { role: 'assistant', content: reply }]),
         controller.signal,
+        setChecking,
       )
     } catch (err) {
       if (err instanceof DOMException && err.name === 'AbortError') return
@@ -77,7 +79,9 @@ export function CoachPanel({ entries, personName }: Props) {
         {messages.map((m, i) => (
           <div key={i} className={`bubble bubble-${m.role}`}>
             <span className="bubble-who">{m.role === 'user' ? 'You' : 'Coach'}</span>
-            <p>{m.content || (busy && i === messages.length - 1 ? 'Thinking' : '')}</p>
+            <p>
+              {m.content || (busy && i === messages.length - 1 ? (checking ? 'Checking that you are a person' : 'Thinking') : '')}
+            </p>
           </div>
         ))}
         <div ref={endRef} />
