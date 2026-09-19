@@ -27,8 +27,17 @@ export interface ExtractedEntryOut {
   yearOnly?: boolean
 }
 
+/** Pasted secrets often pick up spaces, line breaks or quotes; strip them so a good key still works. */
+function cleanKey(raw: string | undefined): string | undefined {
+  return raw
+    ?.trim()
+    .replace(/^ANTHROPIC_API_KEY\s*=\s*/i, '')
+    .replace(/^["']+|["']+$/g, '')
+    .trim()
+}
+
 function client(env: Env): Anthropic {
-  return new Anthropic({ apiKey: env.ANTHROPIC_API_KEY })
+  return new Anthropic({ apiKey: cleanKey(env.ANTHROPIC_API_KEY) })
 }
 
 function model(env: Env): string {
@@ -161,7 +170,8 @@ export function streamCoach(
           controller.enqueue(encoder.encode('\n\nI can\'t help with that one. Ask me something else about your story.'))
         }
       } catch (err) {
-        console.error('coach stream failed:', err instanceof Anthropic.APIError ? err.status : 'unknown')
+        // Log the error's type and message only, never the visitor's text.
+        console.error('coach stream failed:', err instanceof Error ? `${err.name}: ${err.message}`.slice(0, 300) : 'unknown')
         controller.enqueue(encoder.encode('\n\nSomething went wrong on my side. Please send that again.'))
       } finally {
         controller.close()
