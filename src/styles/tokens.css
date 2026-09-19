@@ -1,0 +1,77 @@
+/* Design tokens. Light is the default; dark follows the device unless the
+   user picks a theme (data-theme on <html>). */
+
+:root {
+  color-scheme: light;
+
+  /* Surfaces: cream paper, a slightly deeper beige, and a lifted card */
+  --paper: #f3ecdd;
+  --paper-deep: #eadfc9;
+  --card: #f9f4e9;
+
+  /* Graphite */
+  --ink: #2b2620;
+  --ink-2: #5e554a;
+  --line: #b3a68f;
+
+  /* Accent: clay. --accent is safe for small text on paper; --thread is for strokes. */
+  --accent: #a34a27;
+  --thread: #c4623f;
+  --focus: #1f5f8a;
+
+  /* One colour per kind of memory */
+  --k-work: #c4623f;
+  --k-education: #4e7388;
+  --k-volunteering: #b0546f;
+  --k-side-project: #6b8555;
+  --k-certification: #b98a2e;
+  --k-milestone: #7c6a9e;
+
+  --shade: rgba(43, 38, 32, 0.12);
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.35 0 0 0 0 0.28 0 0 0 0 0.2 0 0 0 0.09 0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+
+  --font-display: 'Gaegu', 'Segoe Print', 'Bradley Hand', cursive;
+  --font-body: 'Atkinson Hyperlegible', 'Segoe UI', system-ui, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    color-scheme: dark;
+    --paper: #1e1b17;
+    --paper-deep: #26221d;
+    --card: #2a2620;
+    --ink: #efe7d7;
+    --ink-2: #b5aa97;
+    --line: #5a5044;
+    --accent: #e39169;
+    --thread: #d4784f;
+    --focus: #7fc0e8;
+    --k-work: #e08a66;
+    --k-education: #7fb0c8;
+    --k-volunteering: #dd88a3;
+    --k-side-project: #97b783;
+    --k-certification: #dcb35b;
+    --k-milestone: #a897cc;
+    --shade: rgba(0, 0, 0, 0.35);
+  }
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --paper: #1e1b17;
+  --paper-deep: #26221d;
+  --card: #2a2620;
+  --ink: #efe7d7;
+  --ink-2: #b5aa97;
+  --line: #5a5044;
+  --accent: #e39169;
+  --thread: #d4784f;
+  --focus: #7fc0e8;
+  --k-work: #e08a66;
+  --k-education: #7fb0c8;
+  --k-volunteering: #dd88a3;
+  --k-side-project: #97b783;
+  --k-certification: #dcb35b;
+  --k-milestone: #a897cc;
+  --shade: rgba(0, 0, 0, 0.35);
+}
