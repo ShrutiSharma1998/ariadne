@@ -1,0 +1,9 @@
+# Keep line endings identical on every machine.
+* text=auto eol=lf
+
+# Never rewrite binary or byte-exact files.
+*.pdf binary
+*.png binary
+*.jpg binary
+*.gif binary
+*.woff2 binary
