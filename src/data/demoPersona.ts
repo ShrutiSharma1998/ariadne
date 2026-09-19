@@ -6,6 +6,10 @@ import type { MemoryEntry } from '../types'
  */
 export const DEMO_NAME = 'Sam Rivera'
 
+/** What the coach says first in the sample story. Written in advance, so opening the chat costs nothing. */
+export const DEMO_OPENER =
+  'Two things stand out in your story, Sam. You built a scheduling tool for a food bank, and years later you redesigned onboarding for 80,000 people. Both remove friction for other people. Is that the part of the work you enjoy most, or is something else the real pull?'
+
 export const demoEntries: MemoryEntry[] = [
   {
     id: 'ba-comms',

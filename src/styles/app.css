@@ -909,6 +909,112 @@ main {
   font-size: 0.92rem;
 }
 
+/* ---------- Floating coach chat ---------- */
+
+.ask-link {
+  display: inline-block;
+  margin-top: 8px;
+}
+
+.dock-button {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 40;
+  width: 70px;
+  height: 70px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  background: var(--card);
+  color: var(--ink);
+  border: 0;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 4px 5px 0 var(--shade);
+  font-family: var(--font-display);
+  font-weight: 700;
+}
+.dock-button:hover {
+  background: var(--paper-deep);
+}
+.dock-button:active {
+  transform: translate(3px, 4px);
+  box-shadow: none;
+}
+.dock-bubble {
+  fill: color-mix(in srgb, var(--thread) 45%, transparent);
+  stroke: var(--ink);
+  stroke-width: 1.6;
+  stroke-linejoin: round;
+}
+.dock-dot {
+  fill: var(--ink);
+}
+.dock-label {
+  margin-top: -3px;
+  font-size: 0.95rem;
+  line-height: 1;
+}
+
+.dock {
+  position: fixed;
+  right: 20px;
+  bottom: 102px;
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  width: min(410px, calc(100vw - 32px));
+  height: min(580px, calc(100vh - 130px));
+  padding: 16px 16px 12px;
+  background: var(--card);
+  border-radius: 14px 10px 16px 9px;
+  box-shadow: 5px 6px 0 var(--shade);
+}
+.dock[hidden] {
+  display: none;
+}
+.dock-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.dock-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.6rem;
+  line-height: 1;
+}
+.dock .chat {
+  flex: 1;
+  min-height: 0;
+  max-height: none;
+  margin-top: 10px;
+}
+.dock .chat-form {
+  margin-top: 10px;
+}
+.dock .privacy {
+  margin-top: 8px;
+  font-size: 0.8rem;
+}
+
+@media (max-width: 719px) {
+  .dock {
+    left: 8px;
+    right: 8px;
+    width: auto;
+    bottom: 96px;
+    height: min(78vh, calc(100vh - 120px));
+  }
+  .dock-button {
+    right: 14px;
+    bottom: 14px;
+  }
+}
+
 /* ---------- Footer ---------- */
 
 .footer {

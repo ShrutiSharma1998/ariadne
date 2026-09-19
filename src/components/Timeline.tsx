@@ -11,6 +11,7 @@ interface Props {
   expandedId: string | null
   onToggle: (id: string) => void
   onPickFromYear: (id: string) => void
+  onAsk: (entry: MemoryEntry) => void
 }
 
 /** The thread that runs down the page. A repeating hand-drawn tile, roughened by the #pencil filter. */
@@ -46,11 +47,13 @@ function EntryCard({
   side,
   expanded,
   onToggle,
+  onAsk,
 }: {
   entry: MemoryEntry
   side: 'left' | 'right'
   expanded: boolean
   onToggle: () => void
+  onAsk: () => void
 }) {
   const detailId = `detail-${entry.id}`
   return (
@@ -69,6 +72,9 @@ function EntryCard({
           {entry.org && <span className="card-org">{entry.org}</span>}
           <span className="card-what">{entry.what}</span>
           <span className="card-more">{expanded ? 'Show less' : 'Show the story'}</span>
+        </button>
+        <button type="button" className="link-button ask-link" onClick={onAsk}>
+          Ask the coach about this
         </button>
         <div id={detailId} className="card-body" hidden={!expanded}>
           <dl>
@@ -118,7 +124,7 @@ function ForkEnd() {
   )
 }
 
-export function Timeline({ entries, zoom, expandedId, onToggle, onPickFromYear }: Props) {
+export function Timeline({ entries, zoom, expandedId, onToggle, onPickFromYear, onAsk }: Props) {
   const sorted = [...entries].sort(byStart)
   const pendingScroll = useRef<string | null>(null)
 
@@ -198,6 +204,7 @@ export function Timeline({ entries, zoom, expandedId, onToggle, onPickFromYear }
                 side={side}
                 expanded={expandedId === entry.id}
                 onToggle={() => onToggle(entry.id)}
+                onAsk={() => onAsk(entry)}
               />
             </Fragment>
           )

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { CoachPanel } from './components/CoachPanel'
+import { CoachDock, type AskRequest } from './components/CoachDock'
 import { PathsPanel } from './components/PathsPanel'
 import { SceneBanner } from './components/SceneBanner'
 import { Timeline } from './components/Timeline'
@@ -10,7 +10,7 @@ import { clearStory, exportStoryFile, loadStory, readStoryFile, saveStory } from
 import type { MemoryEntry, Zoom } from './types'
 
 type ThemeChoice = 'auto' | 'light' | 'dark'
-type View = 'timeline' | 'coach' | 'paths'
+type View = 'timeline' | 'paths'
 
 const THEME_KEY = 'ariadne-theme'
 const THEME_ORDER: ThemeChoice[] = ['auto', 'light', 'dark']
@@ -21,7 +21,6 @@ const THEME_LABEL: Record<ThemeChoice, string> = {
 }
 const VIEWS: { id: View; label: string }[] = [
   { id: 'timeline', label: 'Timeline' },
-  { id: 'coach', label: 'Coach' },
   { id: 'paths', label: 'Paths' },
 ]
 
@@ -73,6 +72,8 @@ export default function App() {
   const [showSample, setShowSample] = useState(false)
   const [notice, setNotice] = useState<string | null>(null)
   const [storyVersion, setStoryVersion] = useState(0)
+  const [dockOpen, setDockOpen] = useState(false)
+  const [ask, setAsk] = useState<AskRequest | null>(null)
   const [paused, setPaused] = useState(false)
   const importRef = useRef<HTMLInputElement>(null)
 
@@ -260,6 +261,13 @@ export default function App() {
                 setExpandedId(id)
                 setZoom('months')
               }}
+              onAsk={(entry) => {
+                setAsk({
+                  nonce: Date.now(),
+                  text: `I'd like to talk about "${entry.title}"${entry.org ? ` at ${entry.org}` : ''}. What stands out to you about it, and what should I explore next?`,
+                })
+                setDockOpen(true)
+              }}
             />
             <div id="build" className="build">
               {isSample ? (
@@ -273,13 +281,22 @@ export default function App() {
             </div>
           </>
         )}
-        {view === 'coach' && <CoachPanel key={`coach-${storyVersion}-${isSample}`} entries={entries} personName={personName} />}
         {view === 'paths' && <PathsPanel key={`paths-${storyVersion}-${isSample}`} entries={entries} />}
       </main>
 
       <footer className="footer">
         <p>Ariadne is open source. Sample data is invented.</p>
       </footer>
+
+      <CoachDock
+        key={`dock-${storyVersion}-${isSample}`}
+        entries={entries}
+        personName={personName}
+        open={dockOpen}
+        onOpen={() => setDockOpen(true)}
+        onClose={() => setDockOpen(false)}
+        ask={ask}
+      />
     </>
   )
 }
