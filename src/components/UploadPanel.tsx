@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react'
 import { ApiError, extractTimeline, type ExtractFilePayload } from '../lib/api'
 import { MAX_FILES, prepareFile } from '../lib/files'
+import { RoughFrame } from './RoughFrame'
 import type { MemoryEntry } from '../types'
 
 interface Props {
@@ -53,6 +54,7 @@ export function UploadPanel({ onLoaded }: Props) {
 
   return (
     <section className="panel" aria-labelledby="upload-title">
+      <RoughFrame seed={21} />
       <h2 id="upload-title" className="panel-title">
         Build your own timeline
       </h2>

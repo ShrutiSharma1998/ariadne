@@ -220,13 +220,14 @@ main {
   background: color-mix(in srgb, var(--k, var(--ink-2)) 22%, var(--paper));
 }
 
-.node::before {
-  content: '';
+/* Hand-drawn outlines (Rough.js) sit behind each card, panel and node. */
+.rough-frame {
   position: absolute;
   inset: 0;
-  border: 2px solid var(--ink-2);
-  border-radius: 50%;
-  filter: url(#pencil);
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
 }
 
 .node-year {
@@ -283,14 +284,28 @@ main {
   box-shadow: 4px 5px 0 var(--shade);
 }
 
-.card::before {
+/* Cards sit at a slight angle, like notes pinned to a map, with a strip of tape on top. */
+.row-left .card {
+  transform: rotate(-0.4deg);
+}
+.row-right .card {
+  transform: rotate(0.4deg);
+}
+.timeline .card::after {
   content: '';
   position: absolute;
-  inset: 0;
-  border: 2px solid var(--ink-2);
-  border-radius: inherit;
-  filter: url(#pencil);
+  top: -10px;
+  left: 50%;
+  width: 66px;
+  height: 20px;
+  transform: translateX(-50%) rotate(-3deg);
+  background: color-mix(in srgb, var(--k, var(--k-certification)) 38%, transparent);
+  border-top: 1px dashed color-mix(in srgb, var(--k, var(--k-certification)) 60%, transparent);
+  border-bottom: 1px dashed color-mix(in srgb, var(--k, var(--k-certification)) 60%, transparent);
   pointer-events: none;
+}
+.timeline .card-future::after {
+  display: none;
 }
 
 .card-head {
@@ -382,9 +397,6 @@ main {
 .card-future {
   border-radius: 10px 15px 9px 14px;
 }
-.card-future::before {
-  border-style: dashed;
-}
 
 /* ---------- Kind colours and glyphs ---------- */
 
@@ -463,6 +475,56 @@ main {
 }
 .year-item:hover {
   background: var(--paper-deep);
+}
+
+/* ---------- The horizon: scene banner, day and night ---------- */
+
+.scene {
+  display: block;
+  width: 100%;
+  height: clamp(110px, 20vw, 170px);
+  margin-top: 18px;
+  overflow: hidden;
+}
+.scene .star {
+  fill: var(--star);
+}
+.scene .fox-body {
+  fill: color-mix(in srgb, var(--k-work) 65%, transparent);
+}
+.scene .fox-line {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.scene .fox-dot {
+  fill: var(--ink);
+}
+.scene .lantern {
+  fill: var(--k-certification);
+  stroke: var(--ink);
+  stroke-width: 1.3;
+}
+
+/* Sun by day, moon and stars by night. */
+.only-night {
+  display: none;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .only-night {
+    display: inline;
+  }
+  :root:not([data-theme='light']) .only-day {
+    display: none;
+  }
+}
+:root[data-theme='dark'] .only-night {
+  display: inline;
+}
+:root[data-theme='dark'] .only-day {
+  display: none;
 }
 
 /* ---------- Section switcher, notices, story bar ---------- */
@@ -581,15 +643,6 @@ main {
   border-radius: 14px 10px 16px 9px;
   box-shadow: 4px 5px 0 var(--shade);
 }
-.panel::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border: 2px solid var(--ink-2);
-  border-radius: inherit;
-  filter: url(#pencil);
-  pointer-events: none;
-}
 
 .panel-title {
   font-family: var(--font-display);
@@ -635,6 +688,17 @@ main {
   background: var(--accent);
   border-color: var(--accent);
   color: var(--paper);
+}
+/* Buttons sit on a hard offset shadow and press down onto it. */
+.button {
+  box-shadow: 3px 4px 0 var(--shade);
+}
+.button:active:not(:disabled) {
+  transform: translate(3px, 4px);
+  box-shadow: none;
+}
+.button-outline {
+  box-shadow: none;
 }
 .button:disabled {
   opacity: 0.45;

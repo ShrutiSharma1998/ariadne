@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { ApiError, streamCoach, type ChatMessage } from '../lib/api'
 import type { MemoryEntry } from '../types'
+import { RoughFrame } from './RoughFrame'
 
 interface Props {
   entries: MemoryEntry[]
@@ -59,6 +60,7 @@ export function CoachPanel({ entries, personName }: Props) {
 
   return (
     <section className="panel" aria-labelledby="coach-title">
+      <RoughFrame seed={34} />
       <h2 id="coach-title" className="panel-title">
         Talk it through
       </h2>

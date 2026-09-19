@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { CoachPanel } from './components/CoachPanel'
 import { PathsPanel } from './components/PathsPanel'
+import { SceneBanner } from './components/SceneBanner'
 import { Timeline } from './components/Timeline'
 import { UploadPanel } from './components/UploadPanel'
 import { DEMO_NAME, demoEntries } from './data/demoPersona'
@@ -169,6 +170,7 @@ export default function App() {
           </div>
         </div>
         <p className="tagline">Keep your whole story in one place, then find your way forward.</p>
+        <SceneBanner />
 
         <nav className="views" aria-label="Sections">
           {VIEWS.map((v) => (

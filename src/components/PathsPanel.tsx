@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { ApiError, suggestTrajectories, type TrajectoriesResponse, type Trajectory } from '../lib/api'
 import type { MemoryEntry } from '../types'
+import { seedFrom } from '../lib/seed'
+import { RoughFrame } from './RoughFrame'
 
 interface Props {
   entries: MemoryEntry[]
@@ -15,6 +17,7 @@ const CONFIDENCE_LABEL: Record<Trajectory['confidence'], string> = {
 function PathCard({ path }: { path: Trajectory }) {
   return (
     <article className="card path-card">
+      <RoughFrame seed={seedFrom(path.title)} />
       <h3 className="card-title">{path.title}</h3>
       <p className="card-what">{path.summary}</p>
 
@@ -76,6 +79,7 @@ export function PathsPanel({ entries }: Props) {
 
   return (
     <section className="panel" aria-labelledby="paths-title">
+      <RoughFrame seed={47} />
       <h2 id="paths-title" className="panel-title">
         Where you could go
       </h2>

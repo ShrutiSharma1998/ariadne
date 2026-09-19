@@ -1,5 +1,5 @@
-/* Design tokens. Light is the default; dark follows the device unless the
-   user picks a theme (data-theme on <html>). */
+/* Design tokens. Day is the default: warm paper and pencil. Night follows the device unless the
+   visitor picks a theme (data-theme on <html>): the same world after dark, with gold for light. */
 
 :root {
   color-scheme: light;
@@ -27,6 +27,15 @@
   --k-certification: #b98a2e;
   --k-milestone: #7c6a9e;
 
+  /* The hills in the scene banner: a wash and a pencil line for each ridge */
+  --hill-far: #e6dcc4;
+  --hill-far-line: #c9b98f;
+  --hill-mid: #dccfae;
+  --hill-mid-line: #b7a276;
+  --hill-near: #cfbd94;
+  --hill-near-line: #8f7a52;
+  --star: #f6e7b4;
+
   --shade: rgba(43, 38, 32, 0.12);
   --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.35 0 0 0 0 0.28 0 0 0 0 0.2 0 0 0 0.09 0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
 
@@ -37,41 +46,53 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
     color-scheme: dark;
-    --paper: #1e1b17;
-    --paper-deep: #26221d;
-    --card: #2a2620;
-    --ink: #efe7d7;
-    --ink-2: #b5aa97;
-    --line: #5a5044;
-    --accent: #e39169;
-    --thread: #d4784f;
+    --paper: #16141c;
+    --paper-deep: #1e1b27;
+    --card: #252131;
+    --ink: #f1e8d3;
+    --ink-2: #b9ae9a;
+    --line: #524a5e;
+    --accent: #f2c230;
+    --thread: #e8b93a;
     --focus: #7fc0e8;
     --k-work: #e08a66;
     --k-education: #7fb0c8;
     --k-volunteering: #dd88a3;
     --k-side-project: #97b783;
-    --k-certification: #dcb35b;
+    --k-certification: #f2c230;
     --k-milestone: #a897cc;
-    --shade: rgba(0, 0, 0, 0.35);
+    --hill-far: #1d1a27;
+    --hill-far-line: #3a3450;
+    --hill-mid: #221e2f;
+    --hill-mid-line: #4a4263;
+    --hill-near: #2a2439;
+    --hill-near-line: #5d5379;
+    --shade: rgba(0, 0, 0, 0.45);
   }
 }
 
 :root[data-theme='dark'] {
   color-scheme: dark;
-  --paper: #1e1b17;
-  --paper-deep: #26221d;
-  --card: #2a2620;
-  --ink: #efe7d7;
-  --ink-2: #b5aa97;
-  --line: #5a5044;
-  --accent: #e39169;
-  --thread: #d4784f;
+  --paper: #16141c;
+  --paper-deep: #1e1b27;
+  --card: #252131;
+  --ink: #f1e8d3;
+  --ink-2: #b9ae9a;
+  --line: #524a5e;
+  --accent: #f2c230;
+  --thread: #e8b93a;
   --focus: #7fc0e8;
   --k-work: #e08a66;
   --k-education: #7fb0c8;
   --k-volunteering: #dd88a3;
   --k-side-project: #97b783;
-  --k-certification: #dcb35b;
+  --k-certification: #f2c230;
   --k-milestone: #a897cc;
-  --shade: rgba(0, 0, 0, 0.35);
+  --hill-far: #1d1a27;
+  --hill-far-line: #3a3450;
+  --hill-mid: #221e2f;
+  --hill-mid-line: #4a4263;
+  --hill-near: #2a2439;
+  --hill-near-line: #5d5379;
+  --shade: rgba(0, 0, 0, 0.45);
 }

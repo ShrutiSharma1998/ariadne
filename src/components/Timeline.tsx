@@ -2,6 +2,8 @@ import { Fragment, useEffect, useRef } from 'react'
 import { KIND_LABEL, type MemoryEntry, type Zoom } from '../types'
 import { byStart, formatRange, yearOf } from '../lib/date'
 import { KindGlyph } from './KindGlyph'
+import { seedFrom } from '../lib/seed'
+import { RoughFrame } from './RoughFrame'
 
 interface Props {
   entries: MemoryEntry[]
@@ -54,6 +56,7 @@ function EntryCard({
   return (
     <li className={`row row-${side}`} id={`entry-${entry.id}`}>
       <article className={`card kind-${entry.kind}`}>
+        <RoughFrame seed={seedFrom(entry.id)} />
         <button
           type="button"
           className="card-head"
@@ -85,6 +88,7 @@ function EntryCard({
         </div>
       </article>
       <span className={`node kind-${entry.kind}`} title={KIND_LABEL[entry.kind]}>
+        <RoughFrame shape="circle" seed={seedFrom(`${entry.id}-node`)} roughness={1.1} />
         <KindGlyph kind={entry.kind} />
         <span className="sr-only">{KIND_LABEL[entry.kind]}</span>
       </span>
@@ -96,6 +100,7 @@ function ForkEnd() {
   return (
     <li className="row row-right row-end">
       <div className="card card-future">
+        <RoughFrame dashed seed={11} />
         <p className="card-title">Where next</p>
         <p className="card-what">
           Three possible paths will branch from here once the coach has met you and knows what you want to learn.
@@ -140,6 +145,7 @@ export function Timeline({ entries, zoom, expandedId, onToggle, onPickFromYear }
             return (
               <li key={year} className={`row row-${side}`}>
                 <div className="card year-card">
+                  <RoughFrame seed={seedFrom(`year-${year}`)} />
                   <h2 className="year-title">{year}</h2>
                   <ul className="year-list">
                     {inYear.map((e) => (
@@ -160,6 +166,7 @@ export function Timeline({ entries, zoom, expandedId, onToggle, onPickFromYear }
                   </ul>
                 </div>
                 <span className="node node-year" aria-hidden="true">
+                  <RoughFrame shape="circle" seed={seedFrom(`year-node-${year}`)} roughness={1.1} />
                   {String(year).slice(2)}
                 </span>
               </li>
