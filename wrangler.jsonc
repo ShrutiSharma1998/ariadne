@@ -22,7 +22,7 @@
   "vars": {
     "STRICT_ORIGIN": "1",
     "DAILY_BUDGET_UNITS": "200",
-    "TURNSTILE_SITE_KEY": ""
+    "TURNSTILE_SITE_KEY": "0x4AAAAAAE9QUvp7bXA8bU1_"
   },
 
   "observability": { "enabled": true }
