@@ -57,9 +57,17 @@ export const CoachIn = z.object({
   personName: z.string().max(80).optional(),
 })
 
+/** How the visitor reacted to a path from an earlier round. */
+export const ReactionIn = z.object({
+  title: z.string().max(200),
+  choice: z.enum(['drawn', 'maybe', 'no']),
+  why: z.string().max(300).optional(),
+})
+
 export const TrajectoriesIn = z.object({
   entries: EntriesIn,
   goals: z.string().max(1500).optional(),
+  reactions: z.array(ReactionIn).max(6).optional(),
 })
 
 // ---------- What we ask the model to produce ----------
@@ -100,5 +108,6 @@ export const TrajectoriesResult = z.object({
   caveat: z.string(),
 })
 
+export type ReactionInput = z.infer<typeof ReactionIn>
 export type EntryInput = z.infer<typeof EntryIn>
 export type TrajectoryResult = z.infer<typeof TrajectoriesResult>

@@ -110,8 +110,14 @@ export function extractTimeline(files: ExtractFilePayload[], pastedText?: string
   return postJson<{ entries: MemoryEntry[]; notes: string }>('/api/extract', { files, pastedText })
 }
 
-export function suggestTrajectories(entries: MemoryEntry[], goals?: string) {
-  return postJson<TrajectoriesResponse>('/api/trajectories', { entries, goals })
+export interface PathReaction {
+  title: string
+  choice: 'drawn' | 'maybe' | 'no'
+  why?: string
+}
+
+export function suggestTrajectories(entries: MemoryEntry[], goals?: string, reactions?: PathReaction[]) {
+  return postJson<TrajectoriesResponse>('/api/trajectories', { entries, goals, reactions })
 }
 
 export interface ChatMessage {

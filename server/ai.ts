@@ -1,11 +1,18 @@
 import Anthropic from '@anthropic-ai/sdk'
 import { zodOutputFormat } from '@anthropic-ai/sdk/helpers/zod'
 import { DEFAULT_MODEL, type Env } from './env'
-import { COACH_SYSTEM_BASE, EXTRACT_SYSTEM, TRAJECTORIES_SYSTEM, serializeEntries } from './prompts'
+import {
+  COACH_SYSTEM_BASE,
+  EXTRACT_SYSTEM,
+  TRAJECTORIES_SYSTEM,
+  serializeEntries,
+  serializeReactions,
+} from './prompts'
 import {
   ExtractResult,
   TrajectoriesResult,
   type EntryInput,
+  type ReactionInput,
   type TrajectoryResult,
 } from './schemas'
 
@@ -184,8 +191,10 @@ export async function suggestTrajectories(
   env: Env,
   entries: EntryInput[],
   goals?: string,
+  reactions?: ReactionInput[],
 ): Promise<TrajectoryResult> {
   const goalText = goals?.trim() ? `\n\nWhat they said they are curious about:\n${goals.trim()}` : ''
+  const reactionText = reactions?.length ? `\n\nFeedback on the earlier paths:\n${serializeReactions(reactions)}` : ''
   const response = await client(env).messages.parse({
     model: model(env),
     max_tokens: 8000,
@@ -193,7 +202,7 @@ export async function suggestTrajectories(
     messages: [
       {
         role: 'user',
-        content: `Timeline:\n${serializeEntries(entries)}${goalText}\n\nPropose three paths. Return the structured result only.`,
+        content: `Timeline:\n${serializeEntries(entries)}${goalText}${reactionText}\n\nPropose three paths. Return the structured result only.`,
       },
     ],
     output_config: { effort: 'medium', format: zodOutputFormat(TrajectoriesResult) },

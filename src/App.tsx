@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { CoachDock, type AskRequest } from './components/CoachDock'
+import { DataMenu } from './components/DataMenu'
 import { PathsPanel } from './components/PathsPanel'
 import { SceneBanner } from './components/SceneBanner'
 import { Timeline } from './components/Timeline'
@@ -103,7 +104,7 @@ export default function App() {
     setExpandedId(null)
     setStoryVersion((v) => v + 1)
     if (!saveStory(next)) {
-      setNotice('Your browser would not save this timeline. Use Export so you do not lose it.')
+      setNotice('Your browser would not save this timeline. Open Your data and choose Save a backup so you do not lose it.')
     }
   }
 
@@ -112,6 +113,8 @@ export default function App() {
     setView('timeline')
     const parts = [`Added ${incoming.length} ${incoming.length === 1 ? 'experience' : 'experiences'} to your timeline.`]
     if (notes.trim()) parts.push(notes.trim())
+    // The first time only: say where the timeline lives, and how to keep a copy.
+    if (!own) parts.push('It is saved only in this browser. Open Your data and choose Save a backup to keep a copy.')
     setNotice(parts.join(' '))
   }
 
@@ -123,14 +126,14 @@ export default function App() {
       setNotice(result.error)
       return
     }
-    if (own && !window.confirm('Importing replaces the timeline saved in this browser. Continue?')) return
+    if (own && !window.confirm('Restoring a backup replaces the timeline saved in this browser. Continue?')) return
     setStory(result.entries)
     setView('timeline')
-    setNotice(`Imported ${result.entries.length} experiences.`)
+    setNotice(`Restored ${result.entries.length} experiences from your backup.`)
   }
 
   function handleClear() {
-    if (!window.confirm('Delete your timeline from this browser? Export it first if you want a copy.')) return
+    if (!window.confirm('Delete your timeline from this browser? Save a backup first if you want a copy.')) return
     clearStory()
     setOwn(null)
     setShowSample(false)
@@ -168,6 +171,12 @@ export default function App() {
             >
               {THEME_LABEL[theme]}
             </button>
+            <DataMenu
+              hasOwn={own !== null}
+              onSaveBackup={() => own && exportStoryFile(own)}
+              onRestoreBackup={() => importRef.current?.click()}
+              onDelete={handleClear}
+            />
           </div>
         </div>
         <p className="tagline">Keep your whole story in one place, then find your way forward.</p>
@@ -201,17 +210,8 @@ export default function App() {
               Your story: {entries.length} {entries.length === 1 ? 'experience' : 'experiences'}, saved only in this browser.
             </p>
             <div className="story-actions">
-              <button type="button" className="link-button" onClick={() => exportStoryFile(entries)}>
-                Export
-              </button>
-              <button type="button" className="link-button" onClick={() => importRef.current?.click()}>
-                Import
-              </button>
               <button type="button" className="link-button" onClick={() => setShowSample(true)}>
                 View the sample story
-              </button>
-              <button type="button" className="link-button" onClick={handleClear}>
-                Delete my timeline
               </button>
             </div>
           </div>
@@ -230,7 +230,7 @@ export default function App() {
           accept="application/json,.json"
           tabIndex={-1}
           onChange={(e) => void handleImport(e.target.files?.[0])}
-          aria-label="Import a timeline file"
+          aria-label="Restore a backup file"
         />
 
         {paused && (
@@ -281,7 +281,9 @@ export default function App() {
             </div>
           </>
         )}
-        {view === 'paths' && <PathsPanel key={`paths-${storyVersion}-${isSample}`} entries={entries} />}
+        {view === 'paths' && (
+          <PathsPanel key={`paths-${storyVersion}-${isSample}`} entries={entries} isSample={isSample} />
+        )}
       </main>
 
       <footer className="footer">

@@ -1,0 +1,164 @@
+{
+  "paths": [
+    {
+      "title": "Go Deeper: Senior Product Management with a Growth/Experimentation Specialty",
+      "summary": "Build on your current APM role by moving toward senior and eventually lead product roles focused on activation, retention, and growth experimentation. This path leverages the analytical-storytelling combination you've been sharpening since college.",
+      "whyItFits": "Your thesis on how people share news online, the Google Analytics certification, and your work lifting activation by 18% at Brightpath Health all show a consistent thread of using data to drive product decisions. The Product management certificate and habit tracker project also show you can take an idea from discovery to shipped experiments.",
+      "blindSpots": [
+        "Growth-focused PM roles at larger companies often require more rigorous statistical rigor (e.g., proper A/B test power calculations) than a wellness app onboarding flow may have demanded.",
+        "Moving up the ladder usually means less hands-on experimentation and more stakeholder management and roadmap prioritization across competing teams.",
+        "Specializing narrowly in growth/activation could pigeonhole you if you later want to move into general management or a different product domain.",
+        "The jump from APM to senior PM often requires a portfolio of shipped, measurable wins beyond one activation lift, and you may need 1-2 more clear wins first."
+      ],
+      "skillGaps": [
+        {
+          "skill": "Statistical rigor in experimentation",
+          "whereYouAre": "You ran five small experiments at Brightpath and did A/B testing at Fernway, but there's no evidence yet of formal experiment design (sample size, significance testing) beyond practical iteration.",
+          "nextStep": "Take a short applied course or read a practical guide on A/B testing statistics and apply the concepts to your next Brightpath experiment."
+        },
+        {
+          "skill": "Roadmap prioritization frameworks",
+          "whereYouAre": "Your product certificate covered roadmapping and you've done prioritisation on the habit tracker, but there's no evidence of using structured frameworks (RICE, ICE, etc.) at scale.",
+          "nextStep": "Practice applying a named prioritization framework to your current backlog at Brightpath and present the reasoning to your manager."
+        },
+        {
+          "skill": "Cross-functional influence without authority",
+          "whereYouAre": "You've done cross-team work shipping the onboarding redesign, but leading larger, multi-team initiatives isn't yet demonstrated.",
+          "nextStep": "Volunteer to lead a slightly larger initiative spanning more than one team at Brightpath, even informally."
+        },
+        {
+          "skill": "Financial/business modeling",
+          "whereYouAre": "No evidence in your story yet of building revenue models or business cases tied to product decisions.",
+          "nextStep": "Learn basic unit economics and try building a simple model estimating the revenue impact of one of your onboarding experiments."
+        }
+      ],
+      "firstSteps": [
+        {
+          "action": "Find a mentor or peer group of senior PMs in growth-focused roles.",
+          "howToFind": "Search for 'product growth Slack community' or 'growth PM meetup' plus your city name."
+        },
+        {
+          "action": "Identify 2-3 senior product manager job postings to reverse-engineer the skill gap.",
+          "howToFind": "Search job boards using the phrase 'senior product manager growth activation' to see common requirements."
+        },
+        {
+          "action": "Read foundational material on experimentation design.",
+          "howToFind": "Search for 'A/B testing statistics for product managers guide' on a reputable analytics or product blog."
+        },
+        {
+          "action": "Ask your manager at Brightpath for a stretch project tied to retention, not just activation.",
+          "howToFind": "This is internal — prepare a one-page proposal referencing your activation results as leverage."
+        }
+      ],
+      "confidence": "high",
+      "confidenceNote": "This is a natural extension of your demonstrated trajectory, but I can't verify current hiring demand or compensation for growth PM roles in your specific market."
+    },
+    {
+      "title": "Pivot: People-Centered Coaching and Career Development",
+      "summary": "Shift from building products to building people, moving into a formal coaching, learning & development, or career-services role. This path centers the mentoring and teaching instincts you've clearly enjoyed cultivating.",
+      "whyItFits": "You've mentored 14 career changers with three landing product roles, and your reflection that 'explaining my own path clearly taught me what I still need to learn' suggests real energy here. Your people management experience at Fernway and your own well-documented career transition (via the product certificate) give you credible material to teach from.",
+      "blindSpots": [
+        "Coaching and L&D roles often pay less than product management, at least initially, and you'd be stepping away from a growth trajectory you've already invested years building.",
+        "Volunteer mentoring success (3 of 14 placed) is a small sample; formal coaching roles may require measurable outcomes at a larger scale and more accountability.",
+        "This path may require additional credentialing (coaching certification) depending on the setting, which is a real time and money cost.",
+        "You may miss the built-something-tangible satisfaction you got from the habit tracker and onboarding redesign if the role becomes purely advisory."
+      ],
+      "skillGaps": [
+        {
+          "skill": "Formal coaching methodology",
+          "whereYouAre": "You run intake calls and review portfolios informally for mentees, but there's no evidence of formal coaching frameworks or certifications.",
+          "nextStep": "Look into a recognized coaching methodology or certification program and see if the format fits your goals."
+        },
+        {
+          "skill": "Curriculum or program design",
+          "whereYouAre": "No evidence in your story yet of designing structured multi-week learning programs, only one-to-one mentoring.",
+          "nextStep": "Try designing a small structured cohort-based program for your meetup mentees instead of one-off calls."
+        },
+        {
+          "skill": "Metrics for coaching/L&D impact",
+          "whereYouAre": "You track placement outcomes informally (3 of 14), but haven't built formal measurement systems.",
+          "nextStep": "Borrow your product instincts: define clear success metrics and a simple dashboard for your mentoring outcomes, similar to your Fernway reporting work."
+        },
+        {
+          "skill": "Public speaking / workshop facilitation",
+          "whereYouAre": "Your podcast interviewing skills and one-to-one mentoring show comfort with conversation, but group facilitation isn't yet evidenced.",
+          "nextStep": "Offer to run a group workshop session at your meetup instead of only 1:1 calls, to build this muscle."
+        }
+      ],
+      "firstSteps": [
+        {
+          "action": "Talk to people currently working in corporate L&D, coaching, or career services to understand day-to-day reality and pay.",
+          "howToFind": "Search 'informational interview career coach' or 'L&D manager' on a professional networking site and request a short call."
+        },
+        {
+          "action": "Explore whether your current meetup mentoring could formalize into a paid or structured offering.",
+          "howToFind": "Search 'how to start a career coaching side practice' for practical starting guides."
+        },
+        {
+          "action": "Investigate coaching certification options to see fit and cost.",
+          "howToFind": "Search 'ICF accredited coaching certification programs' to compare options."
+        },
+        {
+          "action": "Pilot a small paid coaching cohort using your product-launch instincts.",
+          "howToFind": "This is something you can design yourself, using your habit-tracker prototyping approach: sketch the offer, test with a few willing mentees."
+        }
+      ],
+      "confidence": "medium",
+      "confidenceNote": "Your mentoring impact is real but small-scale, and I have no way to verify job availability, pay, or demand for coaching/L&D roles in your area."
+    },
+    {
+      "title": "Blend: Founder or Early Product Lead for a Community/Health-Adjacent Startup",
+      "summary": "Combine your product management experience, entrepreneurial track record (tote bag shop, habit tracker), and interest in health/wellness (via Brightpath) to build or join an early-stage startup as a founding product person. This path merges the maker energy of your side projects with your current domain expertise.",
+      "whyItFits": "You've already run two independent ventures (the tote bag shop with real revenue and repeat customers, and the habit tracker with 300 sign-ups), and you're currently embedded in wellness product work at Brightpath Health with a proven activation win. Your discipline shown in half-marathon training and your comfort with ambiguity from these side projects suggest founder resilience.",
+      "blindSpots": [
+        "Founding or joining an early-stage startup means giving up the relative stability of your current role and likely a pay cut or equity-heavy compensation you can't easily evaluate without deeper research.",
+        "Your side projects, while successful for their scale (hundreds of users, a few thousand dollars revenue), are far from proof you can raise funding or run a company with employees.",
+        "Health-adjacent startups often carry regulatory complexity (privacy, clinical claims) that your current onboarding-focused role may not have exposed you to.",
+        "Being a solo or co-founder demands skills like fundraising, legal structuring, and hiring that aren't yet reflected anywhere in your timeline."
+      ],
+      "skillGaps": [
+        {
+          "skill": "Fundraising and investor communication",
+          "whereYouAre": "No evidence in your story yet of raising capital or pitching investors; your ventures were self-funded and bootstrapped.",
+          "nextStep": "Attend a startup pitch event or accelerator info session to learn the basics of how fundraising conversations work."
+        },
+        {
+          "skill": "Technical/engineering collaboration at a deeper level",
+          "whereYouAre": "You worked with engineering on the onboarding redesign and used no-code tools for the habit tracker, but haven't built or managed a technical product from scratch with a dedicated engineering team.",
+          "nextStep": "Consider partnering with or shadowing a technical co-founder type, or take a light technical fluency course to speak the language more fluently."
+        },
+        {
+          "skill": "Regulatory/compliance awareness in health",
+          "whereYouAre": "You work at a wellness app but there's no evidence of hands-on experience with health data regulations or clinical claims.",
+          "nextStep": "Research basic health-tech compliance basics (e.g., data privacy standards relevant to health apps) relevant to your interest area."
+        },
+        {
+          "skill": "Hiring and team-building from scratch",
+          "whereYouAre": "You managed a team of three at Fernway, but building a founding team from zero is different and untested.",
+          "nextStep": "Talk to early-stage founders about how they made their first few hires to understand the process before attempting it yourself."
+        }
+      ],
+      "firstSteps": [
+        {
+          "action": "Talk to founders of small health/wellness startups about their early days, funding, and regrets.",
+          "howToFind": "Search 'health tech startup founder informational interview' or attend a local startup demo night — search 'startup demo day' plus your city."
+        },
+        {
+          "action": "Test a new, smaller side project idea in the health/wellness space using your no-code and prototyping skills.",
+          "howToFind": "This is self-directed: apply the same paper-sketch-then-no-code approach you used for the habit tracker to a new wellness-adjacent idea."
+        },
+        {
+          "action": "Explore part-time or advisory involvement with an early-stage startup before committing fully.",
+          "howToFind": "Search 'early stage startup advisor product' on a startup job board or networking platform."
+        },
+        {
+          "action": "Learn fundraising basics through free resources before considering founding anything.",
+          "howToFind": "Search 'startup fundraising basics for first-time founders guide'."
+        }
+      ],
+      "confidence": "low",
+      "confidenceNote": "This path draws on real entrepreneurial signals in your history, but startup outcomes are highly uncertain and I have no way to assess current market conditions, funding climate, or your personal risk tolerance for this leap."
+    }
+  ],
+  "caveat": "These three paths are starting points for exploration and conversation, not predictions about what will or should happen in your career."
+}

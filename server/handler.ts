@@ -96,7 +96,7 @@ export async function handleApi(req: Request, env: Env): Promise<Response> {
     }
 
     const input = parse(TrajectoriesIn, body)
-    return json(shouldMock(env) ? mockTrajectories() : await suggestTrajectories(env, input.entries, input.goals))
+    return json(shouldMock(env) ? mockTrajectories() : await suggestTrajectories(env, input.entries, input.goals, input.reactions))
   } catch (err) {
     if (err instanceof UserFacingError) return json({ error: err.message }, err.status)
     if (err instanceof Anthropic.RateLimitError) {

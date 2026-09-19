@@ -51,6 +51,18 @@ await expect('bot check: token missing', post('coach', coach), turnstile, 403, '
 await expect('bot check: token passes', post('coach', coach, { 'x-turnstile-token': 't' }), turnstile, 200)
 await expect('bot check: token fails', post('coach', coach, { 'x-turnstile-token': 't' }), { ...base, TURNSTILE_SECRET_KEY: ALWAYS_FAIL }, 403, 'bot_check')
 
+const reactionsBody = {
+  entries: [ENTRY],
+  reactions: [{ title: 'Path A', choice: 'drawn' }, { title: 'Path B', choice: 'no', why: 'Too far from my current work' }],
+}
+await expect('paths: reactions accepted', post('trajectories', reactionsBody), base, 200)
+await expect(
+  'paths: bad reaction value refused',
+  post('trajectories', { entries: [ENTRY], reactions: [{ title: 'A', choice: 'love' }] }),
+  base,
+  400,
+)
+
 const paused = { ...base, AI_DISABLED: '1' }
 await expect('kill switch: coach paused', post('coach', coach), paused, 503, 'paused')
 await expect('kill switch: extract paused', post('extract', extract), paused, 503, 'paused')
