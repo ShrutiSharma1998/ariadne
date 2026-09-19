@@ -44,10 +44,22 @@ function mockStream(text: string): Response {
 /** Handles every /api/* request. Works with any runtime that has the standard Request and Response. */
 export async function handleApi(req: Request, env: Env): Promise<Response> {
   const path = new URL(req.url).pathname.replace(/\/+$/, '')
-  const route = path.split('/').pop() as Route | undefined
+  const name = path.split('/').pop()
 
-  if (route !== 'extract' && route !== 'coach' && route !== 'trajectories') {
+  // Public settings the page needs before it makes any AI request.
+  if (name === 'config') {
+    if (req.method !== 'GET') return json({ error: 'Use GET.' }, 405, { allow: 'GET' })
+    return json({ turnstileSiteKey: env.TURNSTILE_SITE_KEY || null, paused: env.AI_DISABLED === '1' })
+  }
+
+  if (name !== 'extract' && name !== 'coach' && name !== 'trajectories') {
     return json({ error: 'Not found.' }, 404)
+  }
+  const route: Route = name
+
+  // Kill switch: nothing below runs, nothing is counted, nothing reaches the AI provider.
+  if (env.AI_DISABLED === '1') {
+    return json({ error: 'The AI is paused for now. Please check back later.', code: 'paused' }, 503)
   }
 
   const refused = await guard(req, env, route)

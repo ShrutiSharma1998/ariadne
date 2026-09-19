@@ -24,7 +24,7 @@ function apiDevServer(mode: string): Plugin {
           for (const [k, v] of Object.entries(req.headers)) {
             if (typeof v === 'string') headers.set(k, v)
           }
-          const request = new Request(`http://localhost${req.originalUrl ?? req.url}`, {
+          const request = new Request(`http://${req.headers.host ?? 'localhost'}${req.originalUrl ?? req.url}`, {
             method: req.method,
             headers,
             body: req.method === 'GET' || req.method === 'HEAD' ? undefined : body,

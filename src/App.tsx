@@ -4,6 +4,7 @@ import { PathsPanel } from './components/PathsPanel'
 import { Timeline } from './components/Timeline'
 import { UploadPanel } from './components/UploadPanel'
 import { DEMO_NAME, demoEntries } from './data/demoPersona'
+import { getConfig } from './lib/api'
 import { clearStory, exportStoryFile, loadStory, readStoryFile, saveStory } from './lib/storage'
 import type { MemoryEntry, Zoom } from './types'
 
@@ -71,7 +72,12 @@ export default function App() {
   const [showSample, setShowSample] = useState(false)
   const [notice, setNotice] = useState<string | null>(null)
   const [storyVersion, setStoryVersion] = useState(0)
+  const [paused, setPaused] = useState(false)
   const importRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    void getConfig().then((c) => setPaused(c.paused))
+  }, [])
 
   const isSample = showSample || !own
   const entries = isSample ? demoEntries : own
@@ -223,6 +229,12 @@ export default function App() {
           onChange={(e) => void handleImport(e.target.files?.[0])}
           aria-label="Import a timeline file"
         />
+
+        {paused && (
+          <p className="notice" role="status">
+            The AI features are paused for now. You can still explore the sample story and your saved timeline.
+          </p>
+        )}
 
         {notice && (
           <p className="notice" role="status">

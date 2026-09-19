@@ -1,4 +1,5 @@
 import type { MemoryEntry } from '../types'
+import { getTurnstileToken } from './turnstile'
 
 export interface ExtractFilePayload {
   name: string
@@ -41,12 +42,47 @@ async function failure(res: Response): Promise<ApiError> {
   return new ApiError(message, res.status)
 }
 
+export interface AppConfig {
+  /** Public Turnstile site key, or null when the bot check is off. */
+  turnstileSiteKey: string | null
+  /** True when the kill switch has paused the AI features. */
+  paused: boolean
+}
+
+let configPromise: Promise<AppConfig> | null = null
+
+/** Reads the site's public settings once. If it cannot be read, assume no bot check and not paused. */
+export function getConfig(): Promise<AppConfig> {
+  configPromise ??= fetch('/api/config')
+    .then((res) => (res.ok ? (res.json() as Promise<AppConfig>) : { turnstileSiteKey: null, paused: false }))
+    .catch(() => ({ turnstileSiteKey: null, paused: false }))
+  return configPromise
+}
+
+/** Headers for an AI request: JSON plus a fresh bot-check token when the site uses one. */
+async function requestHeaders(): Promise<Record<string, string>> {
+  const headers: Record<string, string> = { 'content-type': 'application/json' }
+  const { turnstileSiteKey } = await getConfig()
+  if (turnstileSiteKey) {
+    try {
+      headers['x-turnstile-token'] = await getTurnstileToken(turnstileSiteKey)
+    } catch {
+      throw new ApiError(
+        'The bot check could not run. Turn off any content blockers for this site, then reload and try again.',
+        0,
+      )
+    }
+  }
+  return headers
+}
+
 async function postJson<T>(path: string, body: unknown): Promise<T> {
+  const headers = await requestHeaders()
   let res: Response
   try {
     res = await fetch(path, {
       method: 'POST',
-      headers: { 'content-type': 'application/json' },
+      headers,
       body: JSON.stringify(body),
     })
   } catch {
@@ -77,11 +113,12 @@ export async function streamCoach(
   onText: (replySoFar: string) => void,
   signal?: AbortSignal,
 ): Promise<string> {
+  const headers = await requestHeaders()
   let res: Response
   try {
     res = await fetch('/api/coach', {
       method: 'POST',
-      headers: { 'content-type': 'application/json' },
+      headers,
       body: JSON.stringify({ messages, entries, personName }),
       signal,
     })

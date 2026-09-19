@@ -1,0 +1,29 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "ariadne",
+  "main": "worker/index.ts",
+  "compatibility_date": "2026-09-01",
+
+  // Serve the built site as static files. Only /api/* runs Worker code first.
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "single-page-application",
+    "run_worker_first": ["/api/*"]
+  },
+
+  // One shared, exact counter for the daily budget and per-visitor limits.
+  "durable_objects": {
+    "bindings": [{ "name": "LIMITER", "class_name": "Limiter" }]
+  },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["Limiter"] }],
+
+  // Public settings only. Secrets (ANTHROPIC_API_KEY, TURNSTILE_SECRET_KEY) are set with
+  // `wrangler secret put` or in the dashboard, never in this file.
+  "vars": {
+    "STRICT_ORIGIN": "1",
+    "DAILY_BUDGET_UNITS": "200",
+    "TURNSTILE_SITE_KEY": ""
+  },
+
+  "observability": { "enabled": true }
+}
