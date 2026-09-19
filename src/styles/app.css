@@ -546,6 +546,21 @@ main {
   transform: translateX(-50%);
   z-index: 50;
 }
+.turnstile-slot.is-active {
+  padding: 12px 14px 10px;
+  background: var(--card);
+  border: 2px solid var(--ink-2);
+  border-radius: 12px 15px 11px 14px;
+  box-shadow: 4px 5px 0 var(--shade);
+}
+.turnstile-slot.is-active::before {
+  content: 'One quick check to keep bots out';
+  display: block;
+  margin-bottom: 8px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.15rem;
+}
 
 .sr-only-input {
   position: absolute;

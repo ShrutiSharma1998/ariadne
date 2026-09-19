@@ -17,6 +17,8 @@ declare global {
 
 const SCRIPT_URL = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit'
 const TOKEN_TIMEOUT_MS = 25_000
+/** When Cloudflare needs the visitor to tick a box, wait long enough for a person to do it. */
+const INTERACTION_TIMEOUT_MS = 120_000
 
 let scriptPromise: Promise<void> | null = null
 let container: HTMLDivElement | null = null
@@ -51,30 +53,46 @@ async function fetchToken(siteKey: string): Promise<string> {
     document.body.appendChild(container)
   }
 
+  const slot = container as HTMLDivElement
+
   return new Promise<string>((resolve, reject) => {
-    const timer = window.setTimeout(() => {
-      pending = null
-      reject(new Error('The bot check timed out.'))
-    }, TOKEN_TIMEOUT_MS)
+    let timer = 0
+    const arm = (ms: number) => {
+      window.clearTimeout(timer)
+      timer = window.setTimeout(() => {
+        pending = null
+        slot.classList.remove('is-active')
+        reject(new Error('The bot check timed out.'))
+      }, ms)
+    }
+    arm(TOKEN_TIMEOUT_MS)
 
     pending = {
       resolve: (token) => {
         window.clearTimeout(timer)
+        slot.classList.remove('is-active')
         resolve(token)
       },
       reject: (error) => {
         window.clearTimeout(timer)
+        slot.classList.remove('is-active')
         reject(error)
       },
     }
 
     if (widgetId === null) {
-      widgetId = api.render(container as HTMLElement, {
+      widgetId = api.render(slot, {
         sitekey: siteKey,
         execution: 'execute',
         appearance: 'interaction-only',
         callback: (token: string) => pending?.resolve(token),
         'error-callback': () => pending?.reject(new Error('The bot check failed.')),
+        // Cloudflare needs a click: show the box with a hint and give the person time.
+        'before-interactive-callback': () => {
+          slot.classList.add('is-active')
+          arm(INTERACTION_TIMEOUT_MS)
+        },
+        'after-interactive-callback': () => slot.classList.remove('is-active'),
       })
     } else {
       api.reset(widgetId)
