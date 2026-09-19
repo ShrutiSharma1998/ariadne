@@ -21,6 +21,7 @@ const EntrySchema = z.object({
   learned: z.string().max(1500),
   skills: z.array(z.string().max(60)).max(15),
   source: z.string().max(200),
+  yearOnly: z.boolean().optional(),
 })
 
 const StorySchema = z.object({

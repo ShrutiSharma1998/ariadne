@@ -33,6 +33,8 @@ export interface MemoryEntry {
   skills: string[]
   /** Which uploaded file this came from. */
   source: string
+  /** True when the source gave only years, so the months are placeholders and should not be shown. */
+  yearOnly?: boolean
 }
 
 export type Zoom = 'years' | 'months'

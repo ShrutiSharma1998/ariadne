@@ -29,6 +29,7 @@ export const EntryIn = z.object({
   learned: z.string().max(1500),
   skills: z.array(z.string().max(60)).max(15),
   source: z.string().max(200),
+  yearOnly: z.boolean().optional(),
 })
 
 export const EntriesIn = z.array(EntryIn).min(1).max(40)
@@ -75,6 +76,7 @@ export const ExtractedEntry = z.object({
   learned: z.string(),
   skills: z.array(z.string()),
   source: z.string(),
+  yearOnly: z.boolean(),
 })
 
 export const ExtractResult = z.object({

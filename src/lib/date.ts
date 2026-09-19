@@ -11,10 +11,12 @@ export function formatMonth(ym: string): string {
   return MONTH_FORMAT.format(new Date(Date.UTC(y, m - 1, 1)))
 }
 
-export function formatRange(entry: Pick<MemoryEntry, 'start' | 'end'>): string {
-  if (!entry.end) return formatMonth(entry.start)
-  if (entry.end === 'present') return `${formatMonth(entry.start)} to now`
-  return `${formatMonth(entry.start)} to ${formatMonth(entry.end)}`
+export function formatRange(entry: Pick<MemoryEntry, 'start' | 'end' | 'yearOnly'>): string {
+  // When the source gave only years, the stored month is a placeholder: show years alone.
+  const show = (ym: string) => (entry.yearOnly ? String(yearOf(ym)) : formatMonth(ym))
+  if (!entry.end) return show(entry.start)
+  if (entry.end === 'present') return `${show(entry.start)} to now`
+  return `${show(entry.start)} to ${show(entry.end)}`
 }
 
 export function yearOf(ym: string): number {

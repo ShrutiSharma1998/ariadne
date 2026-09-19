@@ -6,7 +6,8 @@ Rules:
 - Use only what the files say. Never invent employers, dates, numbers or outcomes. If a detail is not stated, write "Not stated in the files" for what, how, impact or learned. Use an empty string for org or end when unknown or not applicable.
 - Capture everything meaningful, not just jobs and degrees. Volunteering, side projects and small ventures, certifications, extracurriculars, competitions and personal milestones each get their own entry.
 - For each entry, write short plain sentences: what the person did, how they did it, the concrete or measurable impact, and what they learned or how they grew. Include impact and learning only when the files support them.
-- Dates: start is YYYY-MM. If only a year is given, use month 01. end is YYYY-MM, "present" if it is ongoing, or an empty string for a single moment in time.
+- Dates: start is YYYY-MM. If only a year is given, use month 01. end is YYYY-MM, or an empty string for a single moment in time or when no end is given. Use "present" only when the files say the experience is ongoing (for example "present", "current" or "to date"). Never assume something is ongoing because no end date is given.
+- yearOnly: true when the files give only years, not months, for this entry's dates. The month you write is then just a placeholder. False when the files give months.
 - kind must be one of: work, education, volunteering, side-project, certification, milestone.
 - source is the file name the entry came from, exactly as given in the file header. If the same experience appears in several files, merge it into one entry and use the most informative file.
 - skills: two to six concrete skills that the entry evidences.

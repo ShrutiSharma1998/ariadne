@@ -24,6 +24,7 @@ export interface ExtractedEntryOut {
   learned: string
   skills: string[]
   source: string
+  yearOnly?: boolean
 }
 
 function client(env: Env): Anthropic {
@@ -126,6 +127,7 @@ export async function extractTimeline(
       learned: e.learned.trim().slice(0, 1500),
       skills: e.skills.map((s) => s.trim().slice(0, 60)).filter(Boolean).slice(0, 15),
       source: e.source.trim().slice(0, 200) || 'uploaded file',
+      yearOnly: e.yearOnly || undefined,
     })
   }
   entries.sort((a, b) => a.start.localeCompare(b.start))

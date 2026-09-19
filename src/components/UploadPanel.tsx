@@ -59,6 +59,13 @@ export function UploadPanel({ onLoaded }: Props) {
       <p className="panel-lead">
         Add a resume, certificates or notes. Up to {MAX_FILES} files of PDF, TXT or MD, 2 MB each. You can also paste text.
       </p>
+      <p className="panel-lead">
+        Just looking around?{' '}
+        <a href="/sample/sam-rivera-resume.pdf" download>
+          Download the fictional sample resume
+        </a>{' '}
+        and add it here.
+      </p>
 
       <div className="upload-row">
         <label className="button button-outline" htmlFor="file-input">
