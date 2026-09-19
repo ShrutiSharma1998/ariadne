@@ -22,6 +22,10 @@ dist-ssr
 # Claude Code local settings and preview config
 .claude/
 
+# Third-party design references (other people's work, and large): keep out of the public repo
+references/
+refrences/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
