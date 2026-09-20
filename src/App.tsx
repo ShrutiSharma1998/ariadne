@@ -8,7 +8,9 @@ import { RoadView } from './components/road/RoadView'
 import { UploadPanel } from './components/UploadPanel'
 import { DEMO_NAME, demoEntries } from './data/demoPersona'
 import { getConfig } from './lib/api'
+import type { PathsSlot } from './lib/pathsStorage'
 import { clearStory, exportStoryFile, loadStory, readStoryFile, saveStory } from './lib/storage'
+import { usePathsStore } from './lib/usePathsStore'
 import type { MemoryEntry } from './types'
 
 type ThemeChoice = 'auto' | 'light' | 'dark'
@@ -85,6 +87,12 @@ export default function App() {
   const entries = isSample ? demoEntries : own
   const personName = isSample ? DEMO_NAME : undefined
 
+  // The paths, reactions and chosen path live here so the Paths page and the road share them.
+  const pathsStore = usePathsStore(() =>
+    setNotice('Your browser would not save your paths. They will be lost when you leave this page.'),
+  )
+  const pathsSlot: PathsSlot = isSample ? 'sample' : 'own'
+
   useEffect(() => {
     const root = document.documentElement
     if (theme === 'auto') delete root.dataset.theme
@@ -126,6 +134,8 @@ export default function App() {
     }
     if (own && !window.confirm('Restoring a backup replaces the timeline saved in this browser. Continue?')) return
     setStory(result.entries)
+    // The saved paths were about the timeline this replaces.
+    pathsStore.clear('own')
     setView('timeline')
     setNotice(`Restored ${result.entries.length} experiences from your backup.`)
   }
@@ -133,6 +143,7 @@ export default function App() {
   function handleClear() {
     if (!window.confirm('Delete your timeline from this browser? Save a backup first if you want a copy.')) return
     clearStory()
+    pathsStore.clear('own')
     setOwn(null)
     setShowSample(false)
     setStoryVersion((v) => v + 1)
@@ -267,7 +278,13 @@ export default function App() {
           </>
         )}
         {view === 'paths' && (
-          <PathsPanel key={`paths-${storyVersion}-${isSample}`} entries={entries} isSample={isSample} />
+          <PathsPanel
+            key={`paths-${storyVersion}-${isSample}`}
+            entries={entries}
+            isSample={isSample}
+            saved={pathsStore.store[pathsSlot]}
+            onChange={(patch) => pathsStore.update(pathsSlot, patch)}
+          />
         )}
       </main>
 
