@@ -5,16 +5,14 @@ import { PathsPanel } from './components/PathsPanel'
 import { SceneBanner } from './components/SceneBanner'
 import { ClewIcon } from './components/road/Clew'
 import { RoadView } from './components/road/RoadView'
-import { Timeline } from './components/Timeline'
 import { UploadPanel } from './components/UploadPanel'
 import { DEMO_NAME, demoEntries } from './data/demoPersona'
 import { getConfig } from './lib/api'
 import { clearStory, exportStoryFile, loadStory, readStoryFile, saveStory } from './lib/storage'
-import type { MemoryEntry, Zoom } from './types'
+import type { MemoryEntry } from './types'
 
 type ThemeChoice = 'auto' | 'light' | 'dark'
 type View = 'timeline' | 'paths'
-type TimelineMode = 'road' | 'list'
 
 const THEME_KEY = 'ariadne-theme'
 const THEME_ORDER: ThemeChoice[] = ['auto', 'light', 'dark']
@@ -68,11 +66,7 @@ function PencilFilter() {
 }
 
 export default function App() {
-  const [zoom, setZoom] = useState<Zoom>('months')
-  // The road is the default view; people who ask for less motion start on the list.
-  const [mode, setMode] = useState<TimelineMode>(() => (window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'list' : 'road'))
   const [view, setView] = useState<View>('timeline')
-  const [expandedId, setExpandedId] = useState<string | null>(null)
   const [theme, setTheme] = useState<ThemeChoice>(readTheme)
   const [own, setOwn] = useState<MemoryEntry[] | null>(() => loadStory()?.entries ?? null)
   const [showSample, setShowSample] = useState(false)
@@ -106,7 +100,6 @@ export default function App() {
   function setStory(next: MemoryEntry[]) {
     setOwn(next)
     setShowSample(false)
-    setExpandedId(null)
     setStoryVersion((v) => v + 1)
     if (!saveStory(next)) {
       setNotice('Your browser would not save this timeline. Open Your data and choose Save a backup so you do not lose it.')
@@ -142,14 +135,13 @@ export default function App() {
     clearStory()
     setOwn(null)
     setShowSample(false)
-    setExpandedId(null)
     setStoryVersion((v) => v + 1)
     setNotice('Your timeline was deleted from this browser.')
   }
 
   const nextTheme = THEME_ORDER[(THEME_ORDER.indexOf(theme) + 1) % THEME_ORDER.length]
 
-  /** Opens the coach about one experience, from the list or from the road. */
+  /** Opens the coach about one experience, from the road. */
   function askAbout(entry: MemoryEntry) {
     setAsk({
       nonce: Date.now(),
@@ -171,24 +163,6 @@ export default function App() {
             <h1 className="wordmark">Ariadne</h1>
           </div>
           <div className="controls">
-            {view === 'timeline' && (
-              <div className="segmented" role="group" aria-label="How to see your timeline">
-                {(['road', 'list'] as const).map((m) => (
-                  <button key={m} type="button" aria-pressed={mode === m} onClick={() => setMode(m)}>
-                    {m === 'road' ? 'Road' : 'List'}
-                  </button>
-                ))}
-              </div>
-            )}
-            {view === 'timeline' && mode === 'list' && (
-              <div className="segmented" role="group" aria-label="Timeline zoom">
-                {(['years', 'months'] as const).map((z) => (
-                  <button key={z} type="button" aria-pressed={zoom === z} onClick={() => setZoom(z)}>
-                    {z === 'years' ? 'Years' : 'Months'}
-                  </button>
-                ))}
-              </div>
-            )}
             <button
               type="button"
               className="theme-toggle"
@@ -207,7 +181,7 @@ export default function App() {
         </div>
         <p className="tagline">Keep your whole story in one place, then find your way forward.</p>
         {/* The road has its own sky and hills, so the banner steps aside for it. */}
-        {!(view === 'timeline' && mode === 'road') && <SceneBanner />}
+        {view !== 'timeline' && <SceneBanner />}
 
         <nav className="views" aria-label="Sections">
           {VIEWS.map((v) => (
@@ -279,22 +253,7 @@ export default function App() {
       <main id="content">
         {view === 'timeline' && (
           <>
-            {mode === 'road' ? (
-              <RoadView entries={entries} onAsk={askAbout} onWhereNext={() => setView('paths')} />
-            ) : (
-            <Timeline
-              entries={entries}
-              onWhereNext={() => setView('paths')}
-              zoom={zoom}
-              expandedId={expandedId}
-              onToggle={(id) => setExpandedId((cur) => (cur === id ? null : id))}
-              onPickFromYear={(id) => {
-                setExpandedId(id)
-                setZoom('months')
-              }}
-              onAsk={askAbout}
-            />
-            )}
+            <RoadView entries={entries} onAsk={askAbout} onWhereNext={() => setView('paths')} />
             <div id="build" className="build">
               {isSample ? (
                 <UploadPanel onLoaded={handleLoaded} />

@@ -93,13 +93,6 @@ export function SceneBanner() {
       role="img"
       aria-label="A small ball of thread with a star on its loose end stands on a hill, looking out over rolling ridges."
     >
-      <defs>
-        <radialGradient id="lantern-glow">
-          <stop offset="0" stopColor="var(--k-certification)" stopOpacity="0.85" />
-          <stop offset="1" stopColor="var(--k-certification)" stopOpacity="0" />
-        </radialGradient>
-      </defs>
-
       <g className="only-night" aria-hidden="true">
         {STARS.map(([x, y, r], i) => (
           <circle key={i} cx={x} cy={y} r={r} className="star" />
