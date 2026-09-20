@@ -183,62 +183,101 @@
   font-size: 0.95rem;
 }
 
-/* ---------- Clew, the coach ---------- */
+/* Zoomed in, the labels are experiences: quieter, in the body face. */
+.road-tag[data-kind='entry'] .road-year {
+  max-width: 18ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+}
+.road-flag-btn[aria-current='true'] .road-year {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
 
-.c-ball {
-  fill: var(--thread);
+/* ---------- Controls and the panel under the road ---------- */
+
+.road-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin-top: 12px;
 }
-.c-rim {
-  fill: none;
-  stroke: var(--ink);
-  stroke-width: 1.8;
+.road-btn {
+  min-height: 44px;
+  padding: 4px 16px;
+  background: var(--card);
+  color: var(--ink);
+  border: 2px solid var(--sketch);
+  border-radius: 10px 13px 9px 12px;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
 }
-.c-yarn path {
-  fill: none;
-  stroke: color-mix(in srgb, var(--thread) 48%, #2b1408);
-  stroke-width: 1.6;
-  stroke-linecap: round;
-  opacity: 0.9;
+.road-btn:hover:not(:disabled) {
+  background: var(--paper-deep);
 }
-.c-shine {
-  fill: none;
-  stroke: #fff6e5;
-  stroke-opacity: 0.5;
-  stroke-width: 2.2;
-  stroke-linecap: round;
+.road-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
 }
-/* The eyes sit on the ball, so they stay near-black in both themes. */
-.c-eye {
-  fill: #2b1a10;
+.road-level {
+  margin-left: auto;
+  color: var(--ink-2);
+  font-weight: 700;
+  font-size: 0.95rem;
 }
-.c-foot {
-  fill: var(--sketch);
-  stroke: var(--ink);
-  stroke-width: 1.2;
+
+.road-detail {
+  position: relative;
+  min-height: 120px;
+  margin-top: 12px;
+  padding: 18px 20px;
+  background: var(--card);
+  border-radius: 14px;
 }
-.c-tail,
-.c-curlpath {
-  fill: none;
-  stroke: var(--thread);
-  stroke-width: 3;
-  stroke-linecap: round;
+.road-detail-title {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 1.6rem;
+  line-height: 1.1;
 }
-.c-star {
-  fill: var(--lantern);
-  stroke: var(--ink);
-  stroke-width: 1;
-  stroke-linejoin: round;
+.road-detail-facts {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 4px 16px;
+  margin: 12px 0;
 }
-/* The star is the light at night. */
-.c-glow {
-  display: none;
-  pointer-events: none;
+.road-detail-facts dt {
+  color: var(--ink-2);
+  font-weight: 700;
+  font-size: 0.95rem;
 }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme='light']) .c-glow {
-    display: inline;
+.road-detail-facts dd {
+  margin: 0;
+}
+.road-detail .year-list {
+  margin-top: 10px;
+}
+.road-detail .button {
+  margin-top: 12px;
+}
+@media (max-width: 640px) {
+  .road-detail-facts {
+    grid-template-columns: 1fr;
   }
 }
-:root[data-theme='dark'] .c-glow {
-  display: inline;
+/* Zoomed all the way in, only the experience you are on keeps its label; the panel has the rest. */
+.road-flag-quiet .road-tag {
+  display: none;
+}
+@media (max-width: 640px) {
+  .road-tag[data-kind='entry'] .road-year {
+    max-width: 12ch;
+    font-size: 0.8rem;
+  }
 }

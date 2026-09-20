@@ -3,6 +3,7 @@ import { CoachDock, type AskRequest } from './components/CoachDock'
 import { DataMenu } from './components/DataMenu'
 import { PathsPanel } from './components/PathsPanel'
 import { SceneBanner } from './components/SceneBanner'
+import { ClewIcon } from './components/road/Clew'
 import { RoadView } from './components/road/RoadView'
 import { Timeline } from './components/Timeline'
 import { UploadPanel } from './components/UploadPanel'
@@ -148,15 +149,13 @@ export default function App() {
 
   const nextTheme = THEME_ORDER[(THEME_ORDER.indexOf(theme) + 1) % THEME_ORDER.length]
 
-  /** Until the camera zoom arrives, choosing a year on the road opens that year in the list. */
-  function openYearInList(id: string) {
-    setMode('list')
-    setZoom('months')
-    setExpandedId(id)
-    window.setTimeout(() => {
-      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-      document.getElementById(`entry-${id}`)?.scrollIntoView({ block: 'center', behavior: reduce ? 'auto' : 'smooth' })
-    }, 60)
+  /** Opens the coach about one experience, from the list or from the road. */
+  function askAbout(entry: MemoryEntry) {
+    setAsk({
+      nonce: Date.now(),
+      text: `I'd like to talk about "${entry.title}"${entry.org ? ` at ${entry.org}` : ''}. What stands out to you about it, and what should I explore next?`,
+    })
+    setDockOpen(true)
   }
 
   return (
@@ -167,7 +166,10 @@ export default function App() {
       </a>
       <header className="masthead">
         <div className="masthead-top">
-          <h1 className="wordmark">Ariadne</h1>
+          <div className="brand">
+            <ClewIcon size={56} />
+            <h1 className="wordmark">Ariadne</h1>
+          </div>
           <div className="controls">
             {view === 'timeline' && (
               <div className="segmented" role="group" aria-label="How to see your timeline">
@@ -278,7 +280,7 @@ export default function App() {
         {view === 'timeline' && (
           <>
             {mode === 'road' ? (
-              <RoadView entries={entries} onPickYear={(_year, id) => openYearInList(id)} onWhereNext={() => setView('paths')} />
+              <RoadView entries={entries} onAsk={askAbout} onWhereNext={() => setView('paths')} />
             ) : (
             <Timeline
               entries={entries}
@@ -290,13 +292,7 @@ export default function App() {
                 setExpandedId(id)
                 setZoom('months')
               }}
-              onAsk={(entry) => {
-                setAsk({
-                  nonce: Date.now(),
-                  text: `I'd like to talk about "${entry.title}"${entry.org ? ` at ${entry.org}` : ''}. What stands out to you about it, and what should I explore next?`,
-                })
-                setDockOpen(true)
-              }}
+              onAsk={askAbout}
             />
             )}
             <div id="build" className="build">

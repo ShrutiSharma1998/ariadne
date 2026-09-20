@@ -1,0 +1,131 @@
+/* ---------- Clew, the coach ---------- */
+
+.c-ball {
+  fill: var(--thread);
+}
+.c-rim {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 1.8;
+}
+.c-yarn path {
+  fill: none;
+  stroke: color-mix(in srgb, var(--thread) 48%, #2b1408);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  opacity: 0.9;
+}
+.c-shine {
+  fill: none;
+  stroke: #fff6e5;
+  stroke-opacity: 0.5;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+}
+/* The eyes sit on the ball, so they stay near-black in both themes. */
+.c-eye {
+  fill: #2b1a10;
+}
+.c-foot {
+  fill: var(--sketch);
+  stroke: var(--ink);
+  stroke-width: 1.2;
+}
+.c-tail,
+.c-curlpath {
+  fill: none;
+  stroke: var(--thread);
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+.c-star {
+  fill: var(--lantern);
+  stroke: var(--ink);
+  stroke-width: 1;
+  stroke-linejoin: round;
+}
+/* The star is the light at night. */
+.c-glow {
+  display: none;
+  pointer-events: none;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .c-glow {
+    display: inline;
+  }
+}
+:root[data-theme='dark'] .c-glow {
+  display: inline;
+}
+
+/* ---------- Motion: one mascot animation at a time, transform and opacity only ---------- */
+
+.clew[data-pose='idle'] .c-lift {
+  animation: clew-bob 2.6s ease-in-out infinite;
+}
+.clew[data-pose='idle'] .c-curl {
+  transform-origin: 12px -23px;
+  animation: clew-sway 3.4s ease-in-out infinite;
+}
+.clew[data-pose='walk'] .c-lift {
+  animation: clew-hop 0.46s ease-in-out infinite;
+}
+.clew[data-pose='walk'] .cf-l {
+  animation: clew-step 0.46s ease-in-out infinite;
+}
+.clew[data-pose='walk'] .cf-r {
+  animation: clew-step 0.46s ease-in-out infinite 0.23s;
+}
+.clew[data-pose='think'] .c-yarn {
+  transform-origin: 0 0;
+  animation: clew-spin 3s linear infinite;
+}
+.clew[data-pose='speak'] .c-squash {
+  transform-origin: 0 26px;
+  animation: clew-talk 0.7s ease-in-out infinite;
+}
+.clew[data-pose='speak'] .c-star {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: clew-pulse 0.7s ease-in-out infinite;
+}
+@keyframes clew-bob {
+  50% {
+    transform: translateY(-2.5px);
+  }
+}
+@keyframes clew-sway {
+  50% {
+    transform: rotate(5deg);
+  }
+}
+@keyframes clew-hop {
+  50% {
+    transform: translateY(-5px);
+  }
+}
+@keyframes clew-step {
+  50% {
+    transform: translateY(-3px);
+  }
+}
+@keyframes clew-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes clew-talk {
+  50% {
+    transform: scale(1.03, 0.96);
+  }
+}
+@keyframes clew-pulse {
+  50% {
+    transform: scale(1.35);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .clew * {
+    animation: none !important;
+  }
+}

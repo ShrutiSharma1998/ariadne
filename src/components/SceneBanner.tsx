@@ -1,5 +1,6 @@
 import rough from 'roughjs'
 import { useEffect, useRef } from 'react'
+import { Clew } from './road/Clew'
 
 const W = 1000
 const H = 170
@@ -23,7 +24,7 @@ const STARS: [number, number, number][] = Array.from({ length: 46 }, (_, i) => {
 })
 
 /**
- * The horizon that opens the page: three hand-drawn ridges, a small fox with a lantern, and a
+ * The horizon that opens the page: three hand-drawn ridges, the coach (a small ball of thread), and a
  * sun by day or a moon and stars by night. The same layers will drive the parallax journey later.
  */
 export function SceneBanner() {
@@ -90,7 +91,7 @@ export function SceneBanner() {
       viewBox={`0 0 ${W} ${H}`}
       preserveAspectRatio="xMaxYMax slice"
       role="img"
-      aria-label="A small fox with a lantern stands on a hill, looking out over rolling ridges."
+      aria-label="A small ball of thread with a star on its loose end stands on a hill, looking out over rolling ridges."
     >
       <defs>
         <radialGradient id="lantern-glow">
@@ -107,17 +108,9 @@ export function SceneBanner() {
 
       <g ref={ref} />
 
-      {/* The fox and its lantern, on the nearest ridge. */}
-      <g className="fox" transform="translate(842 96) scale(1.7)">
-        <circle className="lantern-glow only-night" cx="24" cy="12" r="20" fill="url(#lantern-glow)" />
-        <path className="fox-body" d="M4 8 L10 13 L18 13 L24 8 L24 22 L14 30 L4 22 Z" />
-        <path className="fox-line" d="M4 8 L10 13 L18 13 L24 8 L24 22 L14 30 L4 22 Z" />
-        <circle className="fox-dot" cx="10" cy="19" r="1.3" />
-        <circle className="fox-dot" cx="18" cy="19" r="1.3" />
-        <path className="fox-line" d="M12.5 24 L14 25.5 L15.5 24" />
-        <path className="fox-line" d="M24 14 L29 8" />
-        <rect className="lantern" x="27" y="8" width="7" height="9" rx="1.5" />
-        <path className="fox-line" d="M28.5 8 C28.5 5 32.5 5 32.5 8" />
+      {/* The coach, on the nearest ridge. Its star is the light at night. */}
+      <g transform="translate(850 152) scale(0.78)">
+        <Clew pose="still" />
       </g>
     </svg>
   )

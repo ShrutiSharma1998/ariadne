@@ -1,22 +1,22 @@
-import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useSyncExternalStore } from 'react'
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useSyncExternalStore, type KeyboardEvent } from 'react'
+import { formatRange } from '../../lib/date'
 import { layoutTags, type Box } from '../../lib/roadLayout'
 import { buildRoadModel, createRoad, END_T, ROAD_H, ROAD_W } from '../../lib/roadModel'
-import type { MemoryEntry } from '../../types'
+import type { EntryKind, MemoryEntry } from '../../types'
 import '../../styles/road.css'
 import { RoughFrame } from '../RoughFrame'
 import { Clew } from './Clew'
-import { drawScenery } from './scenery'
+import { RoadDetail } from './RoadDetail'
+import { drawScenery, WALKER_SCALE, type LayerId } from './scenery'
+import { useRoadCamera, type Level } from './useRoadCamera'
 
 interface Props {
   entries: MemoryEntry[]
-  /** A year on the road was chosen. */
-  onPickYear: (year: number, firstEntryId: string) => void
+  /** "Ask the coach about this" was chosen for an experience. */
+  onAsk: (entry: MemoryEntry) => void
   /** "Where next" was chosen: go to the paths page. */
   onWhereNext: () => void
 }
-
-/** The coach's size on the road, in scene units. */
-const WALKER_SCALE = 1.05
 
 // The road never changes, so it is built once for the whole app.
 const ROAD = createRoad()
@@ -25,6 +25,20 @@ const FORK: [number, number][] = [
   [1158, 204],
   [1092, 108],
 ]
+
+const LEVEL_LABEL: Record<Level, string> = { horizon: 'The whole road', chapter: 'One year', moment: 'One experience' }
+
+interface Marker {
+  key: string
+  kind: 'year' | 'entry' | 'next'
+  t: number
+  label: string
+  /** The accessible name of the button. */
+  name: string
+  dots: EntryKind[]
+  current: boolean
+  onClick: () => void
+}
 
 function useNarrow(): boolean {
   return useSyncExternalStore(
@@ -39,31 +53,69 @@ function useNarrow(): boolean {
 }
 
 /**
- * The person's story as a hand-drawn road that climbs toward "Where next". Scenery is drawn once
- * and scaled to fit; markers are real buttons laid over it, in chronological order.
+ * The person's story as a hand-drawn road that climbs toward "Where next". Zoom in from the whole
+ * road to a year to one experience. Scenery is drawn once; markers are real buttons over it.
+ * A different story starts again from the whole road, with a fresh camera.
  */
-export function RoadView({ entries, onPickYear, onWhereNext }: Props) {
+export function RoadView(props: Props) {
+  const { entries } = props
+  const storyKey = `${entries.length}:${entries[0]?.id ?? ''}:${entries[entries.length - 1]?.id ?? ''}`
+  return <RoadScene key={storyKey} {...props} />
+}
+
+function RoadScene({ entries, onAsk, onWhereNext }: Props) {
   const model = useMemo(() => buildRoadModel(entries), [entries])
   const narrow = useNarrow()
 
   const stageRef = useRef<HTMLDivElement>(null)
   const svgRef = useRef<SVGSVGElement>(null)
-  const skyRef = useRef<SVGGElement>(null)
-  const farRef = useRef<SVGGElement>(null)
-  const midRef = useRef<SVGGElement>(null)
-  const nearRef = useRef<SVGGElement>(null)
+  const walkerRef = useRef<SVGGElement>(null)
+  const layers = useRef<Record<LayerId, SVGGElement | null>>({ sky: null, far: null, mid: null, near: null })
   const flagRefs = useRef<(HTMLLIElement | null)[]>([])
+  const placeRef = useRef<() => void>(() => {})
 
-  const now = ROAD.at(model.nowT)
+  const cam = useRoadCamera({ road: ROAD, model, svgRef, layers, walkerRef, onFrame: () => placeRef.current() })
+  const { level, focus } = cam
   const end = ROAD.at(END_T)
 
   // Hills, trees and sky: drawn once, never while anything moves.
   useEffect(() => {
-    const [sky, far, mid, near] = [skyRef.current, farRef.current, midRef.current, nearRef.current]
-    if (sky && far && mid && near) drawScenery({ sky, far, mid, near })
+    const g = layers.current
+    if (g.sky && g.far && g.mid && g.near) drawScenery({ sky: g.sky, far: g.far, mid: g.mid, near: g.near })
   }, [])
 
-  const markerCount = model.years.length + 1
+  // From the whole road, the markers are years. Zoomed in, they are the experiences.
+  const markers = useMemo<Marker[]>(() => {
+    const next: Marker = { key: 'next', kind: 'next', t: END_T, label: 'Where next', name: 'Where next: see possible paths', dots: [], current: false, onClick: onWhereNext }
+    if (level === 'horizon') {
+      return [
+        ...model.years.map((y) => ({
+          key: `y${y.year}`,
+          kind: 'year' as const,
+          t: y.t,
+          label: String(y.year),
+          name: `${y.year}, ${y.entries.length} ${y.entries.length === 1 ? 'experience' : 'experiences'}. Zoom in.`,
+          dots: y.kinds,
+          current: false,
+          onClick: () => cam.goYear(y.year),
+        })),
+        next,
+      ]
+    }
+    return [
+      ...model.entries.map((s) => ({
+        key: s.id,
+        kind: 'entry' as const,
+        t: s.t,
+        label: s.entry.title,
+        name: `${s.entry.title}, ${formatRange(s.entry)}. See its story.`,
+        dots: [s.entry.kind],
+        current: focus.id === s.id,
+        onClick: () => cam.goEntry(s.id),
+      })),
+      next,
+    ]
+  }, [level, focus.id, model, onWhereNext, cam.goYear, cam.goEntry]) // eslint-disable-line react-hooks/exhaustive-deps
 
   /** Puts each marker on its spot in the scene, and each label on a free side of its marker. */
   const place = useCallback(() => {
@@ -80,51 +132,95 @@ export function RoadView({ entries, onPickYear, onWhereNext }: Props) {
       return { x: q.x - bounds.left, y: q.y - bounds.top }
     }
     const unit = m.a // screen pixels per scene unit
-    const spots = [...model.years.map((y) => ROAD.at(y.t)), end].map(toStage)
+    const spots = markers.map((mk) => toStage(ROAD.at(mk.t)))
+    const visible = spots.map((s) => s.x > -30 && s.x < bounds.width + 30 && s.y > -30 && s.y < bounds.height + 30)
+    markers.forEach((_, i) => {
+      const li = flagRefs.current[i]
+      if (li) li.hidden = !visible[i]
+    })
 
     const nodeR = Math.max(6, 9 * unit)
-    const walker = toStage(now)
+    const walker = toStage(ROAD.at(cam.walkerT.current))
     const obstacles: Box[] = [{ x: walker.x - 50 * WALKER_SCALE * unit, y: walker.y - 92 * WALKER_SCALE * unit, w: 88 * WALKER_SCALE * unit, h: 98 * WALKER_SCALE * unit }]
-    const markers: Box[] = spots.map((s) => ({ x: s.x - 14 * unit, y: s.y - 14 * unit, w: 28 * unit, h: 28 * unit }))
-    const tags = spots.map((s, i) => {
+    const shown = markers.map((_, i) => i).filter((i) => visible[i])
+    const boxes: Box[] = shown.map((i) => ({ x: spots[i].x - 14 * unit, y: spots[i].y - 14 * unit, w: 28 * unit, h: 28 * unit }))
+    const tags = shown.map((i, k) => {
       const tag = flagRefs.current[i]?.querySelector<HTMLElement>('.road-tag')
-      return { x: s.x, y: s.y, w: tag?.offsetWidth ?? 60, h: tag?.offsetHeight ?? 28, prefer: (i % 2 ? 'down' : 'up') as 'up' | 'down' }
+      return { x: spots[i].x, y: spots[i].y, w: tag?.offsetWidth ?? 60, h: tag?.offsetHeight ?? 28, prefer: (k % 2 ? 'down' : 'up') as 'up' | 'down' }
     })
-    const gap = Math.round(nodeR + 10)
-    const placed = layoutTags(tags, { w: bounds.width, h: bounds.height }, obstacles, markers, gap)
+    const placed = layoutTags(tags, { w: bounds.width, h: bounds.height }, obstacles, boxes, Math.round(nodeR + 10))
 
-    spots.forEach((s, i) => {
+    shown.forEach((i, k) => {
       const li = flagRefs.current[i]
       if (!li) return
-      const p = placed[i]
-      li.style.transform = `translate(${s.x}px, ${s.y}px)`
+      const p = placed[k]
+      li.style.transform = `translate(${spots[i].x}px, ${spots[i].y}px)`
       li.style.setProperty('--tx', `${p.dx}px`)
       li.style.setProperty('--ty', `${p.dy}px`)
       // A fine leader line runs from the marker to its label.
       li.style.setProperty('--lx', `${-p.dx}px`)
       if (p.side === 'up') {
-        li.style.setProperty('--ly', `${tags[i].h}px`)
-        li.style.setProperty('--ll', `${Math.max(0, -(p.dy + tags[i].h) - nodeR)}px`)
+        li.style.setProperty('--ly', `${tags[k].h}px`)
+        li.style.setProperty('--ll', `${Math.max(0, -(p.dy + tags[k].h) - nodeR)}px`)
       } else {
         li.style.setProperty('--ly', `${-Math.max(0, p.dy - nodeR)}px`)
         li.style.setProperty('--ll', `${Math.max(0, p.dy - nodeR)}px`)
       }
     })
-  }, [model, now, end])
+  }, [markers, cam.walkerT])
 
+  useLayoutEffect(() => {
+    placeRef.current = place
+  })
   useLayoutEffect(() => {
     place()
     const stage = stageRef.current
     if (!stage) return
-    const observer = new ResizeObserver(place)
+    const observer = new ResizeObserver(() => place())
     observer.observe(stage)
     // Labels are measured, so measure again once the fonts have arrived.
-    void document.fonts?.ready.then(place)
+    void document.fonts?.ready.then(() => place())
     return () => observer.disconnect()
   }, [place, narrow])
 
+  // Ctrl with the wheel (or a trackpad pinch) zooms; plain scrolling never does.
+  const camRef = useRef(cam)
+  useLayoutEffect(() => {
+    camRef.current = cam
+  })
+  useEffect(() => {
+    const stage = stageRef.current
+    if (!stage) return
+    let lock = 0
+    const onWheel = (e: WheelEvent) => {
+      if (!e.ctrlKey) return
+      e.preventDefault()
+      const now = performance.now()
+      if (now < lock) return
+      lock = now + 700
+      if (e.deltaY < 0) camRef.current.zoomIn()
+      else camRef.current.zoomOut()
+    }
+    stage.addEventListener('wheel', onWheel, { passive: false })
+    return () => stage.removeEventListener('wheel', onWheel)
+  }, [])
+
+  const onKeyDown = (e: KeyboardEvent) => {
+    if (e.key === 'Escape' || e.key === '-') cam.zoomOut()
+    else if (e.key === '+' || e.key === '=') cam.zoomIn()
+    else if (e.key === 'ArrowRight') cam.step(1)
+    else if (e.key === 'ArrowLeft') cam.step(-1)
+    else return
+    e.preventDefault()
+  }
+
+  const yearIdx = model.years.findIndex((y) => y.year === focus.year)
+  const entryIdx = model.entries.findIndex((s) => s.id === focus.id)
+  const canPrev = level === 'chapter' ? yearIdx > 0 : level === 'moment' ? entryIdx > 0 : false
+  const canNext = level === 'chapter' ? yearIdx >= 0 && yearIdx < model.years.length - 1 : level === 'moment' ? entryIdx >= 0 && entryIdx < model.entries.length - 1 : false
+
   return (
-    <section className="road" aria-label="Your story as a road">
+    <section className="road" aria-label="Your story as a road" onKeyDown={onKeyDown}>
       <div ref={stageRef} className="road-stage">
         <RoughFrame seed={41} />
         <svg
@@ -135,10 +231,10 @@ export function RoadView({ entries, onPickYear, onWhereNext }: Props) {
           aria-hidden="true"
           focusable="false"
         >
-          <g ref={skyRef} />
-          <g ref={farRef} />
-          <g ref={midRef} />
-          <g ref={nearRef} />
+          <g ref={(el) => { layers.current.sky = el }} />
+          <g ref={(el) => { layers.current.far = el }} />
+          <g ref={(el) => { layers.current.mid = el }} />
+          <g ref={(el) => { layers.current.near = el }} />
 
           <g className="road-plane">
             <g className="road-bed" filter="url(#pencil)">
@@ -171,57 +267,62 @@ export function RoadView({ entries, onPickYear, onWhereNext }: Props) {
               <circle className="road-node road-node-next" cx={end.x} cy={end.y} r="10" />
             </g>
 
-            <g transform={`translate(${now.x} ${now.y}) scale(${WALKER_SCALE})`}>
-              <Clew pose="still" />
+            {/* The coach. Its position is set by the camera hook, frame by frame. */}
+            <g ref={walkerRef}>
+              <Clew pose={cam.pose} />
             </g>
           </g>
         </svg>
 
-        <ol className="road-flags" aria-label="Your story, year by year">
-          {model.years.map((y, i) => (
+        <ol className="road-flags" aria-label={level === 'horizon' ? 'Your story, year by year' : 'Your story, experience by experience'}>
+          {markers.map((mk, i) => (
             <li
-              key={y.year}
+              key={mk.key}
               ref={(el) => {
                 flagRefs.current[i] = el
               }}
-              className="road-flag"
+              className={`road-flag road-flag-${mk.kind}${level === 'moment' && mk.kind === 'entry' && !mk.current ? ' road-flag-quiet' : ''}`}
             >
-              <button
-                type="button"
-                className="road-flag-btn"
-                aria-label={`${y.year}, ${y.entries.length} ${y.entries.length === 1 ? 'experience' : 'experiences'}`}
-                onClick={() => onPickYear(y.year, y.entries[0].id)}
-              >
-                <span className="road-tag">
+              <button type="button" className="road-flag-btn" aria-label={mk.name} aria-current={mk.current ? 'true' : undefined} onClick={mk.onClick}>
+                <span className="road-tag" data-kind={mk.kind}>
                   <span className="road-leader" aria-hidden="true" />
-                  <span className="road-year">{y.year}</span>
-                  <span className="road-kinds" aria-hidden="true">
-                    {y.kinds.map((k) => (
-                      <i key={k} style={{ background: `var(--k-${k})` }} />
-                    ))}
-                  </span>
+                  <span className="road-year">{mk.label}</span>
+                  {mk.dots.length > 0 && (
+                    <span className="road-kinds" aria-hidden="true">
+                      {mk.dots.map((k) => (
+                        <i key={k} style={{ background: `var(--k-${k})` }} />
+                      ))}
+                    </span>
+                  )}
                 </span>
               </button>
             </li>
           ))}
-          <li
-            ref={(el) => {
-              flagRefs.current[markerCount - 1] = el
-            }}
-            className="road-flag road-flag-next"
-          >
-            <button type="button" className="road-flag-btn" aria-label="Where next: see possible paths" onClick={onWhereNext}>
-              <span className="road-tag">
-                <span className="road-leader" aria-hidden="true" />
-                <span className="road-year">Where next</span>
-              </span>
-            </button>
-          </li>
         </ol>
       </div>
-      <p className="road-hint">
-        Each mark on the road is a year of your story, and the coloured dots are what happened in it. The dashed road is what could come next.
-      </p>
+
+      <div className="road-toolbar" role="group" aria-label="Move around the road">
+        <button type="button" className="road-btn" onClick={cam.zoomOut} disabled={level === 'horizon'}>
+          Zoom out
+        </button>
+        <button type="button" className="road-btn" onClick={cam.zoomIn} disabled={level === 'moment'}>
+          Zoom in
+        </button>
+        <button type="button" className="road-btn" onClick={() => cam.step(-1)} disabled={!canPrev}>
+          Previous
+        </button>
+        <button type="button" className="road-btn" onClick={() => cam.step(1)} disabled={!canNext}>
+          Next
+        </button>
+        <button type="button" className="road-btn" onClick={cam.goHorizon} disabled={level === 'horizon'}>
+          Back to the whole road
+        </button>
+        <span className="road-level" aria-live="polite">
+          {LEVEL_LABEL[level]}
+        </span>
+      </div>
+
+      <RoadDetail level={level} focus={focus} model={model} onPickEntry={cam.goEntry} onAsk={onAsk} />
     </section>
   )
 }

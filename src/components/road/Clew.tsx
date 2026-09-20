@@ -1,4 +1,5 @@
 import { useId } from 'react'
+import '../../styles/clew.css'
 
 export type ClewPose = 'idle' | 'walk' | 'think' | 'speak' | 'still'
 

@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { DEMO_OPENER } from '../data/demoPersona'
 import { ApiError, streamCoach } from '../lib/api'
 import type { MemoryEntry } from '../types'
+import { ClewIcon } from './road/Clew'
 import { RoughFrame } from './RoughFrame'
 
 /** A turn in the conversation. Hidden turns go to the coach but are not shown on screen. */
@@ -127,12 +128,7 @@ export function CoachDock({ entries, personName, open, onOpen, onClose, ask }: P
         aria-controls="coach-dock"
       >
         <RoughFrame shape="circle" seed={63} roughness={1.2} />
-        <svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
-          <path className="dock-bubble" d="M5 6 C5 5 6 4 7 4 H25 C26 4 27 5 27 6 V19 C27 20 26 21 25 21 H14 L8 27 V21 H7 C6 21 5 20 5 19 Z" />
-          <circle className="dock-dot" cx="11" cy="12.5" r="1.4" />
-          <circle className="dock-dot" cx="16" cy="12.5" r="1.4" />
-          <circle className="dock-dot" cx="21" cy="12.5" r="1.4" />
-        </svg>
+        <ClewIcon size={36} />
         <span className="dock-label">{open ? 'Close' : 'Coach'}</span>
       </button>
 

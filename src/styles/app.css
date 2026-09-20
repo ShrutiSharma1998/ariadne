@@ -1154,3 +1154,10 @@ main {
     scroll-behavior: auto;
   }
 }
+
+/* The coach beside the name, on every page. */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}

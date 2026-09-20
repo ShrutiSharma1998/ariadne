@@ -5,6 +5,9 @@ export type LayerId = 'sky' | 'far' | 'mid' | 'near'
 
 export type SceneryGroups = Record<LayerId, SVGGElement>
 
+/** The coach's size on the road, in scene units. */
+export const WALKER_SCALE = 1.05
+
 /** How much of a camera move each layer follows: far layers move least, the road itself moves fully. */
 export const LAYER_DEPTH: Record<LayerId, number> = { sky: 0.15, far: 0.35, mid: 0.6, near: 0.85 }
 
