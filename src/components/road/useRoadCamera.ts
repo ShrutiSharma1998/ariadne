@@ -26,6 +26,8 @@ interface Args {
   walkerRef: RefObject<SVGGElement | null>
   /** Called after every camera or coach move, so the markers can follow the scene. */
   onFrame: () => void
+  /** True when the story is read from now back to the start; zooming in then begins at now. */
+  reverse: boolean
 }
 
 /**
@@ -33,7 +35,7 @@ interface Args {
  * counter-transform so far hills move less than near ones. All of it changes imperatively, frame
  * by frame, so React re-renders only when the level or the focus changes.
  */
-export function useRoadCamera({ road, model, svgRef, layers, walkerRef, onFrame }: Args) {
+export function useRoadCamera({ road, model, svgRef, layers, walkerRef, onFrame, reverse }: Args) {
   const [level, setLevel] = useState<Level>('horizon')
   const [focus, setFocus] = useState<Focus>({ year: null, id: null })
   const [pose, setPose] = useState<ClewPose>('idle')
@@ -143,6 +145,13 @@ export function useRoadCamera({ road, model, svgRef, layers, walkerRef, onFrame 
     flyTo(ROAD_W / 2, ROAD_H / 2, ZOOM.horizon, 800)
   }, [flyTo])
 
+  /** The whole road with nothing picked and the coach at now: a fresh start for a new reading order. */
+  const restart = useCallback(() => {
+    setFocus({ year: null, id: null })
+    goHorizon()
+    walkTo(model.nowT, 800)
+  }, [goHorizon, walkTo, model.nowT])
+
   const goYear = useCallback(
     (year: number) => {
       const y = model.years.find((v) => v.year === year)
@@ -175,13 +184,15 @@ export function useRoadCamera({ road, model, svgRef, layers, walkerRef, onFrame 
 
   const zoomIn = useCallback(() => {
     if (level === 'horizon') {
-      const year = focus.year ?? model.years[model.years.length - 1]?.year
+      // Zooming in begins where the story begins: the first year, or the latest when reading back from now.
+      const year = focus.year ?? (reverse ? model.years[model.years.length - 1] : model.years[0])?.year
       if (year !== undefined) goYear(year)
     } else if (level === 'chapter') {
-      const first = model.years.find((v) => v.year === focus.year)?.entries[0]
-      if (first) goStop(first.id)
+      const inYear = model.years.find((v) => v.year === focus.year)?.entries
+      const pick = reverse ? inYear?.[inYear.length - 1] : inYear?.[0]
+      if (pick) goStop(pick.id)
     }
-  }, [level, focus.year, model, goYear, goStop])
+  }, [level, focus.year, model, reverse, goYear, goStop])
 
   const zoomOut = useCallback(() => {
     if (level === 'moment') {
@@ -207,5 +218,5 @@ export function useRoadCamera({ road, model, svgRef, layers, walkerRef, onFrame 
     [level, focus, model, goYear, goStop],
   )
 
-  return { level, focus, pose, walkerT, goHorizon, goYear, goStop, zoomIn, zoomOut, step }
+  return { level, focus, pose, walkerT, goHorizon, restart, goYear, goStop, zoomIn, zoomOut, step }
 }

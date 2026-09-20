@@ -12,6 +12,9 @@
   overflow: hidden;
   border-radius: 14px;
   background: var(--paper);
+  /* Two-finger pinch is ours; one finger still scrolls the page. Nothing here needs text selection. */
+  touch-action: pan-y;
+  user-select: none;
 }
 .road-stage > .rough-frame {
   z-index: 3;

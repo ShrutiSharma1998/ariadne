@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useSyncExternalStore, type KeyboardEvent } from 'react'
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, useSyncExternalStore, type KeyboardEvent } from 'react'
 import { formatRange } from '../../lib/date'
 import { layoutTags, type Box } from '../../lib/roadLayout'
 import { buildRoadModel, createRoad, END_T, ROAD_H, ROAD_W, type RoadPath } from '../../lib/roadModel'
@@ -78,7 +78,10 @@ function RoadScene({ entries, chosen, onAsk, onAskText, onWhereNext }: Props) {
   const flagRefs = useRef<(HTMLLIElement | null)[]>([])
   const placeRef = useRef<() => void>(() => {})
 
-  const cam = useRoadCamera({ road: ROAD, model, svgRef, layers, walkerRef, onFrame: () => placeRef.current() })
+  // Which way the story is read. The road is drawn the same either way; only the walking order changes.
+  const [reverse, setReverse] = useState(false)
+
+  const cam = useRoadCamera({ road: ROAD, model, svgRef, layers, walkerRef, onFrame: () => placeRef.current(), reverse })
   const { level, focus } = cam
   const end = ROAD.at(END_T)
 
@@ -240,6 +243,55 @@ function RoadScene({ entries, chosen, onAsk, onAskText, onWhereNext }: Props) {
     return () => stage.removeEventListener('wheel', onWheel)
   }, [])
 
+  // Two fingers moving apart zoom in; moving together zoom out. One step per gesture, exactly as the
+  // buttons do, and only touch: a mouse has the buttons, the keys and Ctrl with the wheel.
+  useEffect(() => {
+    const stage = stageRef.current
+    if (!stage) return
+    const fingers = new Map<number, { x: number; y: number }>()
+    let startGap = 0
+    let done = false
+    const gap = () => {
+      const [a, b] = [...fingers.values()]
+      return Math.hypot(a.x - b.x, a.y - b.y)
+    }
+    const onDown = (e: PointerEvent) => {
+      if (e.pointerType !== 'touch') return
+      fingers.set(e.pointerId, { x: e.clientX, y: e.clientY })
+      if (fingers.size === 2) {
+        startGap = gap()
+        done = false
+      }
+    }
+    const onMove = (e: PointerEvent) => {
+      if (!fingers.has(e.pointerId)) return
+      fingers.set(e.pointerId, { x: e.clientX, y: e.clientY })
+      if (fingers.size !== 2 || done || startGap < 10) return
+      const ratio = gap() / startGap
+      if (ratio > 1.3) {
+        done = true
+        camRef.current.zoomIn()
+      } else if (ratio < 0.77) {
+        done = true
+        camRef.current.zoomOut()
+      }
+    }
+    const onUp = (e: PointerEvent) => {
+      fingers.delete(e.pointerId)
+      if (fingers.size < 2) startGap = 0
+    }
+    stage.addEventListener('pointerdown', onDown)
+    stage.addEventListener('pointermove', onMove)
+    stage.addEventListener('pointerup', onUp)
+    stage.addEventListener('pointercancel', onUp)
+    return () => {
+      stage.removeEventListener('pointerdown', onDown)
+      stage.removeEventListener('pointermove', onMove)
+      stage.removeEventListener('pointerup', onUp)
+      stage.removeEventListener('pointercancel', onUp)
+    }
+  }, [])
+
   const onKeyDown = (e: KeyboardEvent) => {
     if (e.key === 'Escape' || e.key === '-') cam.zoomOut()
     else if (e.key === '+' || e.key === '=') cam.zoomIn()
@@ -357,14 +409,27 @@ function RoadScene({ entries, chosen, onAsk, onAskText, onWhereNext }: Props) {
         <button type="button" className="road-btn" onClick={cam.zoomIn} disabled={level === 'moment'}>
           Zoom in
         </button>
-        <button type="button" className="road-btn" onClick={() => cam.step(-1)} disabled={!canPrev}>
+        {/* Reading from now back to the start swaps what Previous and Next do. The arrow keys stay spatial. */}
+        <button type="button" className="road-btn" onClick={() => cam.step(reverse ? 1 : -1)} disabled={!(reverse ? canNext : canPrev)}>
           Previous
         </button>
-        <button type="button" className="road-btn" onClick={() => cam.step(1)} disabled={!canNext}>
+        <button type="button" className="road-btn" onClick={() => cam.step(reverse ? -1 : 1)} disabled={!(reverse ? canPrev : canNext)}>
           Next
         </button>
         <button type="button" className="road-btn" onClick={cam.goHorizon} disabled={level === 'horizon'}>
           Back to the whole road
+        </button>
+        <button
+          type="button"
+          className="road-btn"
+          onClick={() => {
+            // A new reading order starts again from the whole road.
+            setReverse((r) => !r)
+            cam.restart()
+          }}
+          aria-label={`Reading order: ${reverse ? 'now to start' : 'start to now'}. Switch to ${reverse ? 'start to now' : 'now to start'}.`}
+        >
+          {reverse ? 'Now to start' : 'Start to now'}
         </button>
         <span className="road-level" aria-live="polite">
           {LEVEL_LABEL[level]}
