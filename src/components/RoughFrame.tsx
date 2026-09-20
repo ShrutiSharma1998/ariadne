@@ -53,7 +53,7 @@ export function RoughFrame({ seed = 1, roughness = 1.4, shape = 'box', dashed = 
           : rc.path(roundedBox(width - inset * 2, height - inset * 2, radius), options)
       if (shape === 'box') node.setAttribute('transform', `translate(${inset} ${inset})`)
       // Paint with the theme colour so light and dark mode both work.
-      node.querySelectorAll('path').forEach((p) => p.style.setProperty('stroke', 'var(--ink-2)'))
+      node.querySelectorAll('path').forEach((p) => p.style.setProperty('stroke', 'var(--sketch)'))
       svg.appendChild(node)
     }
 

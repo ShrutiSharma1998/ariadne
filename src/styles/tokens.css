@@ -1,5 +1,7 @@
 /* Design tokens. Day is the default: warm paper and pencil. Night follows the device unless the
-   visitor picks a theme (data-theme on <html>): the same world after dark, with gold for light. */
+   visitor picks a theme (data-theme on <html>): the same world after dark, with gold for light.
+   The road-journey redesign keeps every existing name and adds three: --sketch, --lantern and
+   --on-accent. design/DESIGN.md has the reasoning and the contrast checks. */
 
 :root {
   color-scheme: light;
@@ -9,18 +11,23 @@
   --paper-deep: #eadfc9;
   --card: #f9f4e9;
 
-  /* Graphite */
+  /* Graphite, and the walnut of the sketch lines (outlines, hatching, contours) */
   --ink: #2b2620;
   --ink-2: #5e554a;
   --line: #b3a68f;
+  --sketch: #6b4e3a;
 
-  /* Accent: clay. --accent is safe for small text on paper; --thread is for strokes. */
-  --accent: #a34a27;
-  --thread: #c4623f;
+  /* Accent: persimmon. --accent is safe for text and button fills, with --on-accent on top of it.
+     --thread is for strokes only (3.2:1 on paper). --lantern is light: the sun and glows, never
+     the only carrier of meaning. */
+  --accent: #a64a1c;
+  --on-accent: #f9f4e9;
+  --thread: #d2622a;
+  --lantern: #e8a736;
   --focus: #1f5f8a;
 
   /* One colour per kind of memory */
-  --k-work: #c4623f;
+  --k-work: #d2622a;
   --k-education: #4e7388;
   --k-volunteering: #b0546f;
   --k-side-project: #6b8555;
@@ -52,8 +59,11 @@
     --ink: #f1e8d3;
     --ink-2: #b9ae9a;
     --line: #524a5e;
+    --sketch: #b9ae9a;
     --accent: #f2c230;
+    --on-accent: #16141c;
     --thread: #e8b93a;
+    --lantern: #f2c230;
     --focus: #7fc0e8;
     --k-work: #e08a66;
     --k-education: #7fb0c8;
@@ -79,8 +89,11 @@
   --ink: #f1e8d3;
   --ink-2: #b9ae9a;
   --line: #524a5e;
+  --sketch: #b9ae9a;
   --accent: #f2c230;
+  --on-accent: #16141c;
   --thread: #e8b93a;
+  --lantern: #f2c230;
   --focus: #7fc0e8;
   --k-work: #e08a66;
   --k-education: #7fb0c8;

@@ -30,8 +30,8 @@ function ThreadRail() {
           <path
             d="M21.5 0 C29 30 13.5 50 21.5 80 C29 110 13.5 130 21.5 160"
             fill="none"
-            stroke="var(--ink-2)"
-            strokeOpacity="0.35"
+            stroke="var(--sketch)"
+            strokeOpacity="0.45"
             strokeWidth="1"
             strokeLinecap="round"
           />

@@ -687,7 +687,7 @@ main {
 .button:hover:not(:disabled) {
   background: var(--accent);
   border-color: var(--accent);
-  color: var(--paper);
+  color: var(--on-accent);
 }
 /* Buttons sit on a hard offset shadow and press down onto it. */
 .button {
