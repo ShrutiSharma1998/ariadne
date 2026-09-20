@@ -16,6 +16,7 @@ import type { MemoryEntry } from './types'
 type ThemeChoice = 'auto' | 'light' | 'dark'
 type View = 'timeline' | 'paths'
 
+const MAX_ENTRIES = 40
 const THEME_KEY = 'ariadne-theme'
 const THEME_ORDER: ThemeChoice[] = ['auto', 'light', 'dark']
 const THEME_LABEL: Record<ThemeChoice, string> = {
@@ -123,6 +124,22 @@ export default function App() {
     // The first time only: say where the timeline lives, and how to keep a copy.
     if (!own) parts.push('It is saved only in this browser. Open Your data and choose Save a backup to keep a copy.')
     setNotice(parts.join(' '))
+  }
+
+  /**
+   * Adds what the person said in the coach chat, after they confirmed it. Unlike an upload, it leaves the
+   * page, the chat and the paths as they are. Returns how many were new, or -1 when the timeline is full.
+   */
+  function handleAddFromChat(incoming: MemoryEntry[]): number {
+    const before = own?.length ?? 0
+    const merged = mergeEntries(own ?? [], incoming)
+    // The server and the saved copy both hold at most 40 experiences.
+    if (merged.length > MAX_ENTRIES) return -1
+    setOwn(merged)
+    if (!saveStory(merged)) {
+      setNotice('Your browser would not save this timeline. Open Your data and choose Save a backup so you do not lose it.')
+    }
+    return merged.length - before
   }
 
   async function handleImport(file: File | undefined) {
@@ -315,6 +332,7 @@ export default function App() {
         onClose={() => setDockOpen(false)}
         ask={ask}
         path={chosen ? toCoachPath(chosen) : undefined}
+        onAddEntries={isSample ? undefined : handleAddFromChat}
       />
     </>
   )

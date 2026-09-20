@@ -653,6 +653,26 @@ main {
   background: var(--paper);
 }
 
+/* Under a message you typed: pick the experiences out of it, and add them only if you say so. */
+.bubble-action {
+  margin-top: 8px;
+  font-size: 0.95rem;
+}
+.add-preview {
+  padding: 10px 12px;
+  background: var(--paper-deep);
+  border-radius: 10px 13px 9px 12px;
+}
+.add-preview ul {
+  display: grid;
+  gap: 4px;
+  margin: 6px 0 0 18px;
+  list-style: disc;
+}
+.add-preview .upload-row {
+  margin-top: 10px;
+}
+
 .chat-form {
   display: grid;
   grid-template-columns: 1fr auto;

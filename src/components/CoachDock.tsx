@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { DEMO_OPENER } from '../data/demoPersona'
 import { ApiError, streamCoach, type CoachPath } from '../lib/api'
 import type { MemoryEntry } from '../types'
+import { AddFromMessage } from './AddFromMessage'
 import { ClewIcon, type ClewPose } from './road/Clew'
 import { RoughFrame } from './RoughFrame'
 
@@ -10,6 +11,8 @@ interface Turn {
   role: 'user' | 'assistant'
   content: string
   hidden?: boolean
+  /** Written by the person in the box, not sent by a starter chip or "Ask the coach about this". */
+  typed?: boolean
 }
 
 export interface AskRequest {
@@ -27,6 +30,8 @@ interface Props {
   ask: AskRequest | null
   /** The path the person chose, so the coach can ask how its first steps are going. */
   path?: CoachPath
+  /** Adds entries to the person's own timeline and returns how many were new. Absent for the sample story. */
+  onAddEntries?: (entries: MemoryEntry[]) => number
 }
 
 const OPENER_PROMPT =
@@ -35,7 +40,7 @@ const OPENER_PROMPT =
 const STARTERS = ['What patterns do you notice in my timeline?', 'What might I be overlooking?']
 
 /** A floating chat: a round button that opens the coach over whatever page you are on. */
-export function CoachDock({ entries, personName, open, onOpen, onClose, ask, path }: Props) {
+export function CoachDock({ entries, personName, open, onOpen, onClose, ask, path, onAddEntries }: Props) {
   const [turns, setTurns] = useState<Turn[]>([])
   const [draft, setDraft] = useState('')
   const [busy, setBusy] = useState(false)
@@ -64,10 +69,10 @@ export function CoachDock({ entries, personName, open, onOpen, onClose, ask, pat
     wasOpen.current = open
   }, [open])
 
-  async function send(text: string, hidden = false) {
+  async function send(text: string, hidden = false, typed = false) {
     const content = text.trim()
     if (!content || busy) return
-    const history: Turn[] = [...turns, { role: 'user', content, hidden }]
+    const history: Turn[] = [...turns, { role: 'user', content, hidden, typed }]
     setTurns([...history, { role: 'assistant', content: '' }])
     setDraft('')
     setError(null)
@@ -174,6 +179,7 @@ export function CoachDock({ entries, personName, open, onOpen, onClose, ask, pat
               <div key={i} className={`bubble bubble-${t.role}`}>
                 <span className="bubble-who">{t.role === 'user' ? 'You' : 'Coach'}</span>
                 <p>{t.content || (busy && i === lastIndex ? (checking ? 'Checking that you are a person' : 'Thinking') : '')}</p>
+                {t.role === 'user' && t.typed && onAddEntries && <AddFromMessage text={t.content} onAdd={onAddEntries} />}
               </div>
             ),
           )}
@@ -196,7 +202,7 @@ export function CoachDock({ entries, personName, open, onOpen, onClose, ask, pat
           className="chat-form"
           onSubmit={(e) => {
             e.preventDefault()
-            void send(draft)
+            void send(draft, false, true)
           }}
         >
           <label className="sr-only" htmlFor="chat-input">
@@ -213,7 +219,7 @@ export function CoachDock({ entries, personName, open, onOpen, onClose, ask, pat
             onKeyDown={(e) => {
               if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault()
-                void send(draft)
+                void send(draft, false, true)
               }
             }}
             placeholder="Write a message. Press Enter to send."
