@@ -1,4 +1,5 @@
 import type { EntryKind, MemoryEntry } from '../types'
+import type { Trajectory } from './api'
 import { byStart, yearOf } from './date'
 
 /** The scene is drawn once on a fixed canvas and scaled to fit, so nothing is redrawn on resize. */
@@ -85,7 +86,11 @@ export function createRoad(anchors: [number, number][] = ANCHORS): Road {
   return { d, length, at }
 }
 
+/** What the road needs to know about the path the person chose. */
+export type RoadPath = Pick<Trajectory, 'title' | 'summary' | 'firstSteps'>
+
 export interface EntryStop {
+  type: 'entry'
   id: string
   entry: MemoryEntry
   year: number
@@ -100,28 +105,61 @@ export interface YearStop {
   kinds: EntryKind[]
 }
 
+/** One of the chosen path's first steps, a possibility on the dashed part of the road. */
+export interface MilestoneStop {
+  type: 'milestone'
+  id: string
+  /** Its place among the steps, counting from 1. */
+  n: number
+  total: number
+  action: string
+  howToFind: string
+  t: number
+}
+
+/** The end of the road, when a path has been chosen. */
+export interface DestinationStop {
+  type: 'destination'
+  id: 'destination'
+  title: string
+  summary: string
+  t: number
+}
+
+/** Anything the coach can walk to when the road is zoomed in. */
+export type Stop = EntryStop | MilestoneStop | DestinationStop
+
 export interface RoadModel {
   entries: EntryStop[]
   years: YearStop[]
   /** Where the story ends and the possible paths begin. */
   nowT: number
+  /** The chosen path's first steps and its end. Both are empty when no path is chosen. */
+  milestones: MilestoneStop[]
+  destination: DestinationStop | null
+  /** Every stop in walking order: experiences, then the chosen path's steps, then its end. */
+  stops: Stop[]
 }
 
 /** Where the "Where next" fork sits: the very end of the road. */
 export const END_T = 1
 
+/** No more than this many first steps go on the road; more would crowd it. */
+export const MAX_MILESTONES = 6
+
 /**
  * Entries are spaced evenly along the road, with a little extra room between years. Spacing by date
  * would crowd busy years together and leave quiet ones empty, which reads badly at any zoom.
+ * With a chosen path, the experiences use the first part of the road and the path's steps the last.
  */
-export function buildRoadModel(all: MemoryEntry[]): RoadModel {
+export function buildRoadModel(all: MemoryEntry[], chosen: RoadPath | null = null): RoadModel {
   const sorted = [...all].sort(byStart)
-  if (sorted.length === 0) return { entries: [], years: [], nowT: 0.5 }
+  if (sorted.length === 0) return { entries: [], years: [], nowT: 0.5, milestones: [], destination: null, stops: [] }
 
   const SAME_YEAR = 0.7
   const NEW_YEAR = 1
   const FIRST = 0.08
-  const LAST = 0.9
+  const LAST = chosen ? 0.62 : 0.9
 
   const slots: number[] = []
   let slot = 0
@@ -132,6 +170,7 @@ export function buildRoadModel(all: MemoryEntry[]): RoadModel {
   const span = slots[slots.length - 1] || 1
 
   const entries: EntryStop[] = sorted.map((entry, i) => ({
+    type: 'entry',
     id: entry.id,
     entry,
     year: yearOf(entry.start),
@@ -150,5 +189,24 @@ export function buildRoadModel(all: MemoryEntry[]): RoadModel {
   }
   for (const y of years) y.t = y.entries.reduce((sum, s) => sum + s.t, 0) / y.entries.length
 
-  return { entries, years, nowT: entries[entries.length - 1].t }
+  const milestones: MilestoneStop[] = []
+  let destination: DestinationStop | null = null
+  if (chosen) {
+    const steps = chosen.firstSteps.slice(0, MAX_MILESTONES)
+    steps.forEach((s, i) => {
+      milestones.push({
+        type: 'milestone',
+        id: `step-${i + 1}`,
+        n: i + 1,
+        total: steps.length,
+        action: s.action,
+        howToFind: s.howToFind,
+        t: steps.length === 1 ? 0.82 : 0.7 + (0.25 * i) / (steps.length - 1),
+      })
+    })
+    destination = { type: 'destination', id: 'destination', title: chosen.title, summary: chosen.summary, t: END_T }
+  }
+
+  const stops: Stop[] = [...entries, ...milestones, ...(destination ? [destination] : [])]
+  return { entries, years, nowT: entries[entries.length - 1].t, milestones, destination, stops }
 }

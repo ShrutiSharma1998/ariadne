@@ -8,7 +8,7 @@ import { RoadView } from './components/road/RoadView'
 import { UploadPanel } from './components/UploadPanel'
 import { DEMO_NAME, demoEntries } from './data/demoPersona'
 import { getConfig } from './lib/api'
-import type { PathsSlot } from './lib/pathsStorage'
+import { chosenPath, type PathsSlot } from './lib/pathsStorage'
 import { clearStory, exportStoryFile, loadStory, readStoryFile, saveStory } from './lib/storage'
 import { usePathsStore } from './lib/usePathsStore'
 import type { MemoryEntry } from './types'
@@ -92,6 +92,7 @@ export default function App() {
     setNotice('Your browser would not save your paths. They will be lost when you leave this page.'),
   )
   const pathsSlot: PathsSlot = isSample ? 'sample' : 'own'
+  const chosen = chosenPath(pathsSlot, pathsStore.store[pathsSlot])
 
   useEffect(() => {
     const root = document.documentElement
@@ -152,13 +153,17 @@ export default function App() {
 
   const nextTheme = THEME_ORDER[(THEME_ORDER.indexOf(theme) + 1) % THEME_ORDER.length]
 
+  /** Opens the coach with a message already written. */
+  function askCoach(text: string) {
+    setAsk({ nonce: Date.now(), text })
+    setDockOpen(true)
+  }
+
   /** Opens the coach about one experience, from the road. */
   function askAbout(entry: MemoryEntry) {
-    setAsk({
-      nonce: Date.now(),
-      text: `I'd like to talk about "${entry.title}"${entry.org ? ` at ${entry.org}` : ''}. What stands out to you about it, and what should I explore next?`,
-    })
-    setDockOpen(true)
+    askCoach(
+      `I'd like to talk about "${entry.title}"${entry.org ? ` at ${entry.org}` : ''}. What stands out to you about it, and what should I explore next?`,
+    )
   }
 
   return (
@@ -264,7 +269,13 @@ export default function App() {
       <main id="content">
         {view === 'timeline' && (
           <>
-            <RoadView entries={entries} onAsk={askAbout} onWhereNext={() => setView('paths')} />
+            <RoadView
+              entries={entries}
+              chosen={chosen}
+              onAsk={askAbout}
+              onAskText={askCoach}
+              onWhereNext={() => setView('paths')}
+            />
             <div id="build" className="build">
               {isSample ? (
                 <UploadPanel onLoaded={handleLoaded} />
@@ -284,6 +295,7 @@ export default function App() {
             isSample={isSample}
             saved={pathsStore.store[pathsSlot]}
             onChange={(patch) => pathsStore.update(pathsSlot, patch)}
+            onShowRoad={() => setView('timeline')}
           />
         )}
       </main>

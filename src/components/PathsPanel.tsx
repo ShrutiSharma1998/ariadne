@@ -13,6 +13,8 @@ interface Props {
   /** What this browser remembers for this story. Every change is saved as it happens. */
   saved: SavedPaths
   onChange: (patch: Partial<SavedPaths> | ((current: SavedPaths) => Partial<SavedPaths>)) => void
+  /** Goes back to the timeline, where the chosen path is drawn at the end of the road. */
+  onShowRoad: () => void
 }
 
 const CONFIDENCE_LABEL: Record<Trajectory['confidence'], string> = {
@@ -68,7 +70,7 @@ function Insights({ entries }: { entries: MemoryEntry[] }) {
 }
 
 /** The path the person is going with, near the top of the page. */
-function ChosenSummary({ path, onChange }: { path: Trajectory; onChange: () => void }) {
+function ChosenSummary({ path, onChange, onShowRoad }: { path: Trajectory; onChange: () => void; onShowRoad: () => void }) {
   return (
     <section className="card chosen-summary" aria-labelledby="chosen-title">
       <RoughFrame seed={seedFrom(`chosen-${path.title}`)} />
@@ -87,8 +89,11 @@ function ChosenSummary({ path, onChange }: { path: Trajectory; onChange: () => v
           </ol>
         </>
       )}
-      <p className="status">Saved in this browser.</p>
+      <p className="status">Saved in this browser. It is drawn at the end of your road, with these steps as dashed markers.</p>
       <div className="upload-row">
+        <button type="button" className="button" onClick={onShowRoad}>
+          See it on my road
+        </button>
         <button type="button" className="button button-outline" onClick={onChange}>
           Choose a different path
         </button>
@@ -219,7 +224,7 @@ function PathCard({
   )
 }
 
-export function PathsPanel({ entries, isSample, saved, onChange }: Props) {
+export function PathsPanel({ entries, isSample, saved, onChange, onShowRoad }: Props) {
   const slot: PathsSlot = isSample ? 'sample' : 'own'
   const result = currentPaths(slot, saved)
   const chosen = chosenPath(slot, saved)
@@ -251,7 +256,7 @@ export function PathsPanel({ entries, isSample, saved, onChange }: Props) {
 
   function goWith(title: string) {
     onChange({ chosen: title })
-    setNote(`Saved. "${title}" is now your chosen path.`)
+    setNote(`Saved. "${title}" is now your chosen path, and it ends your road on the Timeline.`)
   }
 
   function chooseAnother() {
@@ -311,7 +316,7 @@ export function PathsPanel({ entries, isSample, saved, onChange }: Props) {
         {note}
       </p>
 
-      {chosen && <ChosenSummary path={chosen} onChange={chooseAnother} />}
+      {chosen && <ChosenSummary path={chosen} onChange={chooseAnother} onShowRoad={onShowRoad} />}
 
       <Insights entries={entries} />
 

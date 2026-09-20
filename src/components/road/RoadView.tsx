@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useSyncExternalStore, type KeyboardEvent } from 'react'
 import { formatRange } from '../../lib/date'
 import { layoutTags, type Box } from '../../lib/roadLayout'
-import { buildRoadModel, createRoad, END_T, ROAD_H, ROAD_W } from '../../lib/roadModel'
+import { buildRoadModel, createRoad, END_T, ROAD_H, ROAD_W, type RoadPath } from '../../lib/roadModel'
 import type { EntryKind, MemoryEntry } from '../../types'
 import '../../styles/road.css'
 import { RoughFrame } from '../RoughFrame'
@@ -12,9 +12,13 @@ import { useRoadCamera, type Level } from './useRoadCamera'
 
 interface Props {
   entries: MemoryEntry[]
+  /** The path the person is going with, if they chose one. Its first steps become milestones. */
+  chosen: RoadPath | null
   /** "Ask the coach about this" was chosen for an experience. */
   onAsk: (entry: MemoryEntry) => void
-  /** "Where next" was chosen: go to the paths page. */
+  /** The coach was asked about something else, such as a step of the chosen path. */
+  onAskText: (text: string) => void
+  /** "Where next" was chosen, or the chosen path should be opened: go to the paths page. */
   onWhereNext: () => void
 }
 
@@ -30,7 +34,7 @@ const LEVEL_LABEL: Record<Level, string> = { horizon: 'The whole road', chapter:
 
 interface Marker {
   key: string
-  kind: 'year' | 'entry' | 'next'
+  kind: 'year' | 'entry' | 'milestone' | 'destination' | 'next'
   t: number
   label: string
   /** The accessible name of the button. */
@@ -58,13 +62,13 @@ function useNarrow(): boolean {
  * A different story starts again from the whole road, with a fresh camera.
  */
 export function RoadView(props: Props) {
-  const { entries } = props
-  const storyKey = `${entries.length}:${entries[0]?.id ?? ''}:${entries[entries.length - 1]?.id ?? ''}`
+  const { entries, chosen } = props
+  const storyKey = `${entries.length}:${entries[0]?.id ?? ''}:${entries[entries.length - 1]?.id ?? ''}:${chosen?.title ?? ''}`
   return <RoadScene key={storyKey} {...props} />
 }
 
-function RoadScene({ entries, onAsk, onWhereNext }: Props) {
-  const model = useMemo(() => buildRoadModel(entries), [entries])
+function RoadScene({ entries, chosen, onAsk, onAskText, onWhereNext }: Props) {
+  const model = useMemo(() => buildRoadModel(entries, chosen), [entries, chosen])
   const narrow = useNarrow()
 
   const stageRef = useRef<HTMLDivElement>(null)
@@ -84,9 +88,22 @@ function RoadScene({ entries, onAsk, onWhereNext }: Props) {
     if (g.sky && g.far && g.mid && g.near) drawScenery({ sky: g.sky, far: g.far, mid: g.mid, near: g.near })
   }, [])
 
-  // From the whole road, the markers are years. Zoomed in, they are the experiences.
+  // From the whole road, the markers are years. Zoomed in, they are the experiences, then the chosen
+  // path's steps. The end of the road is "Where next" until a path is chosen, then that path.
   const markers = useMemo<Marker[]>(() => {
-    const next: Marker = { key: 'next', kind: 'next', t: END_T, label: 'Where next', name: 'Where next: see possible paths', dots: [], current: false, onClick: onWhereNext }
+    const dest = model.destination
+    const next: Marker = dest
+      ? {
+          key: dest.id,
+          kind: 'destination',
+          t: END_T,
+          label: `Your path: ${dest.title}`,
+          name: `Your path: ${dest.title}. See details.`,
+          dots: [],
+          current: focus.id === dest.id,
+          onClick: () => cam.goStop(dest.id),
+        }
+      : { key: 'next', kind: 'next', t: END_T, label: 'Where next', name: 'Where next: see possible paths', dots: [], current: false, onClick: onWhereNext }
     if (level === 'horizon') {
       return [
         ...model.years.map((y) => ({
@@ -111,11 +128,21 @@ function RoadScene({ entries, onAsk, onWhereNext }: Props) {
         name: `${s.entry.title}, ${formatRange(s.entry)}. See its story.`,
         dots: [s.entry.kind],
         current: focus.id === s.id,
-        onClick: () => cam.goEntry(s.id),
+        onClick: () => cam.goStop(s.id),
+      })),
+      ...model.milestones.map((m) => ({
+        key: m.id,
+        kind: 'milestone' as const,
+        t: m.t,
+        label: `Step ${m.n}: ${m.action}`,
+        name: `Next step ${m.n} of ${m.total}: ${m.action.replace(/[.!?]+$/, '')}. See details.`,
+        dots: [],
+        current: focus.id === m.id,
+        onClick: () => cam.goStop(m.id),
       })),
       next,
     ]
-  }, [level, focus.id, model, onWhereNext, cam.goYear, cam.goEntry]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [level, focus.id, model, onWhereNext, cam.goYear, cam.goStop]) // eslint-disable-line react-hooks/exhaustive-deps
 
   /** Puts each marker on its spot in the scene, and each label on a free side of its marker. */
   const place = useCallback(() => {
@@ -146,7 +173,10 @@ function RoadScene({ entries, onAsk, onWhereNext }: Props) {
     const boxes: Box[] = shown.map((i) => ({ x: spots[i].x - 14 * unit, y: spots[i].y - 14 * unit, w: 28 * unit, h: 28 * unit }))
     const tags = shown.map((i, k) => {
       const tag = flagRefs.current[i]?.querySelector<HTMLElement>('.road-tag')
-      return { x: spots[i].x, y: spots[i].y, w: tag?.offsetWidth ?? 60, h: tag?.offsetHeight ?? 28, prefer: (k % 2 ? 'down' : 'up') as 'up' | 'down' }
+      const kind = markers[i].kind
+      // The end of the road and the place you are looking at keep their labels first.
+      const priority = kind === 'next' || kind === 'destination' ? 3 : markers[i].current ? 2 : 0
+      return { x: spots[i].x, y: spots[i].y, w: tag?.offsetWidth ?? 60, h: tag?.offsetHeight ?? 28, prefer: (k % 2 ? 'down' : 'up') as 'up' | 'down', priority }
     })
     const placed = layoutTags(tags, { w: bounds.width, h: bounds.height }, obstacles, boxes, Math.round(nodeR + 10))
 
@@ -154,6 +184,8 @@ function RoadScene({ entries, onAsk, onWhereNext }: Props) {
       const li = flagRefs.current[i]
       if (!li) return
       const p = placed[k]
+      // A label with no clear spot waits behind its marker until the marker is hovered or focused.
+      li.classList.toggle('road-flag-crowded', !p.fits)
       li.style.transform = `translate(${spots[i].x}px, ${spots[i].y}px)`
       li.style.setProperty('--tx', `${p.dx}px`)
       li.style.setProperty('--ty', `${p.dy}px`)
@@ -162,9 +194,12 @@ function RoadScene({ entries, onAsk, onWhereNext }: Props) {
       if (p.side === 'up') {
         li.style.setProperty('--ly', `${tags[k].h}px`)
         li.style.setProperty('--ll', `${Math.max(0, -(p.dy + tags[k].h) - nodeR)}px`)
-      } else {
+      } else if (p.side === 'down') {
         li.style.setProperty('--ly', `${-Math.max(0, p.dy - nodeR)}px`)
         li.style.setProperty('--ll', `${Math.max(0, p.dy - nodeR)}px`)
+      } else {
+        // A label beside its marker is close enough to need no leader line.
+        li.style.setProperty('--ll', '0px')
       }
     })
   }, [markers, cam.walkerT])
@@ -215,9 +250,9 @@ function RoadScene({ entries, onAsk, onWhereNext }: Props) {
   }
 
   const yearIdx = model.years.findIndex((y) => y.year === focus.year)
-  const entryIdx = model.entries.findIndex((s) => s.id === focus.id)
-  const canPrev = level === 'chapter' ? yearIdx > 0 : level === 'moment' ? entryIdx > 0 : false
-  const canNext = level === 'chapter' ? yearIdx >= 0 && yearIdx < model.years.length - 1 : level === 'moment' ? entryIdx >= 0 && entryIdx < model.entries.length - 1 : false
+  const stopIdx = model.stops.findIndex((s) => s.id === focus.id)
+  const canPrev = level === 'chapter' ? yearIdx > 0 : level === 'moment' ? stopIdx > 0 : false
+  const canNext = level === 'chapter' ? yearIdx >= 0 && yearIdx < model.years.length - 1 : level === 'moment' ? stopIdx >= 0 && stopIdx < model.stops.length - 1 : false
 
   return (
     <section className="road" aria-label="Your story as a road" onKeyDown={onKeyDown}>
@@ -246,12 +281,21 @@ function RoadScene({ entries, onAsk, onWhereNext }: Props) {
             </g>
 
             <g className="road-fork" filter="url(#pencil)">
-              {FORK.map(([x, y]) => (
-                <g key={`${x}-${y}`}>
-                  <path d={`M${end.x},${end.y} C${end.x + 20},${end.y - 30} ${x - 30},${y + 24} ${x},${y}`} />
-                  <circle cx={x} cy={y} r="5" />
+              {model.destination ? (
+                // One branch, ending in a flag: the person has picked where they are headed.
+                <g>
+                  <path d={`M${end.x},${end.y} C${end.x + 20},${end.y - 30} ${FORK[0][0] - 30},${FORK[0][1] + 24} ${FORK[0][0]},${FORK[0][1]}`} />
+                  <path className="road-flag-pole" d={`M${FORK[0][0]},${FORK[0][1]} L${FORK[0][0]},${FORK[0][1] - 30}`} />
+                  <path className="road-flag-cloth" d={`M${FORK[0][0]},${FORK[0][1] - 30} L${FORK[0][0] + 20},${FORK[0][1] - 23} L${FORK[0][0]},${FORK[0][1] - 16} Z`} />
                 </g>
-              ))}
+              ) : (
+                FORK.map(([x, y]) => (
+                  <g key={`${x}-${y}`}>
+                    <path d={`M${end.x},${end.y} C${end.x + 20},${end.y - 30} ${x - 30},${y + 24} ${x},${y}`} />
+                    <circle cx={x} cy={y} r="5" />
+                  </g>
+                ))
+              )}
             </g>
 
             {model.entries.map((s) => {
@@ -263,6 +307,11 @@ function RoadScene({ entries, onAsk, onWhereNext }: Props) {
               {model.years.map((y) => {
                 const p = ROAD.at(y.t)
                 return <circle key={y.year} className="road-node" cx={p.x} cy={p.y} r="9" />
+              })}
+              {/* The chosen path's steps: dashed, because they have not happened yet. */}
+              {model.milestones.map((m) => {
+                const p = ROAD.at(m.t)
+                return <circle key={m.id} className="road-node road-node-step" cx={p.x} cy={p.y} r="6.5" />
               })}
               <circle className="road-node road-node-next" cx={end.x} cy={end.y} r="10" />
             </g>
@@ -281,7 +330,7 @@ function RoadScene({ entries, onAsk, onWhereNext }: Props) {
               ref={(el) => {
                 flagRefs.current[i] = el
               }}
-              className={`road-flag road-flag-${mk.kind}${level === 'moment' && mk.kind === 'entry' && !mk.current ? ' road-flag-quiet' : ''}`}
+              className={`road-flag road-flag-${mk.kind}${level === 'moment' && (mk.kind === 'entry' || mk.kind === 'milestone') && !mk.current ? ' road-flag-quiet' : ''}`}
             >
               <button type="button" className="road-flag-btn" aria-label={mk.name} aria-current={mk.current ? 'true' : undefined} onClick={mk.onClick}>
                 <span className="road-tag" data-kind={mk.kind}>
@@ -322,7 +371,15 @@ function RoadScene({ entries, onAsk, onWhereNext }: Props) {
         </span>
       </div>
 
-      <RoadDetail level={level} focus={focus} model={model} onPickEntry={cam.goEntry} onAsk={onAsk} />
+      <RoadDetail
+        level={level}
+        focus={focus}
+        model={model}
+        onPickEntry={cam.goStop}
+        onAsk={onAsk}
+        onAskText={onAskText}
+        onOpenPaths={onWhereNext}
+      />
     </section>
   )
 }

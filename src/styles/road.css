@@ -281,3 +281,64 @@
     font-size: 0.8rem;
   }
 }
+/* ---------- The chosen path: dashed steps, a flag at the end ---------- */
+
+/* Dashed, because a step has not happened yet. Smaller than a year's node, so the road stays calm. */
+.road-node-step {
+  stroke-dasharray: 3 3;
+}
+.road-fork .road-flag-pole {
+  stroke-dasharray: none;
+}
+.road-fork .road-flag-cloth {
+  fill: var(--card);
+  stroke-dasharray: none;
+  stroke-linejoin: round;
+}
+.road-flag-destination .road-year {
+  color: var(--accent);
+}
+/* A path's name or a step's text can be long: one line, cut with an ellipsis. */
+.road-tag[data-kind='milestone'] .road-year,
+.road-tag[data-kind='destination'] .road-year {
+  max-width: 22ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+}
+.road-flag-destination .road-flag-btn:hover .road-year {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.road-detail-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 16px;
+  margin-top: 12px;
+}
+.road-detail-actions .button {
+  margin-top: 0;
+}
+@media (max-width: 640px) {
+  .road-tag[data-kind='milestone'] .road-year,
+  .road-tag[data-kind='destination'] .road-year {
+    max-width: 12ch;
+    font-size: 0.8rem;
+  }
+}
+
+/* ---------- Crowded labels: kept out of the way until the marker is hovered or focused ---------- */
+
+.road-flag-crowded .road-tag {
+  opacity: 0;
+}
+.road-flag:hover,
+.road-flag:focus-within {
+  z-index: 3;
+}
+.road-flag-crowded .road-flag-btn:hover .road-tag,
+.road-flag-crowded .road-flag-btn:focus-visible .road-tag {
+  opacity: 1;
+}

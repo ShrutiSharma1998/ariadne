@@ -157,14 +157,16 @@ export function useRoadCamera({ road, model, svgRef, layers, walkerRef, onFrame 
     [model, road, flyTo, walkTo],
   )
 
-  const goEntry = useCallback(
+  /** Walks to one stop and looks at it closely: an experience, a step of the chosen path, or its end. */
+  const goStop = useCallback(
     (id: string) => {
-      const s = model.entries.find((v) => v.id === id)
+      const s = model.stops.find((v) => v.id === id)
       if (!s) return
       const p = road.at(s.t)
       const ms = duration(walkerT.current, s.t)
       setLevel('moment')
-      setFocus({ year: s.year, id })
+      // Only experiences belong to a year; the chosen path's steps sit beyond them.
+      setFocus({ year: s.type === 'entry' ? s.year : null, id })
       flyTo(p.x, p.y - 30, ZOOM.moment, ms)
       walkTo(s.t, ms)
     },
@@ -177,16 +179,19 @@ export function useRoadCamera({ road, model, svgRef, layers, walkerRef, onFrame 
       if (year !== undefined) goYear(year)
     } else if (level === 'chapter') {
       const first = model.years.find((v) => v.year === focus.year)?.entries[0]
-      if (first) goEntry(first.id)
+      if (first) goStop(first.id)
     }
-  }, [level, focus.year, model, goYear, goEntry])
+  }, [level, focus.year, model, goYear, goStop])
 
   const zoomOut = useCallback(() => {
-    if (level === 'moment' && focus.year !== null) goYear(focus.year)
-    else if (level === 'chapter') goHorizon()
+    if (level === 'moment') {
+      // A step or the end of a chosen path has no year to go back to, so it goes back to the whole road.
+      if (focus.year !== null) goYear(focus.year)
+      else goHorizon()
+    } else if (level === 'chapter') goHorizon()
   }, [level, focus.year, goYear, goHorizon])
 
-  /** Previous (-1) or next (1): a year in the chapter view, an experience in the moment view. */
+  /** Previous (-1) or next (1): a year in the chapter view, the next stop in the moment view. */
   const step = useCallback(
     (n: -1 | 1) => {
       if (level === 'chapter') {
@@ -194,13 +199,13 @@ export function useRoadCamera({ road, model, svgRef, layers, walkerRef, onFrame 
         const next = model.years[i + n]
         if (next) goYear(next.year)
       } else if (level === 'moment') {
-        const i = model.entries.findIndex((v) => v.id === focus.id)
-        const next = model.entries[i + n]
-        if (next) goEntry(next.id)
+        const i = model.stops.findIndex((v) => v.id === focus.id)
+        const next = model.stops[i + n]
+        if (next) goStop(next.id)
       }
     },
-    [level, focus, model, goYear, goEntry],
+    [level, focus, model, goYear, goStop],
   )
 
-  return { level, focus, pose, walkerT, goHorizon, goYear, goEntry, zoomIn, zoomOut, step }
+  return { level, focus, pose, walkerT, goHorizon, goYear, goStop, zoomIn, zoomOut, step }
 }
