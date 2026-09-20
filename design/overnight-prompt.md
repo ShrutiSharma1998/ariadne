@@ -44,6 +44,7 @@ For the owner. This file is the whole brief for an unattended run. A scheduled r
 6. Local mode: read `C:\Users\Shruti Sharma\OneDrive\Documents\Claude Tracker\TODO.md` (Ariadne section) so you know the owner's current view. Cloud mode cannot reach it: skip.
 
 **E. Ways of working.**
+- Shell differences: the commands in this file are written for Windows PowerShell (local mode). In cloud mode the shell is most likely bash on Linux: read exit codes with `$?`, set mock mode with `MOCK_AI=1 npm ...`, write commit messages with `git commit -F <file>` or normal quoting, and use the repository path you were given instead of `C:\Users\...`. The rules themselves (boundaries, verification, no byte-order mark) do not change.
 - Use these skills: `frontend-design` before writing any UI; `react-best-practices` for structure; `verification-before-completion` before every claim of done; `web-design-guidelines` in Task 7.
 - One commit per task, made only after verification. Subject `Task N: ...`, a short body, and the trailer `Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>`. On Windows PowerShell 5.1 a double quote inside a `git commit -m` message breaks the command: use a single-quoted here-string with no double quotes in the text.
 - After every task run `npx tsc -b`, `npm run lint` and `npm run build` and confirm each exits 0. Run `npm run smoke` after Task 6 and at the end. Report results from exit codes, not from skimming output. Never write "should work".
