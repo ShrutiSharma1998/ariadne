@@ -1,0 +1,244 @@
+/* The road view: your story as a hand-drawn road. Colours come from tokens.css only. */
+
+.road {
+  margin-top: 8px;
+}
+
+.road-stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 2 / 1;
+  min-height: 300px;
+  overflow: hidden;
+  border-radius: 14px;
+  background: var(--paper);
+}
+.road-stage > .rough-frame {
+  z-index: 3;
+}
+
+.road-scene {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+@media (max-width: 640px) {
+  .road-stage {
+    aspect-ratio: auto;
+    height: 280px;
+    min-height: 0;
+  }
+  /* A small scene has room for the year and little else. */
+  .road-year {
+    font-size: 1.05rem;
+  }
+  .road-kinds {
+    display: none;
+  }
+}
+
+/* ---------- The road itself: a narrow bed with pencil edges and one fine thread ---------- */
+
+.road-edge,
+.road-fill,
+.road-thread {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.road-edge {
+  stroke: var(--sketch);
+  stroke-width: 22;
+}
+.road-fill {
+  stroke: var(--card);
+  stroke-width: 19.5;
+}
+/* Solid where the person has been (it came from their files), dashed for what could be. */
+.road-ahead {
+  stroke: var(--sketch);
+  stroke-width: 2;
+  stroke-dasharray: 8 7;
+  opacity: 0.7;
+}
+.road-done {
+  stroke: var(--thread);
+  stroke-width: 3.2;
+}
+
+.road-fork path {
+  fill: none;
+  stroke: var(--sketch);
+  stroke-width: 2.4;
+  stroke-dasharray: 8 7;
+  stroke-linecap: round;
+}
+.road-fork circle {
+  fill: var(--paper);
+  stroke: var(--sketch);
+  stroke-width: 2;
+}
+
+.road-node {
+  fill: var(--card);
+  stroke: var(--sketch);
+  stroke-width: 2.2;
+}
+.road-node-next {
+  stroke-dasharray: 4 3;
+}
+.road-dot {
+  stroke: var(--sketch);
+  stroke-width: 0.8;
+}
+
+/* ---------- Markers: real buttons laid over the scene ---------- */
+
+.road-flags {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  pointer-events: none;
+}
+.road-flag {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.road-flag-btn {
+  position: absolute;
+  left: -22px;
+  top: -22px;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+/* The label sits on a free side of its marker, with a fine leader line back to it. */
+.road-tag {
+  position: absolute;
+  left: 22px;
+  top: 22px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transform: translate(var(--tx, -8px), var(--ty, -56px));
+  white-space: nowrap;
+  pointer-events: none;
+}
+.road-year {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.3rem;
+  line-height: 1.1;
+  color: var(--ink);
+  /* A paper-coloured halo keeps the label readable over the hatching. */
+  text-shadow:
+    0 0 3px var(--paper),
+    0 0 3px var(--paper),
+    0 0 6px var(--paper),
+    0 0 6px var(--paper);
+}
+.road-flag-btn:hover .road-year {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  color: var(--accent);
+}
+.road-flag-next .road-year {
+  color: var(--accent);
+}
+.road-kinds {
+  display: inline-flex;
+  gap: 3px;
+}
+.road-kinds i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 1px solid var(--sketch);
+}
+.road-leader {
+  position: absolute;
+  left: var(--lx, 0);
+  top: var(--ly, 0);
+  height: var(--ll, 0);
+  border-left: 1px solid var(--sketch);
+  opacity: 0.8;
+}
+
+.road-hint {
+  margin-top: 10px;
+  max-width: 62ch;
+  color: var(--ink-2);
+  font-size: 0.95rem;
+}
+
+/* ---------- Clew, the coach ---------- */
+
+.c-ball {
+  fill: var(--thread);
+}
+.c-rim {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 1.8;
+}
+.c-yarn path {
+  fill: none;
+  stroke: color-mix(in srgb, var(--thread) 48%, #2b1408);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  opacity: 0.9;
+}
+.c-shine {
+  fill: none;
+  stroke: #fff6e5;
+  stroke-opacity: 0.5;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+}
+/* The eyes sit on the ball, so they stay near-black in both themes. */
+.c-eye {
+  fill: #2b1a10;
+}
+.c-foot {
+  fill: var(--sketch);
+  stroke: var(--ink);
+  stroke-width: 1.2;
+}
+.c-tail,
+.c-curlpath {
+  fill: none;
+  stroke: var(--thread);
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+.c-star {
+  fill: var(--lantern);
+  stroke: var(--ink);
+  stroke-width: 1;
+  stroke-linejoin: round;
+}
+/* The star is the light at night. */
+.c-glow {
+  display: none;
+  pointer-events: none;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .c-glow {
+    display: inline;
+  }
+}
+:root[data-theme='dark'] .c-glow {
+  display: inline;
+}

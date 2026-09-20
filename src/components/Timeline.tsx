@@ -12,6 +12,8 @@ interface Props {
   onToggle: (id: string) => void
   onPickFromYear: (id: string) => void
   onAsk: (entry: MemoryEntry) => void
+  /** Opens the paths page from the "Where next" card. */
+  onWhereNext?: () => void
 }
 
 /** The thread that runs down the page. A repeating hand-drawn tile, roughened by the #pencil filter. */
@@ -102,7 +104,7 @@ function EntryCard({
   )
 }
 
-function ForkEnd() {
+function ForkEnd({ onWhereNext }: { onWhereNext?: () => void }) {
   return (
     <li className="row row-right row-end">
       <div className="card card-future">
@@ -111,6 +113,11 @@ function ForkEnd() {
         <p className="card-what">
           Three possible paths will branch from here once the coach has met you and knows what you want to learn.
         </p>
+        {onWhereNext && (
+          <button type="button" className="link-button" onClick={onWhereNext}>
+            See possible paths
+          </button>
+        )}
       </div>
       <span className="node node-fork" aria-hidden="true">
         <svg width="44" height="44" viewBox="0 0 44 44" focusable="false">
@@ -124,7 +131,7 @@ function ForkEnd() {
   )
 }
 
-export function Timeline({ entries, zoom, expandedId, onToggle, onPickFromYear, onAsk }: Props) {
+export function Timeline({ entries, zoom, expandedId, onToggle, onPickFromYear, onAsk, onWhereNext }: Props) {
   const sorted = [...entries].sort(byStart)
   const pendingScroll = useRef<string | null>(null)
 
@@ -178,7 +185,7 @@ export function Timeline({ entries, zoom, expandedId, onToggle, onPickFromYear, 
               </li>
             )
           })}
-          <ForkEnd />
+          <ForkEnd onWhereNext={onWhereNext} />
         </ol>
       </div>
     )
@@ -209,7 +216,7 @@ export function Timeline({ entries, zoom, expandedId, onToggle, onPickFromYear, 
             </Fragment>
           )
         })}
-        <ForkEnd />
+        <ForkEnd onWhereNext={onWhereNext} />
       </ol>
     </div>
   )

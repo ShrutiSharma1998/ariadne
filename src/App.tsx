@@ -3,6 +3,7 @@ import { CoachDock, type AskRequest } from './components/CoachDock'
 import { DataMenu } from './components/DataMenu'
 import { PathsPanel } from './components/PathsPanel'
 import { SceneBanner } from './components/SceneBanner'
+import { RoadView } from './components/road/RoadView'
 import { Timeline } from './components/Timeline'
 import { UploadPanel } from './components/UploadPanel'
 import { DEMO_NAME, demoEntries } from './data/demoPersona'
@@ -12,6 +13,7 @@ import type { MemoryEntry, Zoom } from './types'
 
 type ThemeChoice = 'auto' | 'light' | 'dark'
 type View = 'timeline' | 'paths'
+type TimelineMode = 'road' | 'list'
 
 const THEME_KEY = 'ariadne-theme'
 const THEME_ORDER: ThemeChoice[] = ['auto', 'light', 'dark']
@@ -66,6 +68,8 @@ function PencilFilter() {
 
 export default function App() {
   const [zoom, setZoom] = useState<Zoom>('months')
+  // The road is the default view; people who ask for less motion start on the list.
+  const [mode, setMode] = useState<TimelineMode>(() => (window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'list' : 'road'))
   const [view, setView] = useState<View>('timeline')
   const [expandedId, setExpandedId] = useState<string | null>(null)
   const [theme, setTheme] = useState<ThemeChoice>(readTheme)
@@ -144,6 +148,17 @@ export default function App() {
 
   const nextTheme = THEME_ORDER[(THEME_ORDER.indexOf(theme) + 1) % THEME_ORDER.length]
 
+  /** Until the camera zoom arrives, choosing a year on the road opens that year in the list. */
+  function openYearInList(id: string) {
+    setMode('list')
+    setZoom('months')
+    setExpandedId(id)
+    window.setTimeout(() => {
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      document.getElementById(`entry-${id}`)?.scrollIntoView({ block: 'center', behavior: reduce ? 'auto' : 'smooth' })
+    }, 60)
+  }
+
   return (
     <>
       <PencilFilter />
@@ -155,6 +170,15 @@ export default function App() {
           <h1 className="wordmark">Ariadne</h1>
           <div className="controls">
             {view === 'timeline' && (
+              <div className="segmented" role="group" aria-label="How to see your timeline">
+                {(['road', 'list'] as const).map((m) => (
+                  <button key={m} type="button" aria-pressed={mode === m} onClick={() => setMode(m)}>
+                    {m === 'road' ? 'Road' : 'List'}
+                  </button>
+                ))}
+              </div>
+            )}
+            {view === 'timeline' && mode === 'list' && (
               <div className="segmented" role="group" aria-label="Timeline zoom">
                 {(['years', 'months'] as const).map((z) => (
                   <button key={z} type="button" aria-pressed={zoom === z} onClick={() => setZoom(z)}>
@@ -180,7 +204,8 @@ export default function App() {
           </div>
         </div>
         <p className="tagline">Keep your whole story in one place, then find your way forward.</p>
-        <SceneBanner />
+        {/* The road has its own sky and hills, so the banner steps aside for it. */}
+        {!(view === 'timeline' && mode === 'road') && <SceneBanner />}
 
         <nav className="views" aria-label="Sections">
           {VIEWS.map((v) => (
@@ -252,8 +277,12 @@ export default function App() {
       <main id="content">
         {view === 'timeline' && (
           <>
+            {mode === 'road' ? (
+              <RoadView entries={entries} onPickYear={(_year, id) => openYearInList(id)} onWhereNext={() => setView('paths')} />
+            ) : (
             <Timeline
               entries={entries}
+              onWhereNext={() => setView('paths')}
               zoom={zoom}
               expandedId={expandedId}
               onToggle={(id) => setExpandedId((cur) => (cur === id ? null : id))}
@@ -269,6 +298,7 @@ export default function App() {
                 setDockOpen(true)
               }}
             />
+            )}
             <div id="build" className="build">
               {isSample ? (
                 <UploadPanel onLoaded={handleLoaded} />
