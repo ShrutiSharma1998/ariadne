@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { DEMO_OPENER } from '../data/demoPersona'
 import { ApiError, streamCoach } from '../lib/api'
 import type { MemoryEntry } from '../types'
-import { ClewIcon } from './road/Clew'
+import { ClewIcon, type ClewPose } from './road/Clew'
 import { RoughFrame } from './RoughFrame'
 
 /** A turn in the conversation. Hidden turns go to the coach but are not shown on screen. */
@@ -117,6 +117,11 @@ export function CoachDock({ entries, personName, open, onOpen, onClose, ask }: P
   const visible = turns.filter((t) => !t.hidden)
   const lastIndex = turns.length - 1
 
+  // The coach on the button shows what the chat is doing, one thing at a time: thinking while a reply
+  // is awaited and nothing has arrived, speaking while it streams in, still the rest of the time.
+  const last = turns[lastIndex]
+  const pose: ClewPose = !busy ? 'still' : last?.role === 'assistant' && last.content ? 'speak' : 'think'
+
   return (
     <>
       <button
@@ -128,7 +133,7 @@ export function CoachDock({ entries, personName, open, onOpen, onClose, ask }: P
         aria-controls="coach-dock"
       >
         <RoughFrame shape="circle" seed={63} roughness={1.2} />
-        <ClewIcon size={36} />
+        <ClewIcon size={36} pose={pose} />
         <span className="dock-label">{open ? 'Close' : 'Coach'}</span>
       </button>
 
