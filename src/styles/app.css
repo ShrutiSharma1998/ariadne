@@ -85,11 +85,11 @@ button {
 }
 
 .wordmark {
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: clamp(3.4rem, 10vw, 5.6rem);
-  line-height: 0.9;
-  letter-spacing: 0.01em;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: clamp(2.6rem, 8vw, 3.8rem);
+  line-height: 1;
+  letter-spacing: -0.01em;
 }
 
 /* The thread starts under the name and runs down into the timeline. */
@@ -124,8 +124,8 @@ button {
   background: transparent;
   border: 0;
   cursor: pointer;
-  font-family: var(--font-display);
-  font-size: 1.25rem;
+  font-family: var(--font-body);
+  font-size: 1rem;
   font-weight: 700;
 }
 
@@ -323,16 +323,16 @@ main {
 }
 
 .card-date {
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-weight: 700;
-  font-size: 1.15rem;
+  font-size: 0.95rem;
   color: var(--accent);
 }
 
 .card-title {
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 1.65rem;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 1.35rem;
   line-height: 1.1;
 }
 
@@ -349,9 +349,9 @@ main {
 
 .card-more {
   margin-top: 10px;
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-weight: 700;
-  font-size: 1.15rem;
+  font-size: 0.95rem;
   color: var(--accent);
   text-decoration: underline;
   text-decoration-style: wavy;
@@ -366,9 +366,9 @@ main {
 
 .card-body dt {
   margin-top: 10px;
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-weight: 700;
-  font-size: 1.15rem;
+  font-size: 0.95rem;
   color: var(--ink-2);
 }
 .card-body dt:first-child {
@@ -447,9 +447,9 @@ main {
 }
 
 .year-title {
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 2.2rem;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 1.9rem;
   line-height: 1;
   color: var(--accent);
 }
@@ -543,9 +543,9 @@ main {
   border: 0;
   border-bottom: 4px solid transparent;
   cursor: pointer;
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-weight: 700;
-  font-size: 1.4rem;
+  font-size: 1.05rem;
   color: var(--ink-2);
 }
 .view-button:hover {
@@ -566,9 +566,9 @@ main {
   min-height: 32px;
   background: none;
   border: 0;
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-weight: 700;
-  font-size: 1.1rem;
+  font-size: 1rem;
   text-decoration: underline;
   text-underline-offset: 3px;
   cursor: pointer;
@@ -619,9 +619,9 @@ main {
   content: 'One quick check to keep bots out';
   display: block;
   margin-bottom: 8px;
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-weight: 700;
-  font-size: 1.15rem;
+  font-size: 1rem;
 }
 
 .sr-only-input {
@@ -645,9 +645,9 @@ main {
 }
 
 .panel-title {
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 2rem;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 1.7rem;
   line-height: 1.1;
 }
 .panel-lead {
@@ -664,9 +664,9 @@ main {
   margin: 0 auto;
   padding: 8px 0;
   cursor: pointer;
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-weight: 700;
-  font-size: 1.4rem;
+  font-size: 1.05rem;
   color: var(--accent);
 }
 
@@ -677,9 +677,9 @@ main {
   color: var(--paper);
   border: 2px solid var(--ink);
   border-radius: 11px 14px 10px 13px;
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-weight: 700;
-  font-size: 1.3rem;
+  font-size: 1.05rem;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
@@ -761,9 +761,9 @@ main {
 .field-label {
   display: block;
   margin-top: 18px;
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-weight: 700;
-  font-size: 1.2rem;
+  font-size: 1rem;
   color: var(--ink-2);
 }
 
@@ -836,9 +836,9 @@ main {
 }
 .bubble-who {
   display: block;
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-weight: 700;
-  font-size: 1.05rem;
+  font-size: 0.9rem;
   color: var(--accent);
 }
 .bubble-user {
@@ -873,9 +873,9 @@ main {
 }
 .path-heading {
   margin-top: 16px;
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 1.25rem;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 1.2rem;
   color: var(--ink-2);
 }
 .bullets {
@@ -917,9 +917,9 @@ main {
   color: var(--ink);
   border: 2px dashed var(--ink-2);
   border-radius: 999px;
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-weight: 700;
-  font-size: 1.15rem;
+  font-size: 1rem;
   cursor: pointer;
 }
 .reaction:hover {
@@ -1013,7 +1013,7 @@ main {
   border-radius: 50%;
   cursor: pointer;
   box-shadow: 4px 5px 0 var(--shade);
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-weight: 700;
 }
 .dock-button:hover {
@@ -1062,9 +1062,9 @@ main {
   gap: 12px;
 }
 .dock-title {
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 1.6rem;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 1.35rem;
   line-height: 1;
 }
 .dock .chat {
