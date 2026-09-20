@@ -37,6 +37,17 @@ ul {
 button {
   font: inherit;
   color: inherit;
+  /* A tap is a tap: no double-tap-to-zoom delay on buttons. */
+  touch-action: manipulation;
+}
+
+/* Headings break evenly, and a long unbroken word cannot push a card wider than the screen. */
+.panel-title,
+.card-title,
+.path-heading,
+.road-detail-title {
+  text-wrap: balance;
+  overflow-wrap: anywhere;
 }
 
 :focus-visible {
@@ -591,6 +602,8 @@ main {
   min-height: 200px;
   max-height: 60vh;
   overflow-y: auto;
+  /* Scrolling to the end of the chat must not carry on into the page behind it. */
+  overscroll-behavior: contain;
   padding: 4px 2px;
 }
 

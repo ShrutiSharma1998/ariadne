@@ -32,7 +32,7 @@ export function RoadDetail({ level, focus, model, onPickEntry, onAsk, onAskText,
       {level === 'horizon' && (
         <p className="road-hint">
           {path
-            ? `Choose a year on the road to zoom in. The road ends at the path you chose, "${path.title}". The dashed dots are its first steps, and they have not happened yet.`
+            ? `Choose a year on the road to zoom in. The road ends at the path you chose, “${path.title}”. The dashed dots are its first steps, and they have not happened yet.`
             : 'Choose a year on the road to zoom in. The dots show what happened in it, and the dashed road is what could come next.'}
         </p>
       )}

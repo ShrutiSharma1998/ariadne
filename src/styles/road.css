@@ -342,3 +342,8 @@
 .road-flag-crowded .road-flag-btn:focus-visible .road-tag {
   opacity: 1;
 }
+
+/* The markers sit over a drawing, so a tap should not flash a grey box across it. */
+.road-flag-btn {
+  -webkit-tap-highlight-color: transparent;
+}

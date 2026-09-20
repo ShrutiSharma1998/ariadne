@@ -191,6 +191,8 @@ function PathCard({
             <input
               id={whyId}
               className="why-input"
+              name="why"
+              autoComplete="off"
               type="text"
               maxLength={200}
               value={reaction.why}
@@ -256,7 +258,7 @@ export function PathsPanel({ entries, isSample, saved, onChange, onShowRoad }: P
 
   function goWith(title: string) {
     onChange({ chosen: title })
-    setNote(`Saved. "${title}" is now your chosen path, and it ends your road on the Timeline.`)
+    setNote(`Saved. “${title}” is now your chosen path, and it ends your road on the Timeline.`)
   }
 
   function chooseAnother() {
@@ -287,8 +289,8 @@ export function PathsPanel({ entries, isSample, saved, onChange, onShowRoad }: P
       if (saved.chosen) {
         parts.push(
           keepChosen
-            ? `Your chosen path, "${saved.chosen}", is still there.`
-            : `"${saved.chosen}" is not among the new paths, so choose again if you want a path on your timeline.`,
+            ? `Your chosen path, “${saved.chosen}”, is still there.`
+            : `“${saved.chosen}” is not among the new paths, so choose again if you want a path on your timeline.`,
         )
       }
       setNote(parts.join(' '))
@@ -361,6 +363,8 @@ export function PathsPanel({ entries, isSample, saved, onChange, onShowRoad }: P
             </label>
             <textarea
               id="goals"
+              name="goals"
+              autoComplete="off"
               className="textarea"
               rows={3}
               maxLength={1500}

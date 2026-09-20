@@ -176,7 +176,9 @@ export default function App() {
         <div className="masthead-top">
           <div className="brand">
             <ClewIcon size={56} />
-            <h1 className="wordmark">Ariadne</h1>
+            <h1 className="wordmark" translate="no">
+              Ariadne
+            </h1>
           </div>
           <div className="controls">
             <button
