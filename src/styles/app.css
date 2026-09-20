@@ -162,12 +162,12 @@ main {
 
 /* ---------- Cards ---------- */
 
+/* The same card as the road's panel: flat, softly rounded, outlined by its hand-drawn frame. */
 .card {
   position: relative;
   background: var(--card);
-  padding: 16px 18px;
-  border-radius: 14px 10px 16px 9px;
-  box-shadow: 4px 5px 0 var(--shade);
+  padding: 18px 20px;
+  border-radius: 14px;
 }
 
 .card-date {
@@ -424,10 +424,14 @@ main {
   position: relative;
   max-width: 760px;
   margin: 20px auto 0;
-  padding: 22px 22px 20px;
+  padding: 20px 22px;
   background: var(--card);
-  border-radius: 14px 10px 16px 9px;
-  box-shadow: 4px 5px 0 var(--shade);
+  border-radius: 14px;
+}
+/* The Paths page is a heading and a column of cards, so the page itself gets no frame. */
+.paths-panel {
+  padding: 0;
+  background: none;
 }
 
 .panel-title {
@@ -651,8 +655,8 @@ main {
 
 .paths {
   display: grid;
-  gap: 24px;
-  margin-top: 24px;
+  gap: 16px;
+  margin-top: 16px;
 }
 .path-card {
   padding: 18px 20px;
@@ -701,8 +705,8 @@ main {
   padding: 4px 16px;
   background: var(--paper);
   color: var(--ink);
-  border: 2px dashed var(--ink-2);
-  border-radius: 999px;
+  border: 2px dashed var(--sketch);
+  border-radius: 10px 13px 9px 12px;
   font-family: var(--font-body);
   font-weight: 700;
   font-size: 1rem;

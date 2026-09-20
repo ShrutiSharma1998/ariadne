@@ -300,8 +300,7 @@ export function PathsPanel({ entries, isSample, saved, onChange, onShowRoad }: P
   }
 
   return (
-    <section className="panel" aria-labelledby="paths-title">
-      <RoughFrame seed={47} />
+    <section className="panel paths-panel" aria-labelledby="paths-title">
       <h2 id="paths-title" className="panel-title">
         Where you could go
       </h2>
