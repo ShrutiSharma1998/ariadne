@@ -1,0 +1,875 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ariadne moodboard</title>
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="Moodboard for the Ariadne redesign: paper and lamplit night themes, logo directions, a walking thread-ball coach and a zoomable road.">
+<link rel="icon" href="../public/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Gaegu:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--font-display:'Gaegu','Segoe Print','Bradley Hand',cursive;--font-body:'Atkinson Hyperlegible','Segoe UI',system-ui,sans-serif}
+:root,[data-theme="day"]{color-scheme:light;
+--paper:#F3ECDD;--paper-deep:#EADFC9;--card:#F9F4E9;--ink:#2B2620;--ink-2:#5E554A;--line:#B3A68F;--sketch:#6B4E3A;
+--thread:#D2622A;--accent:#A64A1C;--on-accent:#F9F4E9;--lantern:#E8A736;--focus:#1F5F8A;
+--k-work:#D2622A;--k-education:#4E7388;--k-volunteering:#B0546F;--k-side-project:#6B8555;--k-certification:#B98A2E;--k-milestone:#7C6A9E;--k-future:#6B4E3A;
+--hill-far:#E6DCC4;--hill-far-line:#C9B98F;--hill-mid:#DCCFAE;--hill-mid-line:#B7A276;--hill-near:#CFBD94;--hill-near-line:#8F7A52;
+--star:#F6E7B4;--shade:rgba(43,38,32,.12);--day-on:1;--night-on:0;
+--grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.35 0 0 0 0 0.28 0 0 0 0 0.2 0 0 0 0.09 0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E")}
+[data-theme="night"],html[data-mode="night"]{color-scheme:dark;
+--paper:#16141C;--paper-deep:#1E1B27;--card:#252131;--ink:#F1E8D3;--ink-2:#B9AE9A;--line:#524A5E;--sketch:#B9AE9A;
+--thread:#E8B93A;--accent:#F2C230;--on-accent:#16141C;--lantern:#F2C230;--focus:#7FC0E8;
+--k-work:#E08A66;--k-education:#7FB0C8;--k-volunteering:#DD88A3;--k-side-project:#97B783;--k-certification:#F2C230;--k-milestone:#A897CC;--k-future:#B9AE9A;
+--hill-far:#1D1A27;--hill-far-line:#3A3450;--hill-mid:#221E2F;--hill-mid-line:#4A4263;--hill-near:#2A2439;--hill-near-line:#5D5379;
+--star:#F6E7B4;--shade:rgba(0,0,0,.45);--day-on:0;--night-on:1;
+--grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.95 0 0 0 0 0.85 0 0 0 0 0.7 0 0 0 0.045 0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E")}
+@media (prefers-color-scheme:dark){html:not([data-mode]){color-scheme:dark;
+--paper:#16141C;--paper-deep:#1E1B27;--card:#252131;--ink:#F1E8D3;--ink-2:#B9AE9A;--line:#524A5E;--sketch:#B9AE9A;
+--thread:#E8B93A;--accent:#F2C230;--on-accent:#16141C;--lantern:#F2C230;--focus:#7FC0E8;
+--k-work:#E08A66;--k-education:#7FB0C8;--k-volunteering:#DD88A3;--k-side-project:#97B783;--k-certification:#F2C230;--k-milestone:#A897CC;--k-future:#B9AE9A;
+--hill-far:#1D1A27;--hill-far-line:#3A3450;--hill-mid:#221E2F;--hill-mid-line:#4A4263;--hill-near:#2A2439;--hill-near-line:#5D5379;
+--star:#F6E7B4;--shade:rgba(0,0,0,.45);--day-on:0;--night-on:1;
+--grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.95 0 0 0 0 0.85 0 0 0 0 0.7 0 0 0 0.045 0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E")}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:76px}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 18px/1.6 var(--font-body);transition:background-color .35s,color .35s}
+body::before{content:"";position:fixed;inset:0;background-image:var(--grain);pointer-events:none;z-index:0}
+body>*{position:relative;z-index:1}
+h1,h2,h3{font-family:var(--font-display);font-weight:700;line-height:1.05;margin:0}
+h2{font-size:clamp(34px,5vw,50px);margin-bottom:10px}
+h3{font-size:30px}
+p{margin:0 0 12px;max-width:66ch}
+a{color:var(--accent)}
+code{font:600 .82em/1 var(--font-body);font-variant-numeric:tabular-nums}
+:focus-visible{outline:3px solid var(--focus);outline-offset:3px;border-radius:6px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+.sr-only{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.defs{position:absolute;width:0;height:0;overflow:hidden}
+section{padding:64px 0 8px}
+.frame{position:relative}
+.frame:not(.has-rough){border:2px solid var(--sketch);border-radius:14px}
+.frame>.rough-frame{position:absolute;inset:0;display:block;width:100%;height:100%;margin:0;pointer-events:none;overflow:visible}
+.rough-frame path{stroke:var(--sketch)}
+.btn{font:700 20px/1 var(--font-display);min-height:44px;padding:0 18px;border-radius:12px;border:2px solid var(--sketch);background:var(--card);color:var(--ink);cursor:pointer;transition:background-color .15s,transform .15s}
+.btn:hover{background:var(--paper-deep)}
+.btn:active{transform:translateY(1px)}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.btn-primary{background:var(--accent);color:var(--on-accent);border-color:var(--ink)}
+.btn-primary:hover{background:var(--accent);filter:brightness(1.08)}
+/* header */
+.bar{position:sticky;top:0;z-index:20;background:var(--paper);border-bottom:2px solid var(--line)}
+.bar-in{display:flex;align-items:center;gap:20px;min-height:64px}
+.lockup{display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--ink)}
+.wordmark{font:700 32px/1 var(--font-display)}
+.nav{display:flex;gap:4px;margin-left:auto;flex-wrap:wrap}
+.nav a{font:700 20px/1 var(--font-display);text-decoration:none;color:var(--ink-2);padding:10px 12px;border-radius:10px}
+.nav a:hover{background:var(--paper-deep);color:var(--ink)}
+.mode{display:flex;border:2px solid var(--sketch);border-radius:12px;overflow:hidden}
+.mode button{font:700 20px/1 var(--font-display);min-height:40px;padding:0 14px;border:0;background:transparent;color:var(--ink);cursor:pointer}
+.mode button[aria-pressed="true"]{background:var(--accent);color:var(--on-accent)}
+@media (max-width:860px){.nav{display:none}.mode{margin-left:auto}}
+/* hero */
+.hero{padding-top:44px}
+.hero h1{font-size:clamp(36px,5vw,64px);max-width:24ch;margin-bottom:12px}
+.lede{font-size:19px;color:var(--ink-2);max-width:62ch;margin-bottom:18px}
+.stage{width:100%;aspect-ratio:2/1;min-height:300px;background:var(--paper);overflow:hidden;border-radius:16px}
+.stage.has-rough{border-radius:0}
+.stage svg#scene{position:absolute;inset:0;width:100%;height:100%;display:block}
+#labels{position:absolute;inset:0;pointer-events:none}
+.stop{position:absolute;left:0;top:0;width:44px;height:44px;margin:-22px 0 0 -22px;padding:0;border:0;background:transparent;border-radius:50%;cursor:pointer;pointer-events:auto}
+.stop-tag{position:absolute;left:22px;top:22px;transform:translate(var(--tx,-8px),var(--ty,-64px));white-space:nowrap;font:700 20px/1 var(--font-display);background:var(--card);color:var(--ink);border:2px solid var(--sketch);border-radius:10px;padding:5px 10px;pointer-events:none;transition:background-color .2s}
+.stop-tag em{font-style:normal;color:var(--accent);margin-right:6px}
+.stop[aria-current="true"] .stop-tag{background:var(--accent);color:var(--on-accent);border-color:var(--ink)}
+.stop[aria-current="true"] .stop-tag em{color:var(--on-accent)}
+@media (max-width:640px){.stop .t{display:none}.stop.notyear .t{display:inline}.stage{aspect-ratio:auto;height:270px;min-height:0}}
+.bubble{position:absolute;left:14px;top:14px;width:min(360px,calc(100% - 28px));background:var(--card);color:var(--ink);border:2px solid var(--sketch);border-radius:14px;padding:12px 14px;font-size:17px;line-height:1.5;box-shadow:0 2px 0 var(--shade)}
+.bubble[hidden]{display:none}
+@media (max-width:640px){.bubble{left:8px;top:8px;width:calc(100% - 16px);padding:7px 10px;font-size:15px;line-height:1.35}.bubble b{font-size:17px;margin-bottom:1px}}
+.bubble b{display:block;font:700 20px/1 var(--font-display);color:var(--accent);margin-bottom:4px}
+.toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:14px 0}
+.toolbar .level{margin-left:auto;font:700 22px/1 var(--font-display);color:var(--ink-2)}
+.detail{padding:20px 22px;min-height:190px;background:var(--card)}
+.detail h3{margin-bottom:2px}
+.detail .when{font:700 22px/1 var(--font-display);color:var(--accent);margin-bottom:6px;display:block}
+.detail .org{color:var(--ink-2);margin-bottom:10px}
+.detail dl{display:grid;grid-template-columns:max-content 1fr;gap:4px 16px;margin:10px 0 14px}
+.detail dt{font:700 20px/1.5 var(--font-display);color:var(--ink-2)}
+.detail dd{margin:0}
+.detail-empty{color:var(--ink-2);margin:0}
+.caption{margin-top:14px;font-size:16px;color:var(--ink-2)}
+@media (max-width:640px){.detail dl{grid-template-columns:1fr}}
+.intro{font-size:20px;color:var(--ink-2);margin-bottom:26px}
+/* feel */
+.notes{display:grid;grid-template-columns:repeat(6,1fr);gap:18px}
+.note{padding:18px 20px 16px;background:var(--card);grid-column:span 2}
+.note.wide{grid-column:span 3}
+.note svg{display:block;width:64px;height:44px;margin-bottom:8px;overflow:visible}
+.note h3{font-size:28px;margin-bottom:4px}
+.note p{margin:0;color:var(--ink-2);font-size:17px}
+.note:nth-child(odd){transform:rotate(-.5deg)}.note:nth-child(even){transform:rotate(.4deg)}
+@media (max-width:860px){.notes{grid-template-columns:1fr 1fr}.note,.note.wide{grid-column:span 1}}
+@media (max-width:560px){.notes{grid-template-columns:1fr}.note:nth-child(n){transform:none}}
+/* colour sheets */
+.sheets{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:start}
+@media (max-width:920px){.sheets{grid-template-columns:1fr}}
+.sheet{background:var(--paper);color:var(--ink);padding:22px}
+.sheet .sheet-note{color:var(--ink-2);font-size:17px}
+.chips{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0 16px}
+.chip{display:flex;flex-direction:column;gap:2px;font-size:15px;line-height:1.3}
+.chip-fill{display:block;height:74px;border-radius:12px;border:2px solid var(--sketch);margin-bottom:4px}
+.chip b{font:700 24px/1 var(--font-display)}
+.chip span:last-child{color:var(--ink-2)}
+@media (max-width:560px){.chips{grid-template-columns:1fr 1fr}}
+.support{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:6px 16px;margin:0 0 14px;padding:0;list-style:none;font-size:15px}
+.support li{display:flex;align-items:center;gap:8px}
+.dot{width:16px;height:16px;border-radius:50%;border:2px solid var(--sketch);flex:none}
+.inuse{display:grid;grid-template-columns:1.1fr 1fr;gap:14px;margin:16px 0}
+@media (max-width:560px){.inuse{grid-template-columns:1fr}}
+.mini{background:var(--card);padding:14px 16px 14px 44px;font-size:15px;line-height:1.45}
+.mini .mn{position:absolute;left:12px;top:16px;width:22px;height:22px;border-radius:50%;border:2px solid var(--sketch);background:var(--k-work)}
+.mini .mline{position:absolute;left:22px;top:42px;bottom:8px;border-left:3px solid var(--thread)}
+.mini .md{font:700 20px/1 var(--font-display);color:var(--accent);display:block}
+.mini .mt{font:700 24px/1.1 var(--font-display);display:block;margin:2px 0}
+.mini p{font-size:15px;margin:4px 0 10px;color:var(--ink-2)}
+.mini .btn{min-height:40px;font-size:18px}
+.chat{display:flex;flex-direction:column;gap:8px;font-size:15px;line-height:1.45}
+.chat p{margin:0;padding:8px 12px;border-radius:12px;border:2px solid var(--sketch);max-width:none}
+.chat b{display:block;font:700 18px/1 var(--font-display);margin-bottom:2px}
+.chat .coach{background:var(--card)}.chat .you{background:var(--paper-deep);margin-left:22px}
+.checks{margin:0;padding:0;list-style:none;font-size:15px;color:var(--ink-2)}
+.checks li{padding:2px 0}.checks .ok{color:var(--ink);font-weight:700}
+/* line */
+.lines{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:22px}
+@media (max-width:860px){.lines{grid-template-columns:1fr 1fr}}@media (max-width:520px){.lines{grid-template-columns:1fr}}
+.ltile{padding:14px 16px;background:var(--card)}
+.ltile svg{display:block;width:100%;height:92px;margin-bottom:6px}
+.ltile h3{font-size:26px}.ltile p{margin:0;font-size:16px;color:var(--ink-2)}
+.grain{height:92px;border-radius:10px;border:2px solid var(--line);background:var(--paper) var(--grain);background-size:200px;margin-bottom:6px}
+.rules{margin:0;padding-left:1.2em;color:var(--ink-2)}.rules li{margin-bottom:6px;max-width:70ch}
+/* type */
+.types{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+@media (max-width:860px){.types{grid-template-columns:1fr}}
+.spec{padding:22px 24px;background:var(--card)}
+.spec .big{font:700 clamp(54px,8vw,84px)/1 var(--font-display);margin:0 0 6px}
+.spec .lab{font:700 28px/1.1 var(--font-display);margin:0 0 10px}
+.spec .tag{font:700 24px/1 var(--font-display);color:var(--accent);margin:0 0 10px}
+.spec table{border-collapse:collapse;font-size:15px;width:100%;margin-top:10px}
+.spec td{padding:5px 8px 5px 0;border-top:1px solid var(--line);vertical-align:top}.spec td:first-child{font-weight:700;white-space:nowrap}
+/* mark */
+.dirs{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-bottom:26px}
+@media (max-width:860px){.dirs{grid-template-columns:1fr}}
+.dir{padding:16px;background:var(--card)}
+.dir .tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.tile{background:var(--paper);border:2px solid var(--line);border-radius:12px;display:flex;align-items:center;justify-content:center;padding:8px;height:170px;overflow:hidden}
+.tile svg{width:100%;height:100%;overflow:visible}
+.dir h3{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.pick{font:700 20px/1 var(--font-display);background:var(--accent);color:var(--on-accent);border-radius:8px;padding:4px 10px}
+.dir dl{margin:8px 0 0;font-size:16px;display:grid;grid-template-columns:max-content 1fr;gap:4px 12px}
+.dir dt{font:700 20px/1.4 var(--font-display);color:var(--ink-2)}.dir dd{margin:0}
+.rec{padding:18px 22px;background:var(--paper-deep);margin-bottom:26px}.rec p{margin:0 0 6px}
+.states{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:26px}
+@media (max-width:920px){.states{grid-template-columns:repeat(3,1fr)}}@media (max-width:560px){.states{grid-template-columns:1fr 1fr}}
+.state{background:var(--paper);color:var(--ink);padding:10px 10px 12px;text-align:left}
+.state .stg{height:120px;display:grid;place-items:end center;position:relative;overflow:hidden}
+.state .stg svg{width:110px;height:120px;overflow:visible}
+.state h3{font-size:24px;margin-top:6px}.state p{font-size:15px;margin:0;color:var(--ink-2)}
+.ground{position:absolute;left:0;right:0;bottom:8px;border-top:3px dashed var(--thread);opacity:.8}
+.walking-ground{animation:slide .9s linear infinite}
+@keyframes slide{to{background-position:-20px 0}}
+.ground.moving{background:none;border-top:0;height:3px;background-image:linear-gradient(90deg,var(--thread) 0 12px,transparent 12px 20px);background-size:20px 3px;animation:slide .9s linear infinite}
+.favs{display:flex;flex-wrap:wrap;gap:14px;align-items:flex-end;margin-bottom:26px}
+.fav{display:grid;place-items:center;border-radius:22%;background:var(--paper);border:2px solid var(--line)}
+.fav small{display:block;font-size:13px;color:var(--ink-2);text-align:center;margin-top:4px}
+.lockups{display:grid;grid-template-columns:1.4fr 1fr;gap:18px;margin-bottom:8px}
+@media (max-width:640px){.lockups{grid-template-columns:1fr}}
+.lock{background:var(--paper);color:var(--ink);padding:22px;display:flex;align-items:center;justify-content:center;gap:12px;min-height:150px}
+.lock.stack{flex-direction:column;gap:2px}
+.lock .wordmark{font-size:52px}
+/* zoom */
+.levels{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:22px}
+@media (max-width:860px){.levels{grid-template-columns:1fr}}
+.level-card{padding:16px 18px;background:var(--card)}.level-card svg{display:block;width:100%;height:120px;margin-bottom:8px}
+.level-card h3{font-size:28px}.level-card p{font-size:16px;color:var(--ink-2);margin:0 0 6px}
+.inputs{border-collapse:collapse;width:100%;font-size:16px;margin-bottom:12px}
+.inputs td,.inputs th{padding:8px 10px 8px 0;border-top:1px solid var(--line);text-align:left;vertical-align:top}
+.inputs th{font:700 22px/1.2 var(--font-display);white-space:nowrap;width:1%}
+@media (max-width:640px){.inputs,.inputs tbody,.inputs tr,.inputs th,.inputs td{display:block;width:auto}.inputs th{white-space:normal;padding-bottom:0}.inputs td{border-top:0;padding-top:2px}.inputs tr{border-top:1px solid var(--line);padding:8px 0}}
+kbd{font:700 14px/1 var(--font-body);border:2px solid var(--sketch);border-bottom-width:3px;border-radius:6px;padding:2px 6px;background:var(--card)}
+/* keep */
+.keep{display:grid;grid-template-columns:1fr 1fr;gap:22px}@media (max-width:760px){.keep{grid-template-columns:1fr}}
+.keep>div{padding:20px 22px;background:var(--card)}.keep ul{margin:8px 0 0;padding-left:1.1em}.keep li{margin-bottom:6px}
+footer{padding:44px 0 70px;color:var(--ink-2)}footer p{max-width:70ch}
+/* mascot */
+svg.clew-svg{overflow:visible}
+.c-ball{fill:var(--thread)}.c-rim{fill:none;stroke:var(--ink);stroke-width:2.2}
+.c-yarn path{fill:none;stroke:color-mix(in srgb,var(--thread) 48%,#2b1408);stroke-width:1.7;stroke-linecap:round;opacity:.9}
+.c-shine{fill:none;stroke:#fff6e5;stroke-opacity:.55;stroke-width:2.4;stroke-linecap:round}
+.c-eye{fill:#2B1A10}.c-mouth{fill:none;stroke:#2B1A10;stroke-width:1.8;stroke-linecap:round}
+.c-foot{fill:var(--sketch);stroke:var(--ink);stroke-width:1.3}
+.c-tail{fill:none;stroke:var(--thread);stroke-width:3.2;stroke-linecap:round}
+.c-curlpath{fill:none;stroke:var(--thread);stroke-width:3.2;stroke-linecap:round}
+.c-star{fill:var(--lantern);stroke:var(--ink);stroke-width:1.1;stroke-linejoin:round;transform-box:fill-box;transform-origin:center}
+.c-glow{opacity:var(--night-on);pointer-events:none}
+.c-lift{animation:bob 2.6s ease-in-out infinite}
+.c-curl{transform-origin:12px -23px;animation:sway 3.4s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-2.5px)}}
+@keyframes sway{50%{transform:rotate(5deg)}}
+[data-pose="walk"] .c-lift{animation:hop .46s ease-in-out infinite}
+[data-pose="walk"] .cf-l{animation:step .46s ease-in-out infinite}
+[data-pose="walk"] .cf-r{animation:step .46s ease-in-out infinite .23s}
+@keyframes hop{50%{transform:translateY(-5px)}}
+@keyframes step{50%{transform:translateY(-3px)}}
+[data-pose="think"] .c-yarn{transform-origin:0 0;animation:spin 3s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+[data-pose="speak"] .c-squash{transform-origin:0 26px;animation:talk .7s ease-in-out infinite}
+[data-pose="speak"] .c-star{animation:pulse .7s ease-in-out infinite}
+@keyframes talk{50%{transform:scale(1.03,.96)}}
+@keyframes pulse{50%{transform:scale(1.35)}}
+[data-pose="still"] *{animation:none!important}
+.clew-svg.paused *{animation-play-state:paused!important}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}}
+.stage .rough-frame{z-index:3}.stage.has-rough{border-radius:16px}
+</style>
+</head>
+<body>
+<svg class="defs" width="0" height="0" aria-hidden="true" focusable="false">
+  <defs>
+    <filter id="pencil" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="7" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.4"/></filter>
+    <filter id="pencil-s" x="-8%" y="-8%" width="116%" height="116%"><feTurbulence type="fractalNoise" baseFrequency="0.09" numOctaves="2" seed="3" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="1.1"/></filter>
+    <radialGradient id="glow-grad"><stop offset="0" stop-color="#F2C230" stop-opacity=".95"/><stop offset=".35" stop-color="#F2C230" stop-opacity=".38"/><stop offset="1" stop-color="#F2C230" stop-opacity="0"/></radialGradient>
+    <clipPath id="clew-clip"><circle cx="0" cy="0" r="26"/></clipPath>
+  </defs>
+</svg>
+
+<header class="bar">
+  <div class="wrap bar-in">
+    <a class="lockup" href="#top" aria-label="Ariadne moodboard, back to the top">
+      <svg class="clew-svg" viewBox="-40 -88 96 92" width="42" height="40" data-clew="still" aria-hidden="true"></svg>
+      <span class="wordmark">Ariadne</span>
+    </a>
+    <nav class="nav" aria-label="Moodboard sections">
+      <a href="#feel">Feel</a><a href="#colour">Colour</a><a href="#line">Line</a><a href="#type">Type</a><a href="#mark">Mark</a><a href="#zoom">Zoom</a><a href="#keep">Keep and avoid</a>
+    </nav>
+    <div class="mode" role="group" aria-label="Page theme">
+      <button type="button" data-set-mode="day" aria-pressed="false">Day</button>
+      <button type="button" data-set-mode="night" aria-pressed="false">Night</button>
+    </div>
+  </div>
+</header>
+
+<main>
+<section class="hero wrap" id="top">
+  <h1>Your story is the labyrinth. Ariadne hands you the thread.</h1>
+  <p class="lede">A first moodboard for the redesign: a hand-drawn road you travel and zoom along, by day on paper and by lamplight at night. Try the camera below.</p>
+
+  <div class="stage frame" id="stage">
+    <svg id="scene" viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice" role="img" aria-label="A hand-drawn road climbs over layered hills toward a fork. A small ball of thread walks along it."></svg>
+    <div id="labels"></div>
+    <div class="bubble" id="bubble" hidden></div>
+  </div>
+
+  <div class="toolbar" role="group" aria-label="Camera">
+    <button class="btn" type="button" id="btn-out">Zoom out</button>
+    <button class="btn" type="button" id="btn-in">Zoom in</button>
+    <button class="btn" type="button" id="btn-prev">Previous stop</button>
+    <button class="btn" type="button" id="btn-next">Next stop</button>
+    <button class="btn" type="button" id="btn-home">Back to the map</button>
+    <span class="level" id="level" aria-live="polite">Horizon</span>
+  </div>
+
+  <div class="detail frame" id="detail" aria-live="polite"></div>
+  <p class="caption">Scenery moves at different speeds as the camera zooms; the road, flags and tags stay put. At night, look up: the arc of seven stars is Corona Borealis, the crown the myth sets in the sky for Ariadne. Press <kbd>Esc</kbd> to zoom out.</p>
+</section>
+
+<section id="feel" class="wrap">
+  <h2>How it should feel</h2>
+  <p class="intro">A field notebook you walk through with someone who has read the whole thing. Warm and unhurried, hand-made but not childish.</p>
+  <div class="notes">
+    <div class="note wide frame"><svg viewBox="0 0 64 44" aria-hidden="true" filter="url(#pencil-s)"><rect x="8" y="4" width="40" height="36" rx="4" fill="none" stroke="var(--sketch)" stroke-width="2.4"/><path d="M16 14h24M16 22h24M16 30h14" stroke="var(--sketch)" stroke-width="2" stroke-linecap="round"/><path d="M8 10h-4M8 20h-4M8 30h-4" stroke="var(--thread)" stroke-width="3" stroke-linecap="round"/></svg><h3>A field notebook, not a dashboard</h3><p>Pencil, paper and margin notes. Nothing turns into a chart unless it has to.</p></div>
+    <div class="note wide frame"><svg viewBox="0 0 64 44" aria-hidden="true" filter="url(#pencil-s)"><path d="M6 32c14 0 14-22 26-22s14 22 26 22" fill="none" stroke="var(--sketch)" stroke-width="2.4" stroke-linecap="round"/><circle cx="32" cy="10" r="4" fill="var(--lantern)" stroke="var(--sketch)" stroke-width="1.6"/></svg><h3>Lamplit, not neon</h3><p>Night is the same road after dark, lit by one small gold light. Deep indigo, kept dark and quiet.</p></div>
+    <div class="note frame"><svg viewBox="0 0 64 44" aria-hidden="true" filter="url(#pencil-s)"><path d="M4 30c10 0 12-14 22-14" fill="none" stroke="var(--thread)" stroke-width="3.4" stroke-linecap="round"/><path d="M26 16c8 0 10 12 20 12h14" fill="none" stroke="var(--sketch)" stroke-width="3" stroke-linecap="round" stroke-dasharray="7 6"/></svg><h3>Solid is you, dashed is maybe</h3><p>Solid lines come from your files. Dashed lines are possibilities or things not stated.</p></div>
+    <div class="note frame"><svg viewBox="0 0 64 44" aria-hidden="true" filter="url(#pencil-s)"><path d="M6 36C22 36 22 8 58 8" fill="none" stroke="var(--sketch)" stroke-width="2.4" stroke-linecap="round"/><circle cx="6" cy="36" r="3.4" fill="var(--thread)"/><circle cx="58" cy="8" r="3.4" fill="var(--thread)"/></svg><h3>Unhurried</h3><p>Camera moves take about three quarters of a second and ease in and out. Nothing bounces.</p></div>
+    <div class="note frame"><svg viewBox="0 0 64 44" aria-hidden="true" filter="url(#pencil-s)"><path d="M10 6h40a4 4 0 0 1 4 4v18a4 4 0 0 1-4 4H26l-10 8v-8h-6a4 4 0 0 1-4-4V10a4 4 0 0 1 4-4z" fill="none" stroke="var(--sketch)" stroke-width="2.4" stroke-linejoin="round"/><path d="M26 14c0-5 12-5 12 0 0 4-6 4-6 8" fill="none" stroke="var(--thread)" stroke-width="2.6" stroke-linecap="round"/></svg><h3>Guided, not gamified</h3><p>No streaks, scores or confetti. The coach speaks first and asks one question at a time.</p></div>
+  </div>
+</section>
+
+<section id="colour" class="wrap">
+  <h2>Colour by day and by night</h2>
+  <p class="intro">Both themes side by side, whatever the page is set to. Hex values and contrast ratios are read live from the tokens, so they cannot drift from what you see.</p>
+  <div class="sheets" id="sheets"></div>
+</section>
+
+<section id="line" class="wrap">
+  <h2>Line and paper</h2>
+  <p class="intro">Brown sketch lines do most of the work. Everything is drawn once, with a fixed wobble, and never redrawn while it moves.</p>
+  <div class="lines">
+    <div class="ltile frame"><svg viewBox="0 0 200 92" aria-hidden="true"><g id="ln-outline" fill="none" stroke="var(--sketch)" stroke-width="2"></g></svg><h3>Outline</h3><p>Walnut, 2 px, a little wobble. Round corners at 12 px.</p></div>
+    <div class="ltile frame"><svg viewBox="0 0 200 92" aria-hidden="true"><g id="ln-hatch"></g></svg><h3>Hatch</h3><p>Thin walnut strokes at an angle. Far hills are looser than near ones.</p></div>
+    <div class="ltile frame"><svg viewBox="0 0 200 92" aria-hidden="true"><g id="ln-contour" fill="none" stroke="var(--line)" stroke-width="1.6"></g></svg><h3>Contour</h3><p>Closed loops, quiet, only as texture behind the road.</p></div>
+    <div class="ltile frame"><svg viewBox="0 0 200 92" aria-hidden="true" filter="url(#pencil-s)"><path d="M8 70C50 70 46 26 98 40S150 74 192 22" fill="none" stroke="var(--sketch)" stroke-width="1.4" stroke-linecap="round" transform="translate(1.5 1.5)" opacity=".7"/><path d="M8 70C50 70 46 26 98 40S150 74 192 22" fill="none" stroke="var(--thread)" stroke-width="3.4" stroke-linecap="round"/><circle cx="98" cy="40" r="6" fill="var(--card)" stroke="var(--sketch)" stroke-width="2"/></svg><h3>Thread</h3><p>The road and the timeline. Orange, 3 px, with a fine brown shadow line.</p></div>
+    <div class="ltile frame"><svg viewBox="0 0 200 92" aria-hidden="true" filter="url(#pencil-s)"><path d="M10 72C40 72 60 50 84 46" fill="none" stroke="var(--thread)" stroke-width="3.4" stroke-linecap="round"/><g fill="none" stroke="var(--sketch)" stroke-width="2.4" stroke-linecap="round" stroke-dasharray="9 7"><path d="M84 46C110 42 130 22 190 16"/><path d="M84 46C120 46 150 50 190 52"/><path d="M84 46C110 52 130 76 186 82"/></g><circle cx="84" cy="46" r="5" fill="var(--card)" stroke="var(--sketch)" stroke-width="2"/></svg><h3>Future route</h3><p>Dashed, nine on and seven off. Used for "Where next" and anything not yet known.</p></div>
+    <div class="ltile frame"><div class="grain" role="img" aria-label="Paper grain sample"></div><h3>Paper grain</h3><p>A faint fractal-noise overlay, lighter and fainter at night. Already in the app.</p></div>
+  </div>
+  <ul class="rules">
+    <li>Same seed, same wobble: an element looks the same every visit, and is redrawn only when its size changes.</li>
+    <li>Three line weights only: 1, 2 and 3 px. Nothing is perfectly straight.</li>
+    <li>Solid means it came from your files. Dashed means possibility. This rule holds everywhere, including empty states.</li>
+  </ul>
+</section>
+
+<section id="type" class="wrap">
+  <h2>Type</h2>
+  <p class="intro">Keep the two families the app already uses. They are distinct, accessible and already loaded.</p>
+  <div class="types">
+    <div class="spec frame">
+      <p class="big">Ariadne</p>
+      <p class="lab">Gaegu, for the map</p>
+      <p class="tag">2021 to 2023</p>
+      <p style="font:400 26px/1.2 var(--font-display);margin:0 0 6px">Marketing manager at Fernway</p>
+      <table><tr><td>Use</td><td>Wordmark, year marks, stop tags, the coach's speech, headings</td></tr><tr><td>Size</td><td>18 px and up, never for long text</td></tr><tr><td>Weight</td><td>700 for marks and headings, 400 for asides</td></tr></table>
+    </div>
+    <div class="spec frame">
+      <p class="lab">Atkinson Hyperlegible, for reading</p>
+      <p>Ariadne lays your resume, notes and certificates out on one thread: what you did, how you did it, what it led to and what you learned. Then a coach helps you work out where to go next.</p>
+      <p style="font-weight:700;margin-bottom:0">Ask the coach about this</p>
+      <table><tr><td>Use</td><td>Body, buttons, forms, everything people read</td></tr><tr><td>Size</td><td>17 to 18 px, line-height 1.55, lines under 70 characters</td></tr><tr><td>Voice</td><td>Sentence case, plain verbs, one name per action, no arrows on links</td></tr></table>
+    </div>
+  </div>
+</section>
+
+<section id="mark" class="wrap">
+  <h2>The mark and the walker</h2>
+  <p class="intro">The logo is the coach: a small character that walks the road and makes the page feel alive. Four directions, each shown by day and by night, and one recommendation. In the myth Ariadne's thread was a <em>clew</em>, a ball of thread, and the word "clue" comes from it.</p>
+  <div class="dirs" id="dirs"></div>
+  <div class="rec frame">
+    <h3>Decision: A, Clew</h3>
+    <p>Use <b>A, Clew</b> as the logo and the coach. Keep <b>D</b> as the loading pattern. Use <b>B</b> only if A is too busy at 16 px. Retire the fox from the banner or keep it as a small night cameo, so the page has one main character.</p>
+  </div>
+  <h3 style="margin-bottom:10px">Clew, in five states</h3>
+  <div class="states" id="states"></div>
+  <h3 style="margin-bottom:10px">Small sizes and lockups</h3>
+  <div class="favs" id="favs"></div>
+  <div class="lockups">
+    <div class="lock frame" data-theme="day"><svg class="clew-svg" viewBox="-40 -88 96 92" width="84" height="80" data-clew="still" aria-hidden="true"></svg><span class="wordmark">Ariadne</span></div>
+    <div class="lock stack frame" data-theme="night"><svg class="clew-svg" viewBox="-40 -88 96 92" width="84" height="80" data-clew="still" aria-hidden="true"></svg><span class="wordmark">Ariadne</span></div>
+  </div>
+</section>
+
+<section id="zoom" class="wrap">
+  <h2>Zoom is the camera</h2>
+  <p class="intro">One road, three distances. You never leave the road: you move closer to it. Scroll stays normal scroll.</p>
+  <div class="levels">
+    <div class="level-card frame"><svg viewBox="0 0 200 120" aria-hidden="true"><use href="#zs-road"/></svg><h3>Horizon</h3><p>The whole road, one landmark per year. Replaces the Years toggle.</p><p>Back here with <kbd>Esc</kbd> or "Back to the map".</p></div>
+    <div class="level-card frame"><svg viewBox="0 0 200 120" aria-hidden="true"><use href="#zs-road" transform="translate(-40 -8) scale(1.35)"/></svg><h3>Chapter</h3><p>One stretch of road, its entries as stops. Replaces Months.</p><p>Step in with "Zoom in" or <kbd>+</kbd>.</p></div>
+    <div class="level-card frame"><svg viewBox="0 0 200 120" aria-hidden="true"><use href="#zs-road" transform="translate(-170 -70) scale(2.6)"/></svg><h3>Moment</h3><p>One entry fills the view: what, how, impact, what I learned, and "Ask the coach about this".</p><p>Click a flag to arrive here.</p></div>
+  </div>
+  <table class="inputs">
+    <tr><th>Mouse and trackpad</th><td>Click a flag to zoom in. Zoom buttons. Pinch on a trackpad or <kbd>Ctrl</kbd> with the wheel. Plain scroll never zooms.</td></tr>
+    <tr><th>Touch</th><td>Tap a flag. Pinch. Every gesture also has a button.</td></tr>
+    <tr><th>Keyboard</th><td><kbd>+</kbd> <kbd>-</kbd> zoom, <kbd>Esc</kbd> out, <kbd>Left</kbd> and <kbd>Right</kbd> to the previous and next stop. Every flag is a real button with a visible focus ring.</td></tr>
+    <tr><th>Screen reader or reduced motion</th><td>List view, the current timeline, is the default and stays one toggle away for everyone. The road itself is scenery.</td></tr>
+  </table>
+  <ul class="rules">
+    <li>Parallax moves scenery only (three or four layers, far ones least), never text.</li>
+    <li>Camera moves take 600 to 900 ms and ease in and out. Never pin more than one section, never take over the scroll bar.</li>
+  </ul>
+  <svg width="0" height="0" class="defs" aria-hidden="true"><defs><g id="zs-road" filter="url(#pencil-s)"><path d="M8 100C40 100 44 70 80 72S120 50 150 50 176 24 192 16" fill="none" stroke="var(--sketch)" stroke-width="1.2" transform="translate(1 1.5)" opacity=".7"/><path d="M8 100C40 100 44 70 80 72S120 50 150 50 176 24 192 16" fill="none" stroke="var(--thread)" stroke-width="3" stroke-linecap="round"/><circle cx="46" cy="90" r="5" fill="var(--k-education)" stroke="var(--sketch)" stroke-width="1.6"/><circle cx="92" cy="66" r="5" fill="var(--k-volunteering)" stroke="var(--sketch)" stroke-width="1.6"/><circle cx="146" cy="50" r="5" fill="var(--k-work)" stroke="var(--sketch)" stroke-width="1.6"/><circle cx="182" cy="26" r="5" fill="var(--card)" stroke="var(--sketch)" stroke-width="1.6" stroke-dasharray="3 2"/></g></defs></svg>
+</section>
+
+<section id="keep" class="wrap">
+  <h2>Keep and avoid</h2>
+  <div class="keep">
+    <div class="frame"><h3>Keep</h3><ul><li>Paper, walnut pencil, one orange thread.</li><li>Hand-drawn frames, drawn once per size.</li><li>Gaegu for map lettering, Atkinson Hyperlegible for reading.</li><li>A coach that speaks first and asks one question at a time.</li><li>Honest labels: "Not stated" beats a guess.</li></ul></div>
+    <div class="frame"><h3>Avoid</h3><ul><li>Bright purple or neon accents. Night stays a deep, quiet indigo.</li><li>Decorative gradients, glass blur, heavy shadows.</li><li>Stock illustrated people, emoji icons, sparkle icons on buttons or headings.</li><li>Streaks, scores, confetti.</li><li>Scroll-jacking, and parallax on text.</li></ul></div>
+  </div>
+</section>
+</main>
+
+<footer class="wrap">
+  <p>Next: pick a mascot direction, then paste <code>design/build-prompt.md</code> into a Claude session opened in this repo. Tokens and rules live in <code>design/DESIGN.md</code>. Sample stories are invented.</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/roughjs@4.6.6/bundled/rough.js"></script>
+<script>
+/* ---------- core: helpers, theme, frames, Clew ---------- */
+const NS = 'http://www.w3.org/2000/svg'
+const $ = (s, r = document) => r.querySelector(s)
+const $$ = (s, r = document) => [...r.querySelectorAll(s)]
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches
+const hasRough = typeof window.rough !== 'undefined'
+function el(tag, attrs, parent) {
+  const e = document.createElementNS(NS, tag)
+  for (const k in attrs || {}) e.setAttribute(k, attrs[k])
+  if (parent) parent.appendChild(e)
+  return e
+}
+const clamp = (v, a, b) => Math.min(b, Math.max(a, v))
+
+/* Theme: follows the device until a button is pressed. */
+const root = document.documentElement
+const effectiveMode = () => root.dataset.mode || (matchMedia('(prefers-color-scheme: dark)').matches ? 'night' : 'day')
+function syncMode() {
+  const m = effectiveMode()
+  $$('[data-set-mode]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.setMode === m)))
+}
+$$('[data-set-mode]').forEach((b) => b.addEventListener('click', () => { root.dataset.mode = b.dataset.setMode; syncMode() }))
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change', syncMode)
+syncMode()
+
+/* Hand-drawn frame that fits its parent (same idea as RoughFrame.tsx). */
+function frame(elm) {
+  if (!hasRough) return
+  elm.classList.add('has-rough')
+  const svg = el('svg', { class: 'rough-frame', 'aria-hidden': 'true', focusable: 'false' })
+  elm.prepend(svg)
+  const key = elm.id || elm.className || 'x'
+  const seed = ([...String(key)].reduce((a, c) => (a * 31 + c.charCodeAt(0)) >>> 0, 7) % 9000) + 1
+  const draw = () => {
+    const w = elm.offsetWidth, h = elm.offsetHeight
+    if (!w || !h) return
+    svg.setAttribute('viewBox', `0 0 ${w} ${h}`); svg.setAttribute('width', w); svg.setAttribute('height', h)
+    svg.textContent = ''
+    const rc = rough.svg(svg), r = 12, i = 3
+    const d = `M${r + i},${i} H${w - r - i} Q${w - i},${i} ${w - i},${r + i} V${h - r - i} Q${w - i},${h - i} ${w - r - i},${h - i} H${r + i} Q${i},${h - i} ${i},${h - r - i} V${r + i} Q${i},${i} ${r + i},${i} Z`
+    const n = rc.path(d, { seed, roughness: 1.4, strokeWidth: 2, stroke: '#000', fill: 'none' })
+    n.querySelectorAll('path').forEach((p) => p.style.setProperty('stroke', 'var(--sketch)'))
+    svg.appendChild(n)
+  }
+  draw()
+  new ResizeObserver(draw).observe(elm)
+}
+
+/* Clew, the thread-ball coach. Origin is between its feet; it is about 80 units tall. */
+const YARN = ['M-28 -14C-14 -28 14 -28 28 -12', 'M-28 0C-14 -12 16 -10 28 6', 'M-27 14C-13 4 14 6 27 20', 'M-14 -27C-24 -10 -22 12 -8 27', 'M8 -27C20 -10 20 12 8 27', 'M22 -16C12 -4 14 14 22 22']
+  .map((d) => `<path d="${d}"/>`).join('')
+function clewMarkup(pose) {
+  return `<g class="c-root" data-pose="${pose}"><g class="c-flip">
+<path class="c-tail" d="M-22 -22C-34 -18 -40 -8 -48 -5"/>
+<g class="c-feet"><ellipse class="c-foot cf-l" cx="-11" cy="-3.5" rx="8.5" ry="4.2"/><ellipse class="c-foot cf-r" cx="11" cy="-3.5" rx="8.5" ry="4.2"/></g>
+<g class="c-lift"><g transform="translate(0 -34)"><g class="c-squash">
+<circle class="c-glow" cx="29" cy="-26" r="36" fill="url(#glow-grad)"/>
+<g class="c-curl"><path class="c-curlpath" d="M12 -23C15 -36 28 -41 35 -35C41 -29 34 -22 29 -26"/><path class="c-star" d="M29 -33.5L31 -28L36.5 -26L31 -24L29 -18.5L27 -24L21.5 -26L27 -28Z"/></g>
+<circle class="c-ball" r="26"/>
+<g clip-path="url(#clew-clip)"><g class="c-yarn">${YARN}</g></g>
+<circle class="c-rim" r="26"/>
+<path class="c-shine" d="M-17 -17C-13 -22 -8 -24 -3 -24.5"/>
+<circle class="c-eye" cx="-5" cy="1" r="2.7"/><circle class="c-eye" cx="13" cy="1" r="2.7"/>
+<path class="c-mouth" d="M-1 9.5Q4.5 14 10 9.5"/>
+</g></g></g></g></g>`
+}
+function clewSvg(pose, viewBox = '-40 -88 96 92') {
+  return `<svg class="clew-svg" viewBox="${viewBox}" aria-hidden="true" focusable="false">${clewMarkup(pose)}</svg>`
+}
+$$('svg[data-clew]').forEach((s) => { s.innerHTML = clewMarkup(s.dataset.clew) })
+
+/* ---------- hero: the road, the camera, the walker ---------- */
+;(function hero() {
+  const svg = $('#scene'), stage = $('#stage'), W = 1200, H = 600
+  const rc = hasRough ? rough.svg(svg) : null
+
+  /* Scenery layers, back to front. p is the depth factor: how much of the camera move each layer follows. */
+  const RIDGES = [
+    { id: 'far', p: 0.35, base: 265, amp: 26, ph: 0.6, fr: 0.0055, seed: 3, gap: 11, ang: -40 },
+    { id: 'mid', p: 0.6, base: 355, amp: 24, ph: 2.1, fr: 0.0072, seed: 8, gap: 9, ang: -28 },
+    { id: 'near', p: 0.85, base: 470, amp: 18, ph: 4.3, fr: 0.0105, seed: 14, gap: 7, ang: -16 },
+  ]
+  const layers = { sky: { g: el('g', {}, svg), p: 0.15 } }
+  RIDGES.forEach((d) => (layers[d.id] = { g: el('g', {}, svg), p: d.p }))
+  const roadG = el('g', {}, svg)
+  const ridgeY = (d, x) => d.base + Math.sin(x * d.fr + d.ph) * d.amp + Math.sin(x * d.fr * 2.3 + d.ph * 1.7) * d.amp * 0.35
+  const lineVar = (id) => `var(--hill-${id}-line)`
+  const tint = (g, v) => g.querySelectorAll('path').forEach((p) => p.style.setProperty('stroke', v))
+
+  function tree(g, x, y, s, seed, v) {
+    if (!rc) return
+    const t = rc.polygon([[x, y - 46 * s], [x - 15 * s, y], [x + 15 * s, y]], { seed, roughness: 1, fill: '#000', fillStyle: 'hachure', hachureGap: 4, hachureAngle: 60, fillWeight: 1, stroke: '#000', strokeWidth: 1.6 })
+    tint(t, v); g.appendChild(t)
+  }
+  RIDGES.forEach((d) => {
+    const g = layers[d.id].g, top = []
+    for (let x = -500; x <= 1700; x += 25) top.push([x, ridgeY(d, x)])
+    const poly = [...top, [1700, 780], [-500, 780]]
+    const mass = el('path', { d: 'M' + poly.map((q) => q.join(',')).join(' L') + ' Z' }, g)
+    mass.style.fill = `var(--hill-${d.id})`
+    if (rc) {
+      const hatch = rc.polygon(poly, { seed: d.seed, roughness: 1.2, fill: '#000', fillStyle: 'hachure', hachureGap: d.gap, hachureAngle: d.ang, fillWeight: 1, stroke: 'none' })
+      tint(hatch, lineVar(d.id)); g.appendChild(hatch)
+      const line = rc.linearPath(top, { seed: d.seed + 1, roughness: 1.6, strokeWidth: 2, stroke: '#000' })
+      tint(line, lineVar(d.id)); g.appendChild(line)
+    } else {
+      const l = el('path', { d: 'M' + top.map((q) => q.join(',')).join(' L'), fill: 'none', 'stroke-width': 2 }, g)
+      l.style.stroke = lineVar(d.id)
+    }
+    if (d.id === 'mid') [40, 210, 720, 905, 1130, 1290].forEach((x, i) => tree(g, x, ridgeY(d, x) + 8, 1 + (i % 3) * 0.18, 30 + i, lineVar('mid')))
+    if (d.id === 'near') [-60, 150, 560, 1010, 1240].forEach((x, i) => tree(g, x, ridgeY(d, x) + 10, 1.3 + (i % 2) * 0.25, 60 + i, lineVar('near')))
+  })
+
+  /* Sky: hatched sun by day, moon and stars by night, and Ariadne's crown (Corona Borealis) among them. */
+  const sky = layers.sky.g
+  const day = el('g', {}, sky); day.style.opacity = 'var(--day-on)'
+  if (rc) {
+    const sun = rc.circle(560, 104, 84, { seed: 5, roughness: 1.3, strokeWidth: 2, fill: '#000', fillStyle: 'hachure', hachureGap: 5, fillWeight: 1.4, stroke: '#000' })
+    tint(sun, 'var(--k-certification)'); day.appendChild(sun)
+  } else { const c = el('circle', { cx: 560, cy: 104, r: 42, fill: 'none', 'stroke-width': 2 }, day); c.style.stroke = 'var(--k-certification)' }
+  const night = el('g', {}, sky); night.style.opacity = 'var(--night-on)'
+  el('circle', { cx: 560, cy: 104, r: 36, style: 'fill:var(--star)' }, night)
+  for (let i = 0; i < 46; i++) {
+    const a = Math.sin(i * 91.7) * 43758.5453, b = Math.sin(i * 12.9898 + 4.1) * 43758.5453
+    el('circle', { cx: -100 + (a - Math.floor(a)) * 1400, cy: 8 + (b - Math.floor(b)) * 200, r: 0.9 + ((i * 7) % 5) * 0.28, style: 'fill:var(--star)' }, night)
+  }
+  const CROWN = [[930, 118], [958, 86], [994, 66], [1030, 64], [1064, 78], [1082, 104], [1088, 134]]
+  el('polyline', { points: CROWN.map((q) => q.join(',')).join(' '), fill: 'none', 'stroke-width': 1.4, 'stroke-dasharray': '2 6', 'stroke-linecap': 'round', style: 'stroke:var(--star);opacity:.6' }, night)
+  CROWN.forEach(([x, y]) => el('circle', { cx: x, cy: y, r: 3.4, style: 'fill:var(--star)' }, night))
+
+  /* The road: a bed with pencil edges, a dashed thread ahead, a solid thread behind. */
+  const ROAD = [[70, 520], [230, 498], [380, 478], [470, 440], [610, 436], [730, 402], [810, 344], [905, 328], [985, 275], [1045, 205]]
+  function smooth(pts) {
+    let d = `M${pts[0]}`
+    for (let i = 0; i < pts.length - 1; i++) {
+      const p0 = pts[i - 1] || pts[i], p1 = pts[i], p2 = pts[i + 1], p3 = pts[i + 2] || p2
+      d += ` C${p1[0] + (p2[0] - p0[0]) / 6},${p1[1] + (p2[1] - p0[1]) / 6} ${p2[0] - (p3[0] - p1[0]) / 6},${p2[1] - (p3[1] - p1[1]) / 6} ${p2}`
+    }
+    return d
+  }
+  const D = smooth(ROAD)
+  const roadBed = el('g', { filter: 'url(#pencil)', fill: 'none', 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }, roadG)
+  el('path', { d: D, 'stroke-width': 34, style: 'stroke:var(--sketch)' }, roadBed)
+  el('path', { d: D, 'stroke-width': 30, style: 'stroke:var(--card)' }, roadBed)
+  const ahead = el('path', { d: D, fill: 'none', 'stroke-width': 3, 'stroke-dasharray': '9 8', 'stroke-linecap': 'round', style: 'stroke:var(--sketch);opacity:.75' }, roadBed)
+  const done = el('path', { d: D, fill: 'none', 'stroke-width': 5, 'stroke-linecap': 'round', style: 'stroke:var(--thread)' }, roadBed)
+  const L = ahead.getTotalLength()
+  done.setAttribute('stroke-dasharray', L); done.style.strokeDashoffset = L
+
+  const END = ROAD[ROAD.length - 1]
+  const fork = el('g', { fill: 'none', 'stroke-width': 3, 'stroke-dasharray': '9 8', 'stroke-linecap': 'round', filter: 'url(#pencil)', style: 'stroke:var(--sketch)' }, roadG)
+  ;[[1100, 146], [1158, 204], [1092, 108]].forEach(([x, y]) => {
+    el('path', { d: `M${END} C${END[0] + 20},${END[1] - 30} ${x - 30},${y + 24} ${x},${y}` }, fork)
+    el('circle', { cx: x, cy: y, r: 6, 'stroke-dasharray': 'none', style: 'fill:var(--paper);stroke:var(--sketch)' }, fork)
+  })
+
+  /* Stops: the sample story's own entries, in the app's what / how / impact / learned shape. */
+  const STOPS = [
+    { kind: 'education', t: 0.14, year: '2015', short: 'B.A. in Communications', title: 'B.A. in Communications', org: 'Larkfield State University', when: '2015 to 2019', what: 'Studied communications with a minor in statistics.', how: 'Took every data-analysis elective offered and wrote the senior thesis on how people share news online.', impact: 'Graduated with honours; the thesis was picked as a department showcase.', learned: 'Storytelling and numbers work best together, and I like the second half as much as the first.', reply: 'Your thesis was about how people share news, and you took every data elective. Was the pull the stories, or the numbers behind them?' },
+    { kind: 'volunteering', t: 0.36, year: '2017', short: 'Volunteer scheduler', title: 'Volunteer scheduler', org: 'Eastside Food Bank', when: '2017 to 2019', what: 'Coordinated weekend volunteer shifts for a neighbourhood food bank.', how: 'Replaced a paper sign-up sheet with a shared spreadsheet and automatic reminder texts.', impact: 'Cut no-shows by about 30% and freed the coordinator from two hours of weekly phone calls.', learned: 'A small tool that removes one annoying task can matter more than a big project.', reply: 'Reminder texts cut no-shows by about 30%. Did you enjoy fixing the process more than running the shifts?' },
+    { kind: 'work', t: 0.6, year: '2021', short: 'Marketing manager', title: 'Marketing manager', org: 'Fernway Outdoor Co.', when: '2021 to 2023', what: 'Led a brand refresh and managed a team of three.', how: 'Interviewed 25 customers, wrote the new positioning, and split the work across the team with weekly check-ins.', impact: 'Launched on schedule; repeat purchases rose 12% the following quarter.', learned: 'I spent more time asking what customers needed than writing copy, and that pulled me towards product work.', reply: 'You spent more time asking customers what they needed than writing copy. What would a role that is mostly that question look like?' },
+    { kind: 'side-project', t: 0.8, year: '2022', short: 'Habit tracker', title: 'Habit tracker built with no-code tools', org: 'Personal project', when: '2022', what: 'Built and launched a simple habit-tracking app for friends.', how: 'Sketched flows on paper, built it with no-code tools, and held weekly calls with early users.', impact: '300 sign-ups and 40 weekly active users after six months.', learned: 'Deciding what not to build is the hardest part of making a product.', reply: 'You held weekly calls with early users. What did those calls teach you that the numbers could not?' },
+    { kind: 'future', t: 1, year: '', short: 'Where next', title: 'Where next', org: 'Three possible paths', when: 'Not drawn yet', what: 'Three paths branch from here once the coach has met you and knows what you want to learn. They are dashed because they are possibilities, not facts.', reply: 'Before I sketch three paths, what do you want to learn next?' },
+  ]
+  const nodes = el('g', {}, roadG)
+  STOPS.forEach((st, i) => {
+    const p = ahead.getPointAtLength(L * st.t); st.x = p.x; st.y = p.y
+    const fut = st.kind === 'future'
+    if (rc) {
+      const n = rc.circle(p.x, p.y, 34, { seed: 20 + i, roughness: 1.1, strokeWidth: 2.4, fill: '#000', fillStyle: 'solid', stroke: '#000' })
+      n.querySelectorAll('path').forEach((q) => {
+        const f = q.getAttribute('fill')
+        if (f && f !== 'none') q.style.setProperty('fill', fut ? 'var(--card)' : `var(--k-${st.kind})`)
+        else q.style.setProperty('stroke', 'var(--sketch)')
+      })
+      nodes.appendChild(n)
+    } else {
+      const c = el('circle', { cx: p.x, cy: p.y, r: 17, 'stroke-width': 2.4 }, nodes)
+      c.style.fill = fut ? 'var(--card)' : `var(--k-${st.kind})`; c.style.stroke = 'var(--sketch)'
+    }
+  })
+  const ring = el('circle', { r: 27, fill: 'none', 'stroke-width': 2.4, 'stroke-dasharray': '5 5', style: 'stroke:var(--focus)', visibility: 'hidden' }, roadG)
+
+  /* The walker. */
+  const pool = el('circle', { r: 170, fill: 'url(#glow-grad)', style: 'opacity:calc(var(--night-on) * .5);pointer-events:none' }, roadG)
+  const walker = el('g', {}, roadG)
+  walker.innerHTML = clewMarkup('idle')
+  const SC = 1.15
+  let s = 0, dir = 1
+  const setPose = (p) => { walker.querySelector('.c-root').dataset.pose = p }
+  function place() {
+    const p = ahead.getPointAtLength(s)
+    walker.setAttribute('transform', `translate(${p.x} ${p.y}) scale(${SC})`)
+    walker.querySelector('.c-flip').setAttribute('transform', dir < 0 ? 'scale(-1 1)' : '')
+    done.style.strokeDashoffset = L - s
+    pool.setAttribute('cx', p.x + 29 * SC * dir); pool.setAttribute('cy', p.y - 60 * SC)
+    if (labelsReady) placeLabels()
+  }
+  let labelsReady = false
+  const ease = (k) => (k < 0.5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2)
+  let walkRaf = 0
+  function walkTo(target, ms) {
+    cancelAnimationFrame(walkRaf)
+    const from = s
+    if (reduce || ms <= 0 || Math.abs(target - from) < 1) { s = target; place(); setPose('idle'); return Promise.resolve() }
+    dir = target >= from ? 1 : -1; setPose('walk')
+    const t0 = performance.now()
+    return new Promise((res) => {
+      const tick = (now) => {
+        const k = Math.min(1, (now - t0) / ms)
+        s = from + (target - from) * ease(k); place()
+        if (k < 1) walkRaf = requestAnimationFrame(tick); else { setPose('idle'); res() }
+      }
+      walkRaf = requestAnimationFrame(tick)
+    })
+  }
+
+  /* The camera: viewBox for the road plane, a counter-transform per scenery layer for depth. */
+  const cam = { cx: W / 2, cy: H / 2, z: 1 }
+  const LEVELS = { horizon: { z: 1, name: 'Horizon' }, chapter: { z: 1.8, name: 'Chapter' }, moment: { z: 2.8, name: 'Moment' } }
+  function applyCam() {
+    const { cx, cy, z } = cam, vw = W / z, vh = H / z
+    svg.setAttribute('viewBox', `${cx - vw / 2} ${cy - vh / 2} ${vw} ${vh}`)
+    for (const id in layers) {
+      const { g, p } = layers[id], k = (1 + (z - 1) * p) / z
+      const cpx = W / 2 + (cx - W / 2) * p, cpy = H / 2 + (cy - H / 2) * p
+      g.setAttribute('transform', `matrix(${k} 0 0 ${k} ${cx - k * cpx} ${cy - k * cpy})`)
+    }
+    placeLabels()
+  }
+  let camRaf = 0
+  function flyTo(t, ms) {
+    cancelAnimationFrame(camRaf)
+    if (reduce || ms <= 0) { Object.assign(cam, t); applyCam(); return Promise.resolve() }
+    const from = { ...cam }, t0 = performance.now()
+    return new Promise((res) => {
+      const tick = (now) => {
+        const k = Math.min(1, (now - t0) / ms), e = ease(k)
+        cam.cx = from.cx + (t.cx - from.cx) * e; cam.cy = from.cy + (t.cy - from.cy) * e
+        cam.z = from.z * Math.pow(t.z / from.z, e)
+        applyCam()
+        if (k < 1) camRaf = requestAnimationFrame(tick); else res()
+      }
+      camRaf = requestAnimationFrame(tick)
+    })
+  }
+  const camFor = (i, lv) => (lv === 'horizon' ? { cx: W / 2, cy: H / 2, z: 1 } : { cx: STOPS[i].x, cy: STOPS[i].y - 30, z: LEVELS[lv].z })
+
+  /* Flags: one real button per stop, projected from the scene. */
+  const labels = $('#labels')
+  STOPS.forEach((st, i) => {
+    const b = document.createElement('button')
+    b.type = 'button'; b.className = 'stop' + (st.year ? '' : ' notyear')
+    b.setAttribute('aria-label', `${st.title}, ${st.when}. Zoom in.`)
+    b.innerHTML = `<span class="stop-tag">${st.year ? `<em>${st.year}</em>` : ''}<span class="t">${st.short}</span></span>`
+    b.addEventListener('click', () => goTo(i, 'moment'))
+    labels.appendChild(b); st.btn = b
+  })
+  function project(x, y) {
+    const pt = svg.createSVGPoint(); pt.x = x; pt.y = y
+    const m = svg.getScreenCTM(); if (!m) return null
+    const q = pt.matrixTransform(m), r = stage.getBoundingClientRect()
+    return { x: q.x - r.left, y: q.y - r.top }
+  }
+  const hit = (a, b) => a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y
+  function placeLabels() {
+    const r = stage.getBoundingClientRect()
+    const wp = ahead.getPointAtLength(s), wq = project(wp.x, wp.y), w2 = project(wp.x + 100, wp.y)
+    if (!wq || !w2) return
+    const u = (w2.x - wq.x) / 100 // screen pixels per scene unit
+    const rects = [{ x: wq.x - 52 * SC * u, y: wq.y - 96 * SC * u, w: 92 * SC * u, h: 102 * SC * u }] // the coach is an obstacle
+    const off = Math.round(22 + 17 * u)
+    const nodeRects = STOPS.map((st) => { const n = project(st.x, st.y); return n && { x: n.x - 20 * u, y: n.y - 20 * u, w: 40 * u, h: 40 * u } })
+    STOPS.forEach((st, i) => {
+      const q = project(st.x, st.y); if (!q) return
+      st.btn.style.transform = `translate(${q.x}px,${q.y}px)`
+      const out = q.x < -40 || q.x > r.width + 40 || q.y < -40 || q.y > r.height + 40
+      st.btn.style.display = out ? 'none' : ''
+      if (out) return
+      const tag = st.btn.firstElementChild, tw = tag.offsetWidth, th = tag.offsetHeight
+      const hi = Math.round(100 * SC * u)
+      const opts = i % 2 ? [['down', 0], ['up', 0], ['down', 1], ['up', 1], ['up', 0, 1]] : [['up', 0], ['down', 0], ['up', 1], ['down', 1], ['up', 0, 1]]
+      // Offsets are measured from the node centre and the CSS reads the same two variables, so the maths and the paint agree.
+      const dOf = ([v, f, high]) => ({ dx: f ? 8 - tw : -8, dy: v === 'up' ? -off - th - (high ? hi : 0) : off })
+      const boxOf = (d) => ({ x: q.x + d.dx, y: q.y + d.dy, w: tw, h: th })
+      let pick = dOf(opts[0])
+      for (const o of opts) {
+        const d = dOf(o), b = boxOf(d)
+        if (b.x >= 4 && b.y >= 4 && b.x + b.w <= r.width - 4 && b.y + b.h <= r.height - 4 && !rects.some((p) => hit(p, b)) && !nodeRects.some((n, j) => j !== i && n && hit(n, b))) { pick = d; break }
+      }
+      pick = { dx: clamp(q.x + pick.dx, 4, Math.max(4, r.width - tw - 4)) - q.x, dy: pick.dy } // never clip at the stage edge
+      st.btn.style.setProperty('--tx', pick.dx + 'px'); st.btn.style.setProperty('--ty', pick.dy + 'px')
+      rects.push(boxOf(pick))
+    })
+  }
+
+  /* Details, the coach's bubble, and the controls. */
+  const detail = $('#detail'), body = document.createElement('div'); detail.appendChild(body)
+  const bubble = $('#bubble'); let bubbleTimer = 0, thinkTimer = 0
+  function renderDetail(i) {
+    if (i < 0) { body.innerHTML = '<p class="detail-empty">Choose a flag on the road to zoom in. The coach walks there with you.</p>'; return }
+    const st = STOPS[i]
+    body.innerHTML = `<span class="when">${st.when}</span><h3>${st.title}</h3><p class="org">${st.org}</p><p>${st.what}</p>` +
+      (st.how ? `<dl><dt>How I did it</dt><dd>${st.how}</dd><dt>Impact</dt><dd>${st.impact}</dd><dt>What I learned</dt><dd>${st.learned}</dd></dl>` : '') +
+      '<button class="btn btn-primary" type="button" id="ask">Ask the coach about this</button>'
+    $('#ask').addEventListener('click', () => ask(i))
+  }
+  function say(text, hold = 4200, kind = 'reply') {
+    bubble.hidden = false; bubble.dataset.kind = kind; bubble.innerHTML = `<b>Coach</b>${text}`
+    setPose('speak'); clearTimeout(bubbleTimer); bubbleTimer = setTimeout(() => setPose('idle'), hold)
+  }
+  function ask(i) {
+    clearTimeout(thinkTimer); bubble.hidden = false; bubble.dataset.kind = 'reply'; bubble.innerHTML = '<b>Coach</b>Thinking'; setPose('think')
+    thinkTimer = setTimeout(() => say(STOPS[i].reply), reduce ? 0 : 900)
+  }
+  let level = 'horizon', cur = -1
+  const ringTo = (i) => { if (level === 'horizon' || i < 0) ring.setAttribute('visibility', 'hidden'); else { ring.setAttribute('cx', STOPS[i].x); ring.setAttribute('cy', STOPS[i].y); ring.setAttribute('visibility', 'visible') } }
+  function updateUI() {
+    $('#level').textContent = LEVELS[level].name
+    $('#btn-in').disabled = level === 'moment'
+    $('#btn-out').disabled = $('#btn-home').disabled = level === 'horizon'
+    $('#btn-prev').disabled = level === 'horizon' || cur <= 0
+    $('#btn-next').disabled = level === 'horizon' || cur >= STOPS.length - 1
+    STOPS.forEach((st, i) => (level !== 'horizon' && i === cur ? st.btn.setAttribute('aria-current', 'true') : st.btn.removeAttribute('aria-current')))
+    renderDetail(level === 'horizon' ? -1 : cur); ringTo(cur)
+  }
+  async function goTo(i, lv) {
+    cur = i; level = lv; bubble.hidden = true; clearTimeout(thinkTimer); updateUI()
+    const dist = Math.abs(L * STOPS[i].t - s), ms = reduce ? 0 : clamp(600 + dist * 1.1, 700, 1400)
+    await Promise.all([walkTo(L * STOPS[i].t, ms), flyTo(camFor(i, lv), Math.min(1100, ms))])
+  }
+  function zoomOut() {
+    if (level === 'moment') { level = 'chapter'; updateUI(); flyTo(camFor(cur, 'chapter'), 700) }
+    else if (level === 'chapter') home()
+  }
+  function zoomIn() {
+    if (level === 'horizon') goTo(cur >= 0 ? cur : 0, 'chapter')
+    else if (level === 'chapter') { level = 'moment'; updateUI(); flyTo(camFor(cur, 'moment'), 700) }
+  }
+  function home() { level = 'horizon'; updateUI(); flyTo(camFor(0, 'horizon'), 800) }
+  const step = (n) => { if (level !== 'horizon' && cur + n >= 0 && cur + n < STOPS.length) goTo(cur + n, level) }
+  $('#btn-in').addEventListener('click', zoomIn); $('#btn-out').addEventListener('click', zoomOut)
+  $('#btn-home').addEventListener('click', home)
+  $('#btn-prev').addEventListener('click', () => step(-1)); $('#btn-next').addEventListener('click', () => step(1))
+  document.addEventListener('keydown', (e) => {
+    if (e.target.closest && e.target.closest('input,textarea')) return
+    if (e.key === 'Escape') zoomOut()
+    else if (e.key === '+' || e.key === '=') zoomIn()
+    else if (e.key === '-') zoomOut()
+    else if ($('#top').contains(document.activeElement) && e.key === 'ArrowRight') step(1)
+    else if ($('#top').contains(document.activeElement) && e.key === 'ArrowLeft') step(-1)
+  })
+  let wheelLock = 0
+  stage.addEventListener('wheel', (e) => {
+    if (!e.ctrlKey) return
+    e.preventDefault()
+    if (performance.now() < wheelLock) return
+    wheelLock = performance.now() + 700
+    if (e.deltaY < 0) zoomIn(); else zoomOut()
+  }, { passive: false })
+
+  /* First load: the thread draws itself out from the coach's feet, then the coach speaks first. */
+  // Wide stages crop the edges of the scene (slice); narrow ones show the whole road (meet).
+  const fit = () => { svg.setAttribute('preserveAspectRatio', stage.clientWidth < 640 ? 'xMidYMid meet' : 'xMidYMid slice'); placeLabels() }
+  fit()
+  new ResizeObserver(fit).observe(stage)
+  if (document.fonts) {
+    document.fonts.ready.then(placeLabels)
+    document.fonts.addEventListener('loadingdone', placeLabels)
+  }
+  setTimeout(placeLabels, 900)
+  labelsReady = true
+  applyCam(); place(); updateUI()
+  walkTo(L * 0.14, reduce ? 0 : 2400).then(() => {
+    const hello = stage.clientWidth < 640 ? 'Hello. Choose a flag and I will walk there with you.' : 'Hello. I am the coach. Choose a flag on the road and I will walk there with you.'
+    say(hello, 6000, 'greeting')
+    setTimeout(() => { if (bubble.dataset.kind === 'greeting') bubble.hidden = true }, 10000)
+  })
+})()
+
+/* ---------- line samples ---------- */
+;(function lineSamples() {
+  if (!hasRough) return
+  const tint = (n, v) => n.querySelectorAll('path').forEach((p) => p.style.setProperty('stroke', v))
+  const o = $('#ln-outline'), rc = rough.svg(o.ownerSVGElement)
+  const box = rc.path('M26 14H100Q112 14 112 26V64Q112 76 100 76H26Q14 76 14 64V26Q14 14 26 14Z', { seed: 2, roughness: 1.4, strokeWidth: 2, stroke: '#000', fill: 'none' })
+  const ball = rc.circle(158, 46, 54, { seed: 4, roughness: 1.4, strokeWidth: 2, stroke: '#000', fill: 'none' })
+  ;[box, ball].forEach((n) => { tint(n, 'var(--sketch)'); o.appendChild(n) })
+  const h = $('#ln-hatch')
+  const blob = rough.svg(h.ownerSVGElement).polygon([[16, 72], [40, 28], [76, 46], [112, 18], [150, 50], [184, 72]], { seed: 6, roughness: 1.2, fill: '#000', fillStyle: 'hachure', hachureGap: 7, hachureAngle: -40, fillWeight: 1, stroke: '#000', strokeWidth: 2 })
+  tint(blob, 'var(--sketch)'); h.appendChild(blob)
+  const c = $('#ln-contour'), rc3 = rough.svg(c.ownerSVGElement)
+  ;[[64, 48, 110, 64], [64, 48, 76, 42], [64, 48, 42, 22], [150, 44, 70, 50], [150, 44, 38, 26]].forEach(([x, y, w, hh], i) => {
+    const e = rc3.ellipse(x, y, w, hh, { seed: 10 + i, roughness: 1.8, strokeWidth: 1.6, stroke: '#000', fill: 'none' })
+    tint(e, 'var(--line)'); c.appendChild(e)
+  })
+})()
+
+/* ---------- the two colour sheets, read live from the tokens ---------- */
+;(function sheets() {
+  const lin = (v) => { v /= 255; return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4 }
+  const lum = (h) => { const n = parseInt(h.slice(1), 16); return 0.2126 * lin(n >> 16) + 0.7152 * lin((n >> 8) & 255) + 0.0722 * lin(n & 255) }
+  const ratio = (a, b) => { const [x, y] = [lum(a), lum(b)].sort((p, q) => q - p); return (x + 0.05) / (y + 0.05) }
+  const CHIPS = {
+    day: [['Paper', '--paper', 'Page'], ['Oat', '--paper-deep', 'Hills, wells, hover'], ['Ink', '--ink', 'Text'], ['Walnut', '--sketch', 'Sketch lines'], ['Persimmon', '--thread', 'The thread'], ['Lantern', '--lantern', 'Sun and glow']],
+    night: [['Indigo night', '--paper', 'Page'], ['Deep indigo', '--paper-deep', 'Hills, wells, hover'], ['Cream ink', '--ink', 'Text'], ['Warm grey', '--sketch', 'Sketch lines'], ['Gold thread', '--thread', 'The thread'], ['Lantern gold', '--lantern', 'Moon, glow, light']],
+  }
+  const SUPPORT = [['Card', '--card'], ['Ink 2', '--ink-2'], ['Hairline', '--line'], ['Text orange', '--accent'], ['Focus', '--focus']]
+  const KINDS = [['Work', '--k-work'], ['Education', '--k-education'], ['Volunteering', '--k-volunteering'], ['Side project', '--k-side-project'], ['Certification', '--k-certification'], ['Milestone', '--k-milestone']]
+  const CHECKS = [['Ink on paper', '--ink', '--paper', 4.5], ['Accent text on paper', '--accent', '--paper', 4.5], ['Button label on the accent', '--on-accent', '--accent', 4.5], ['Thread stroke on paper', '--thread', '--paper', 3], ['Sketch lines on paper', '--sketch', '--paper', 3], ['Lantern on paper', '--lantern', '--paper', 0]]
+  const host = $('#sheets')
+  ;['day', 'night'].forEach((theme) => {
+    const a = document.createElement('article')
+    a.className = 'sheet frame'; a.dataset.theme = theme
+    a.innerHTML = `<h3>${theme === 'day' ? 'Paper' : 'Indigo night'}</h3>
+<p class="sheet-note">${theme === 'day' ? 'Day. Beige paper, walnut pencil, one persimmon thread.' : 'Night. As it is today: deep indigo paper, cream ink, gold for the thread and the light.'}</p>
+<div class="chips">${CHIPS[theme].map(([n, v, r]) => `<div class="chip" data-var="${v}"><span class="chip-fill" style="background:var(${v})"></span><b>${n}</b><code></code><span>${r}</span></div>`).join('')}</div>
+<ul class="support">${SUPPORT.map(([n, v]) => `<li data-var="${v}"><span class="dot" style="background:var(${v})"></span>${n} <code></code></li>`).join('')}</ul>
+<ul class="support">${KINDS.map(([n, v]) => `<li><span class="dot" style="background:var(${v})"></span>${n}</li>`).join('')}</ul>
+<div class="inuse">
+  <div class="mini frame"><span class="mline"></span><span class="mn"></span><span class="md">2021 to 2023</span><span class="mt">Marketing manager</span><p>Led a brand refresh and managed a team of three.</p><span class="btn btn-primary" style="display:inline-flex;align-items:center">Ask the coach about this</span></div>
+  <div class="chat"><p class="coach"><b>Coach</b>You interviewed 25 customers before writing any copy. What pulled you there?</p><p class="you"><b>You</b>The interviews. I could have kept going.</p></div>
+</div>
+<ul class="checks"></ul>`
+    host.appendChild(a)
+    const cs = getComputedStyle(a), get = (v) => cs.getPropertyValue(v).trim()
+    $$('[data-var]', a).forEach((n) => { n.querySelector('code').textContent = get(n.dataset.var).toUpperCase() })
+    $('.checks', a).innerHTML = CHECKS.map(([label, f, b, need]) => {
+      const r = ratio(get(f), get(b))
+      const note = need === 0 ? 'decoration only, never information' : r >= need ? `passes, needs ${need}` : `below ${need}`
+      return `<li><span class="ok">${r.toFixed(1)}:1</span> ${label}: ${note}</li>`
+    }).join('')
+  })
+})()
+
+/* ---------- logo directions ---------- */
+;(function directions() {
+  const trail = `<svg viewBox="0 0 80 80" aria-hidden="true"><g filter="url(#pencil-s)" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M9 68C18 52 30 34 40 21C50 34 62 52 71 68" stroke="var(--ink)" stroke-width="3"/><path d="M40 68C22 62 56 55 40 47C28 41 50 35 40 29" stroke="var(--thread)" stroke-width="4"/><path d="M40 3L42.2 9L48 11.5L42.2 14L40 20L37.8 14L32 11.5L37.8 9Z" fill="var(--lantern)" stroke="var(--ink)" stroke-width="1.4"/></g></svg>`
+  const fox = `<svg viewBox="0 0 40 36" aria-hidden="true"><g stroke-linecap="round" stroke-linejoin="round"><path d="M4 8L10 13L18 13L24 8L24 22L14 30L4 22Z" style="fill:color-mix(in srgb,var(--k-work) 65%,transparent);stroke:var(--ink)" stroke-width="1.5"/><circle cx="10" cy="19" r="1.3" style="fill:var(--ink)"/><circle cx="18" cy="19" r="1.3" style="fill:var(--ink)"/><path d="M12.5 24L14 25.5L15.5 24M24 14L29 8M28.5 8C28.5 5 32.5 5 32.5 8" fill="none" style="stroke:var(--ink)" stroke-width="1.5"/><rect x="27" y="8" width="7" height="9" rx="1.5" style="fill:var(--k-certification);stroke:var(--ink)" stroke-width="1.3"/></g></svg>`
+  const P = (r, d) => { const a = (d * Math.PI) / 180; return [40 + r * Math.cos(a), 40 + r * Math.sin(a)] }
+  const arc = (r, c, g = 15) => { const [x1, y1] = P(r, c + g), [x2, y2] = P(r, c - g + 360); return `M${x1.toFixed(1)} ${y1.toFixed(1)}A${r} ${r} 0 1 1 ${x2.toFixed(1)} ${y2.toFixed(1)}` }
+  const rings = [[34, -90], [26, 90], [18, -90], [10, 90]].map(([r, c]) => `<path d="${arc(r, c)}"/>`).join('')
+  const seal = `<svg viewBox="0 -12 80 92" aria-hidden="true"><g filter="url(#pencil-s)" fill="none" stroke-linecap="round"><g stroke="var(--ink)" stroke-width="2.4">${rings}</g><path d="M40 40L40 54A14 14 0 0 0 40 26L40 18.5A21.5 21.5 0 0 0 40 61.5L40 70A30 30 0 0 0 40 10L40 -2" stroke="var(--thread)" stroke-width="3"/><circle cx="40" cy="40" r="3.4" fill="var(--ink)" stroke="none"/><path d="M40 -12L41.8 -7.2L46.6 -5.4L41.8 -3.6L40 1.2L38.2 -3.6L33.4 -5.4L38.2 -7.2Z" fill="var(--lantern)" stroke="var(--ink)" stroke-width="1.2"/></g></svg>`
+  const DIRS = [
+    { n: 'A. Clew', pick: true, art: clewSvg('still'), idea: 'A ball of thread with a loose end that lights up. In the myth the thread was a clew, and "clue" comes from that word.', walks: 'Hops along the road, unspooling thread behind it. At night the star on its loose end is the light.', best: 'The logo, the coach button and the favicon.' },
+    { n: 'B. Trail-A', art: trail, idea: 'The letter A drawn as a mountain with a winding road climbing to a star: up and onward at a glance.', walks: 'It stands still. The road inside can draw itself once as a loading moment.', best: 'An app icon variant and the README banner.' },
+    { n: 'C. Lantern fox', art: fox, idea: 'The fox with a lantern that is already in the banner (SceneBanner.tsx). Friendly and easy to animate.', walks: 'A four-legged walk with a swinging lantern. Nothing links it to Ariadne or the thread, and foxes are a crowded mascot choice.', best: 'A night cameo, if you want to keep it.' },
+    { n: 'D. Labyrinth seal', art: seal, idea: 'The classic round labyrinth with the thread leaving through the top: the myth in one shape.', walks: 'A dot travels the maze and out. It cannot walk the page.', best: 'Loading states, empty states, the 404 page, stamps.' },
+  ]
+  $('#dirs').innerHTML = DIRS.map((d) => `<article class="dir frame"><div class="tiles"><div class="tile" data-theme="day">${d.art}</div><div class="tile" data-theme="night">${d.art}</div></div><h3>${d.n}${d.pick ? '<span class="pick">Chosen</span>' : ''}</h3><p>${d.idea}</p><dl><dt>Walks by</dt><dd>${d.walks}</dd><dt>Best as</dt><dd>${d.best}</dd></dl></article>`).join('')
+})()
+
+/* ---------- mascot states and the small-size test ---------- */
+;(function states() {
+  const S = [
+    ['idle', 'Waiting', 'A slow bob; the loose end sways.', 'day'],
+    ['walk', 'Walking to a stop', 'Short hops, feet alternate, thread unspools.', 'day', true],
+    ['think', 'Thinking', 'The yarn spins; the face stays still.', 'day'],
+    ['speak', 'Speaking', 'The star pulses while text streams in.', 'day'],
+    ['idle', 'Lighting the way', 'At night the star glows and lights the road ahead.', 'night'],
+  ]
+  $('#states').innerHTML = S.map(([pose, name, desc, theme, ground]) => `<div class="state frame" data-theme="${theme}"><div class="stg">${ground ? '<div class="ground moving"></div>' : ''}${clewSvg(pose)}</div><h3>${name}</h3><p>${desc}</p></div>`).join('')
+  const fav = (theme, sz) => `<div><div class="fav" data-theme="${theme}" style="width:${sz + 16}px;height:${sz + 16}px"><span style="display:block;width:${sz}px;height:${sz}px">${clewSvg('still', '-36 -82 88 86').replace('<svg ', '<svg style="width:100%;height:100%" ')}</span></div><small>${sz} px</small></div>`
+  $('#favs').innerHTML = [16, 24, 32, 48, 64].map((n) => fav('day', n)).join('') + '<span style="width:24px"></span>' + [16, 24, 32, 48, 64].map((n) => fav('night', n)).join('')
+})()
+
+/* ---------- hand-drawn frames on everything that asks for one ---------- */
+$$('.frame').forEach(frame)
+
+/* Only animate the coaches that are on screen. */
+;(function pauseOffscreen() {
+  if (!('IntersectionObserver' in window)) return
+  const io = new IntersectionObserver((es) => es.forEach((e) => e.target.classList.toggle('paused', !e.isIntersecting)))
+  $$('.clew-svg').forEach((s) => io.observe(s))
+})()
+
+</script>
+</body>
+</html>

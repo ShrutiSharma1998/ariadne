@@ -1,0 +1,39 @@
+# Build prompt: Ariadne redesign
+
+Paste the block below into a new Claude session opened in this repo.
+
+Decisions already made (2026-09-19): the mascot is **Clew**; the day palette is approved; **night stays the indigo you have today**. Two things still need your yes before they are applied: the "grown-up" changes in `design/DESIGN.md`, and the start of the build itself. The block builds in approval pauses for both.
+
+It follows the ACT / Request / Terms / data structure.
+
+---
+
+> **ACT:** I want you to think like a product designer who has shipped hand-drawn, story-driven interfaces (illustrated maps, field-journal apps) and who also builds the zoomable SVG "camera" scenes personally. You know how to make a road you travel along feel like a place instead of a scroll-jacked gimmick, and you ship it accessible, fast and honest.
+>
+> **Request:** Redesign Ariadne's front end as a zoomable hand-drawn road with a walking thread-ball coach, in paper (light) and indigo night (dark) themes, using the design notes below.
+>
+> **Terms:**
+>
+> Build on what exists. The app is React 19, Vite and TypeScript with plain CSS (`src/styles/tokens.css`, `app.css`), Rough.js for hand-drawn frames (`RoughFrame.tsx`, `SceneBanner.tsx`), a `Timeline.tsx` with a Years/Months zoom, and a streaming `CoachDock.tsx`. Keep the `MemoryEntry` model and change front-end files only. Do not touch `server/`, `worker/` or `wrangler.jsonc`: the bot check, spend limits and kill switch were just hardened and a visual pass must not disturb them. After every step `npm run lint` and `npm run build` must pass; run `npm run smoke` at the end (it is free, mock mode) to prove the API was untouched.
+>
+> Order of work: use a branch called `redesign/road` so `main` stays shippable and the live site does not change (it auto-deploys from `main`), one commit per step. (1) tokens, (2) type and card restyle, (3) static road with parallax layers, (4) camera zoom levels, (5) the mascot, (6) logo and favicon. After each step, screenshot day and night at 375 px and 1280 px and look at them before moving on. Pause and wait for my yes at two points: after step 3 (the static road, in the grown-up treatment from `design/DESIGN.md`) and after step 4 (the zoom working with real sample data). Show me screenshots, say what you could not test, and do not continue until I answer.
+>
+> Tokens first. Change values in `tokens.css` and keep the names (`--paper`, `--ink`, `--thread`, `--k-*`, `--hill-*`); add only `--sketch`, `--lantern` and `--on-accent`. A raw hex outside `tokens.css` is a bug, because light and night parity comes only from tokens. Day is beige paper, walnut sketch lines and one persimmon thread. **Night is unchanged:** keep today's indigo night values exactly (`--paper` `#16141c` and the rest of the dark blocks) and only add the three new tokens with the values in `design/DESIGN.md`; the thread and the light stay gold at night. The seven stars of Corona Borealis (Ariadne's crown in the myth) sit above "Where next", and the stops may also show as faint stars joined by a dotted line, which is the tracker's "night as a constellation"; keep it quiet. No bright purple or neon accents, no decorative gradients or glass blur, no shadow heavier than `--shade`. Use `--accent`, never `--thread`, for orange text and button fills: in day `--thread` is only 3.2:1 on paper and is for strokes. Lantern gold is decoration, never information.
+>
+> The road. One winding road climbs from lower left to upper right, drawn with Rough.js: seeded, drawn once per size, never inside an animation frame (redrawing rough paths every frame is the main performance trap). Use three or four scenery layers, reusing the ridges from `SceneBanner.tsx`, with far layers moving least. The thread runs down the middle: solid where the person has been (it came from their files), dashed for what could be. Keep that solid/dashed rule everywhere. The moodboard road looked a little childish to me, so build the grown-up treatment in `design/DESIGN.md` ("Making it feel grown-up"): finer hatching, a narrower road with one fine thread, map-style labels with leader lines instead of sticker tags, small trees, and hand lettering kept to small labels.
+>
+> Zoom is a camera with three distances: Horizon (one landmark per year, replacing the Years toggle), Chapter (that year's entries as stops, replacing Months), Moment (one entry filling the view, with what/how/impact/learned and "Ask the coach about this"). Nobody should ever see 30 flags at once. People move between them by clicking or tapping a flag, +/- buttons, pinch on touch (pointer events, with buttons as the backup for every gesture), and keys (+, -, Esc, arrow keys for previous and next stop). Keep the "Start to now" / "Now to start" toggle from the tracker; it reverses the walking order. Camera moves take 600 to 900 ms, ease-in-out. Use plain `requestAnimationFrame` and SVG `viewBox` like the moodboard demo: no animation library. Never hijack normal scroll, never pin more than one section (scroll-jacking causes motion sickness and breaks Back), and never parallax text. Test with a generated timeline of 30 entries as well as the sample story, and tell me plainly that touch pinch and real-phone speed need me to try it on my phone.
+>
+> List view is a first-class view. Keep `Timeline.tsx` as the List view with the same entries and "Ask the coach about this". It is the default under `prefers-reduced-motion: reduce` and reachable from a visible toggle for everyone. The road is decorative (`aria-hidden`) with a real button per stop, in chronological order, reachable by keyboard with the `--focus` ring visible. No drag-only gestures.
+>
+> The mascot is Clew: a ball of thread with two tiny feet, dot eyes, and a loose end curled above it that finishes in a small star, which is the light at night. At night the ball is gold like the thread. It replaces the speech-bubble glyph on the coach button and walks the road. Its states hook into what exists: idle (slow bob), walking (short hops while the camera travels or when "Ask about this" is clicked), thinking (yarn spins while `busy` is true), speaking (star pulses while text streams). Animate only transform and opacity, run one mascot animation at a time, and show a still pose under reduced motion. Keep the words as the state ("Thinking", "Checking that you are a person"); the mascot decorates them and never replaces them. In the UI it is still "the coach".
+>
+> Type. Keep Gaegu for map lettering (year marks, stop labels, the coach's speech) at 18 px or larger, and Atkinson Hyperlegible for everything people read (17 to 18 px, line-height 1.55). No long text in Gaegu. Sentence case, no all-caps labels, no arrows on links, one name per action.
+>
+> Do not add: stock illustrated people, emoji icons, sparkle icons on buttons or headings, streaks or confetti, or fade-up-on-scroll for every section. Spend the boldness in one place, the road drawing itself out from the coach's feet on first load, and keep everything else quiet.
+>
+> Skills: use `frontend-design` before writing UI, `ui-ux-pro-max` for its parallax and accessibility rules (`--stack react`), `react-best-practices` and `composition-patterns` for structure, `writing-plans` then `executing-plans` for the steps, `verification-before-completion` before calling a step done, and `web-design-guidelines` for a final audit. Rough.js is already MIT (checked).
+>
+> Do not deploy, push, merge or change the repo's visibility without asking me first.
+>
+> **Design notes:** Read `design/DESIGN.md` and open `design/moodboard.html`. Load-bearing: the two token blocks, "Making it feel grown-up", "The road and camera" and "The coach mascot". Ignore "Open questions" and the parked logo directions. If a value here disagrees with the file (a hex, a timing), the file wins; if the process disagrees, this prompt wins.
