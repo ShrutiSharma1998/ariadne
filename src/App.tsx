@@ -7,7 +7,7 @@ import { ClewIcon } from './components/road/Clew'
 import { RoadView } from './components/road/RoadView'
 import { UploadPanel } from './components/UploadPanel'
 import { DEMO_NAME, demoEntries } from './data/demoPersona'
-import { getConfig } from './lib/api'
+import { getConfig, toCoachPath } from './lib/api'
 import { chosenPath, type PathsSlot } from './lib/pathsStorage'
 import { clearStory, exportStoryFile, loadStory, readStoryFile, saveStory } from './lib/storage'
 import { usePathsStore } from './lib/usePathsStore'
@@ -314,6 +314,7 @@ export default function App() {
         onOpen={() => setDockOpen(true)}
         onClose={() => setDockOpen(false)}
         ask={ask}
+        path={chosen ? toCoachPath(chosen) : undefined}
       />
     </>
   )

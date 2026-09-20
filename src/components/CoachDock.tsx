@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { DEMO_OPENER } from '../data/demoPersona'
-import { ApiError, streamCoach } from '../lib/api'
+import { ApiError, streamCoach, type CoachPath } from '../lib/api'
 import type { MemoryEntry } from '../types'
 import { ClewIcon, type ClewPose } from './road/Clew'
 import { RoughFrame } from './RoughFrame'
@@ -25,6 +25,8 @@ interface Props {
   onOpen: () => void
   onClose: () => void
   ask: AskRequest | null
+  /** The path the person chose, so the coach can ask how its first steps are going. */
+  path?: CoachPath
 }
 
 const OPENER_PROMPT =
@@ -33,7 +35,7 @@ const OPENER_PROMPT =
 const STARTERS = ['What patterns do you notice in my timeline?', 'What might I be overlooking?']
 
 /** A floating chat: a round button that opens the coach over whatever page you are on. */
-export function CoachDock({ entries, personName, open, onOpen, onClose, ask }: Props) {
+export function CoachDock({ entries, personName, open, onOpen, onClose, ask, path }: Props) {
   const [turns, setTurns] = useState<Turn[]>([])
   const [draft, setDraft] = useState('')
   const [busy, setBusy] = useState(false)
@@ -80,6 +82,7 @@ export function CoachDock({ entries, personName, open, onOpen, onClose, ask }: P
         (reply) => setTurns([...history, { role: 'assistant', content: reply }]),
         controller.signal,
         setChecking,
+        path,
       )
     } catch (err) {
       if (err instanceof DOMException && err.name === 'AbortError') return

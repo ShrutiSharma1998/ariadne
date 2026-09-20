@@ -48,6 +48,13 @@ export const ExtractIn = z.object({
   pastedText: z.string().max(30_000).optional(),
 })
 
+/** The path the person chose, so the coach can ask how its first steps are going. */
+export const ChosenPathIn = z.object({
+  title: z.string().max(200),
+  summary: z.string().max(600),
+  steps: z.array(z.object({ action: z.string().max(300) })).max(6),
+})
+
 export const CoachIn = z.object({
   messages: z
     .array(z.object({ role: z.enum(['user', 'assistant']), content: z.string().min(1).max(4000) }))
@@ -55,6 +62,7 @@ export const CoachIn = z.object({
     .max(30),
   entries: EntriesIn,
   personName: z.string().max(80).optional(),
+  path: ChosenPathIn.optional(),
 })
 
 /** How the visitor reacted to a path from an earlier round. */
@@ -108,6 +116,7 @@ export const TrajectoriesResult = z.object({
   caveat: z.string(),
 })
 
+export type ChosenPathInput = z.infer<typeof ChosenPathIn>
 export type ReactionInput = z.infer<typeof ReactionIn>
 export type EntryInput = z.infer<typeof EntryIn>
 export type TrajectoryResult = z.infer<typeof TrajectoriesResult>

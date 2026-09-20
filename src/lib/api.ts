@@ -125,6 +125,22 @@ export interface ChatMessage {
   content: string
 }
 
+/** The path the person chose, in the size the coach's endpoint accepts. */
+export interface CoachPath {
+  title: string
+  summary: string
+  steps: { action: string }[]
+}
+
+/** Trims a chosen path to what the coach endpoint accepts: six steps, and no field over its limit. */
+export function toCoachPath(path: Pick<Trajectory, 'title' | 'summary' | 'firstSteps'>): CoachPath {
+  return {
+    title: path.title.slice(0, 200),
+    summary: path.summary.slice(0, 600),
+    steps: path.firstSteps.slice(0, 6).map((s) => ({ action: s.action.slice(0, 300) })),
+  }
+}
+
 /** Sends the conversation and calls onText with the reply so far as it streams in. */
 export async function streamCoach(
   messages: ChatMessage[],
@@ -133,6 +149,7 @@ export async function streamCoach(
   onText: (replySoFar: string) => void,
   signal?: AbortSignal,
   onCheck?: (checking: boolean) => void,
+  path?: CoachPath,
 ): Promise<string> {
   const headers = await requestHeaders(onCheck)
   let res: Response
@@ -140,7 +157,7 @@ export async function streamCoach(
     res = await fetch('/api/coach', {
       method: 'POST',
       headers,
-      body: JSON.stringify({ messages, entries, personName }),
+      body: JSON.stringify({ messages, entries, personName, path }),
       signal,
     })
   } catch (err) {

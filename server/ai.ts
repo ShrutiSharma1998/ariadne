@@ -5,12 +5,14 @@ import {
   COACH_SYSTEM_BASE,
   EXTRACT_SYSTEM,
   TRAJECTORIES_SYSTEM,
+  chosenPathBlock,
   serializeEntries,
   serializeReactions,
 } from './prompts'
 import {
   ExtractResult,
   TrajectoriesResult,
+  type ChosenPathInput,
   type EntryInput,
   type ReactionInput,
   type TrajectoryResult,
@@ -150,15 +152,22 @@ export async function extractTimeline(
   return { entries: entries.slice(0, 40), notes: parsed.notes }
 }
 
+/** The coach's instructions: how to coach, the person's timeline, and the path they chose, if any. */
+export function coachSystem(entries: EntryInput[], personName?: string, path?: ChosenPathInput): string {
+  const who = personName ? `The person's name is ${personName}.\n\n` : ''
+  const chosen = path ? `\n\n${chosenPathBlock(path)}` : ''
+  return `${COACH_SYSTEM_BASE}\n\n${who}Timeline:\n${serializeEntries(entries)}${chosen}`
+}
+
 /** Streams the coach's reply as plain text. */
 export function streamCoach(
   env: Env,
   messages: { role: 'user' | 'assistant'; content: string }[],
   entries: EntryInput[],
   personName?: string,
+  path?: ChosenPathInput,
 ): ReadableStream<Uint8Array> {
-  const who = personName ? `The person's name is ${personName}.\n\n` : ''
-  const system = `${COACH_SYSTEM_BASE}\n\n${who}Timeline:\n${serializeEntries(entries)}`
+  const system = coachSystem(entries, personName, path)
   const encoder = new TextEncoder()
 
   return new ReadableStream<Uint8Array>({

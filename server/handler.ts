@@ -89,7 +89,7 @@ export async function handleApi(req: Request, env: Env): Promise<Response> {
         throw new UserFacingError('The last message must be from you.', 400)
       }
       if (shouldMock(env)) return mockStream(mockCoachText())
-      const stream = streamCoach(env, input.messages, input.entries, input.personName)
+      const stream = streamCoach(env, input.messages, input.entries, input.personName, input.path)
       return new Response(stream, {
         headers: { 'content-type': 'text/plain; charset=utf-8', 'cache-control': 'no-store' },
       })
